@@ -6,14 +6,13 @@ type Season struct {
 }
 
 type Stats struct {
-	HomeTeam				Team						`json:"homeTeam"`
-	AwayTeam				Team						`json:"awayTeam"`
+	Home						Team						`json:"homeTeam"`
+	Away						Team						`json:"awayTeam"`
 	DateOf          string          `json:"dateOf"`
 }
 
 type Team struct {
 	Name						string					`json:"name"`
-	Conference      string          `json:"conference"`
 	Players         []Player				`json:"players"`
 }
 
@@ -33,7 +32,7 @@ type Player struct {
 	Steals					int							`json:"steals"`
 	Blocks					int							`json:"blocks"`
 	Turnovers				int							`json:"turnovers"`
-	Fouls						int							`json:"pf"`
+	Fouls						int							`json:"fouls"`
 	PlusMinus				int							`json:"plusMinus"`
 	Points					int							`json:"points"`
 	Starter         bool            `json:"starter"`

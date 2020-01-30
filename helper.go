@@ -7,7 +7,6 @@ import (
 	"path"
 	"net/url"
 	"strconv"
-	"strings"
 )
 
 
@@ -18,7 +17,7 @@ func logf(fname string, msg string) {
 
 func atoi(s string) int {
 
-	if s == "" {
+	if s == STRING_EMPTY {
 		logf("Atoi", "Empty string.")
 		return 0
 	}
@@ -54,41 +53,3 @@ func StringUrlJoin(base string, p string) (string, error) {
 	}
 
 } // StringUrlJoin
-
-
-func fieldGoals(p *Player, fn string, s string) {
-
-	if s == "" {
-		logf("fieldGoals", fmt.Sprintf("Empty string for %s", fn))
-		return
-	}
-
-	tokens := strings.Split(s, MINUS_MATCH)
-
-	if len(tokens) != 2 {
-		logf("fieldsGoals", "field format is incorrect")
-	} else {
-
-		made     := atoi(tokens[INDEX_MADE])
-		attempts := atoi(tokens[INDEX_ATTEMPTS])
-		
-		switch fn {
-		case FIELD_FG:
-			p.Fga = attempts
-			p.Fgm = made
-
-		case FIELD_FG3:
-			p.Fg3a = attempts
-			p.Fg3m = made
-
-		case FIELD_FT:
-			p.Fta = attempts
-			p.Ftm = made
-		
-		default:
-			logf("fieldGoals", "Unrecognized field name.")
-		}
-
-	}
-
-} // fieldGoals

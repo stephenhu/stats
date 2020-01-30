@@ -25,6 +25,7 @@ const (
 	HTML_ATTR_ID                = "id"
 	HTML_DIV										= "div"
 	HTML_SCRIPT                 = "script"
+	HTML_SPAN                   = "span"
 	HTML_TABLE                  = "table"
 	HTML_TBODY                  = "tbody"
 	HTML_TD                     = "td"
@@ -32,10 +33,16 @@ const (
 )
 
 const (
-	BOXSCORE_MATCH              = `/nba/game?gameId=`
-	BOXSCORE_MATCH_RE						= "gameId=[0-9]+}"
-	EQUAL_MATCH                 = "="
-	MINUS_MATCH                 = "-"
+	MATCH_BOXSCORE        			= `/nba/game?gameId=`
+	MATCH_BOXSCORE_RE						= "gameId=[0-9]+}"
+)
+
+const (
+	STRING_EQUAL                = "="
+	STRING_MINUS                = "-"
+	STRING_EMPTY                = ""
+	STRING_ZERO_FLOAT           = "0.0"
+	STRING_ZERO                 = "0"
 )
 
 const (
@@ -46,16 +53,30 @@ const (
 
 const (
 	INDEX_MADE                  = 0
-	INDEX_ATTEMPTS							= 1
+	INDEX_ATTEMPTS							= 1	
+	INDEX_SPAN_NAME             = 0
+	INDEX_AWAY_STARTERS					= 1
+	INDEX_AWAY_BENCH            = 3
+	INDEX_HOME_STARTERS         = 5
+	INDEX_HOME_BENCH            = 7
+)
+
+const (
+	INDEX_FIELD_NAME            = 0
 )
 
 const (
 	BASE10											= 10
-  BITS32											= 32
+	BITS32											= 32
+	BY2                 				= 2
 )
 
 const (
-	STATUS_DNP									= "dnp"
+	FLOAT_TO_PERCENT            = 100.0
+)
+
+const (
+	DNP													= "dnp"
 	HIGHLIGHT                   = "highlight"
 )
 
