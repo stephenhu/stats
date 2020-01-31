@@ -37,12 +37,13 @@ const (
 	MATCH_BOXSCORE_RE						= "gameId=[0-9]+}"
 )
 
-const (
+const (	
+	STRING_EMPTY                = ""
 	STRING_EQUAL                = "="
 	STRING_MINUS                = "-"
-	STRING_EMPTY                = ""
-	STRING_ZERO_FLOAT           = "0.0"
+	STRING_NA                   = "--"
 	STRING_ZERO                 = "0"
+	STRING_ZERO_FLOAT           = "0.0"
 )
 
 const (
@@ -55,10 +56,10 @@ const (
 	INDEX_MADE                  = 0
 	INDEX_ATTEMPTS							= 1	
 	INDEX_SPAN_NAME             = 0
-	INDEX_AWAY_STARTERS					= 1
-	INDEX_AWAY_BENCH            = 3
-	INDEX_HOME_STARTERS         = 5
-	INDEX_HOME_BENCH            = 7
+	INDEX_AWAY_STARTERS					= 0
+	INDEX_AWAY_BENCH            = 1
+	INDEX_HOME_STARTERS         = 2
+	INDEX_HOME_BENCH            = 3
 )
 
 const (

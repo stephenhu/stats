@@ -110,7 +110,7 @@ func parsePlayer(index int, value string, p *Player) {
 } // parsePlayer
 
 
-func parsePlayers(tbody *goquery.Selection) []Player {
+func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 
 	players := []Player{}
 
@@ -119,6 +119,10 @@ func parsePlayers(tbody *goquery.Selection) []Player {
 		if !tr.HasClass(HIGHLIGHT) {
 
 			p := Player{}
+
+			if starting {
+				p.Starter = true
+			}
 
 			tr.Find(HTML_TD).Each(func(itd int, td *goquery.Selection) {								
 		
@@ -162,39 +166,18 @@ func parseBoxScore(d *goquery.Document) *Stats {
 		id, _ := div.Attr("id")
 
 		if id == ESPN_BOXSCORE_ID {
-			
+
 			div.Find(HTML_TBODY).Each(func(itb int, tbody *goquery.Selection) {
+				
+				players := parsePlayers(tbody, true)				
 
-				log.Println("itb #", itb)
-				if itb % BY2 != 0 {
-
-					players := parsePlayers(tbody)
-
-					if itb == INDEX_AWAY_STARTERS {
-						
-						stats.Away = Team{
-							Players: players,
-						}
-
-					} else if itb == INDEX_AWAY_BENCH {
-
-						stats.Away.Players = append (stats.Away.Players, players...)
-						
-					} else if itb == INDEX_HOME_STARTERS {
-
-						stats.Home = Team{
-							Players: players,
-						}
-						
-					} else if itb == INDEX_HOME_BENCH {
-						stats.Home.Players = append (stats.Home.Players, players...)
-					} else {
-						logf("parseBoxScore", fmt.Sprintf("tbody out of index: %d", itb))
-					}
-
+				if itb == INDEX_AWAY_STARTERS || itb == INDEX_AWAY_BENCH {
+					stats.Away.Players = append(stats.Away.Players, players...)
+				} else if itb == INDEX_HOME_STARTERS || itb == INDEX_HOME_BENCH {
+					stats.Home.Players = append(stats.Home.Players, players...)
 				}
 
-			})				
+			})
 
 		}
 
@@ -274,6 +257,9 @@ func GetStats(games map[string] int) []Stats {
 
 				stats := parseBoxScore(doc)
 
+				log.Println(len(stats.Home.Players))
+				log.Println(len(stats.Away.Players))
+
 				all = append(all, *stats)
 
 			}
@@ -283,6 +269,7 @@ func GetStats(games map[string] int) []Stats {
 	}
 
 	log.Printf("%+v", all)
+	log.Println(len(all))
 
 	return all
 
