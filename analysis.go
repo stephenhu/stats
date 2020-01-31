@@ -42,3 +42,7 @@ func Percentage(p *Player, fn string) string {
 
 } // Percentage
 
+
+func GameAnalysis() {
+
+} // GameAnalysis

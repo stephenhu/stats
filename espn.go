@@ -52,6 +52,23 @@ func fieldGoals(p *Player, fn string, s string) {
 } // fieldGoals
 
 
+func parsePosition(n *goquery.Selection) string {
+
+	pos := ""
+
+	n.Find(HTML_SPAN).Each(func(index int, span *goquery.Selection) {
+
+		if index == INDEX_SPAN_POSITION {
+			pos = span.Text()
+		}
+
+	})
+
+	return pos
+	
+} // parsePosition
+
+
 func parseName(n *goquery.Selection) string {
 
 	name := n.Text()
@@ -72,8 +89,6 @@ func parseName(n *goquery.Selection) string {
 func parsePlayer(index int, value string, p *Player) {
 
 	switch index {
-		case 0:
-			p.Name = value	
 		case 1:	
 			p.Minutes = atoi(value)			
 		case 2:
@@ -135,10 +150,13 @@ func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 					} else {
 
 						if itd == INDEX_FIELD_NAME {
-							value = parseName(td)
-						}
+							
+							p.Name 			= parseName(td)
+							p.Position 	= parsePosition(td)
 
-						parsePlayer(itd, value, &p)
+						} else {
+							parsePlayer(itd, value, &p)
+						}						
 
 					}												
 	
@@ -175,6 +193,25 @@ func parseBoxScore(d *goquery.Document) *Stats {
 					stats.Away.Players = append(stats.Away.Players, players...)
 				} else if itb == INDEX_HOME_STARTERS || itb == INDEX_HOME_BENCH {
 					stats.Home.Players = append(stats.Home.Players, players...)
+				}
+
+			})
+
+			homeTeam := false
+
+			div.Find(HTML_DIV).Each(func(index2 int, div2 *goquery.Selection) {
+
+				if div2.HasClass(ESPN_TEAM_NAME_CLASS) {
+
+					name := div2.Text()
+
+					if !homeTeam {
+						stats.Away.Name = name
+						homeTeam = true
+					} else {
+						stats.Home.Name = name
+					}
+					
 				}
 
 			})
@@ -257,9 +294,6 @@ func GetStats(games map[string] int) []Stats {
 
 				stats := parseBoxScore(doc)
 
-				log.Println(len(stats.Home.Players))
-				log.Println(len(stats.Away.Players))
-
 				all = append(all, *stats)
 
 			}
@@ -268,8 +302,7 @@ func GetStats(games map[string] int) []Stats {
 	
 	}
 
-	log.Printf("%+v", all)
-	log.Println(len(all))
+	log.Printf("%+v", all)	
 
 	return all
 

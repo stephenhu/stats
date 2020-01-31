@@ -15,6 +15,7 @@ const (
 const (
 	ESPN_SCOREBOARD_EVENTS_ID     = "events"
 	ESPN_BOXSCORE_ID              = "gamepackage-box-score"
+	ESPN_TEAM_NAME_CLASS          = "team-name"
 )
 
 const (
@@ -56,6 +57,8 @@ const (
 	INDEX_MADE                  = 0
 	INDEX_ATTEMPTS							= 1	
 	INDEX_SPAN_NAME             = 0
+	INDEX_SPAN_NAME_ABBR        = 1
+	INDEX_SPAN_POSITION         = 2
 	INDEX_AWAY_STARTERS					= 0
 	INDEX_AWAY_BENCH            = 1
 	INDEX_HOME_STARTERS         = 2

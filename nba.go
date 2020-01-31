@@ -37,5 +37,6 @@ type Player struct {
 	Points					int							`json:"points"`
 	Starter         bool            `json:"starter"`
 	DnpReason      	string          `json:"dnpReason"`
+	Position        string          `json:"position"`
 }
  
