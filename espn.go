@@ -394,6 +394,17 @@ func StoreGameDay(d string) {
 } // StoreGameDay
 
 
+func StoreFromDay(d string) {
+
+	ids := GetGameIDsFrom(d)
+
+	games := GetGames(ids)
+
+	StoreGames(games)
+	
+} // StoreFromDay
+
+
 func StoreGames(games []Game) {
 
 	for _, g := range games {
