@@ -1,7 +1,10 @@
 # design
 
-all data is held in memory, can be offloaded to a persistent store like redis,
-or exported to json.
+crawls data.
+
+larry bird era 1978
+
+archive data from a particular date.
 
 ## analysis
 

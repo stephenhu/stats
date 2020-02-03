@@ -32,16 +32,16 @@ func fieldGoals(p *Player, fn string, s string) {
 		
 		switch fn {
 		case FIELD_FG:
-			p.Fga = attempts
-			p.Fgm = made
+			p.Stats.Fga = attempts
+			p.Stats.Fgm = made
 
 		case FIELD_FG3:
-			p.Fg3a = attempts
-			p.Fg3m = made
+			p.Stats.Fg3a = attempts
+			p.Stats.Fg3m = made
 
 		case FIELD_FT:
-			p.Fta = attempts
-			p.Ftm = made
+			p.Stats.Fta = attempts
+			p.Stats.Ftm = made
 		
 		default:
 			logf("fieldGoals", "Unrecognized field name.")
@@ -98,25 +98,25 @@ func parsePlayer(index int, value string, p *Player) {
 		case 4:
 			fieldGoals(p, FIELD_FT, value)
 		case 5:
-			p.Oreb = atoi(value)
+			p.Stats.Oreb = atoi(value)
 		case 6:
-			p.Dreb = atoi(value)
+			p.Stats.Dreb = atoi(value)
 		case 7:
-			p.Treb = atoi(value)
+			p.Stats.Treb = atoi(value)
 		case 8:
-			p.Assists = atoi(value)
+			p.Stats.Assists = atoi(value)
 		case 9:
-			p.Steals = atoi(value)
+			p.Stats.Steals = atoi(value)
 		case 10:
-			p.Blocks = atoi(value)
+			p.Stats.Blocks = atoi(value)
 		case 11:
-			p.Turnovers = atoi(value)
+			p.Stats.Turnovers = atoi(value)
 		case 12:
-			p.Fouls = atoi(value)
+			p.Stats.Fouls = atoi(value)
 		case 13:
-			p.PlusMinus = atoi(value)
+			p.Stats.PlusMinus = atoi(value)
 		case 14:
-			p.Points = atoi(value)
+			p.Stats.Points = atoi(value)
 		default:
 			logf("parsePlayer", fmt.Sprintf("Unrecognized table field #%d %s",
 				index, value))
@@ -175,9 +175,9 @@ func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 } // parsePlayers
 
 
-func parseBoxScore(d *goquery.Document) *Stats {
+func parseBoxScore(d *goquery.Document) *Game {
 
-	stats := Stats{}
+	game := Game{}
 
 	d.Find(HTML_DIV).Each(func(index int, div *goquery.Selection) {
 		
@@ -190,9 +190,9 @@ func parseBoxScore(d *goquery.Document) *Stats {
 				players := parsePlayers(tbody, true)				
 
 				if itb == INDEX_AWAY_STARTERS || itb == INDEX_AWAY_BENCH {
-					stats.Away.Players = append(stats.Away.Players, players...)
+					game.Away.Players = append(game.Away.Players, players...)
 				} else if itb == INDEX_HOME_STARTERS || itb == INDEX_HOME_BENCH {
-					stats.Home.Players = append(stats.Home.Players, players...)
+					game.Home.Players = append(game.Home.Players, players...)
 				}
 
 			})
@@ -206,10 +206,10 @@ func parseBoxScore(d *goquery.Document) *Stats {
 					name := div2.Text()
 
 					if !homeTeam {
-						stats.Away.Name = name
+						game.Away.Name = name
 						homeTeam = true
 					} else {
-						stats.Home.Name = name
+						game.Home.Name = name
 					}
 					
 				}
@@ -220,19 +220,47 @@ func parseBoxScore(d *goquery.Document) *Stats {
 
 	})
 
-	return &stats
+	return &game
 
 } // parseBoxScore
 
 
-func GetGames(d string) map[string] int {
+func GetGameIDsFrom(d string) map[string]int {
 
-	games := map[string] int{}
+	all := map[string]int{}
+
+	days := getDays(d)
+
+	for _, d := range days {
+
+		ids := GetGameIDs(d)
+
+		for k, _ := range ids {
+			all[k] = 1
+		}
+		
+	}
+
+	return all
+
+} // GetGameIDsFrom
+
+
+func GetGameIDs(d string) map[string] int {
+
+	var location string
+
+	if dateCheck(d) {
+		location = fmt.Sprintf(ESPN_SCOREBOARD_DATE_URL, d)
+	} else {
+		location = ESPN_BOXSCORE_URL
+	}
+
+	ids := map[string] int{}
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.Flag("headless", true),
 		chromedp.Flag("disable-gpu", false),
-
 	)
 
 	ea, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
@@ -244,12 +272,12 @@ func GetGames(d string) map[string] int {
 	var nodes []*cdp.Node
 
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(ESPN_SCOREBOARD_URL),
+		chromedp.Navigate(location),
 		chromedp.WaitVisible(ESPN_SCOREBOARD_EVENTS_ID, chromedp.ByID),
 		chromedp.Nodes(`//a`, &nodes, chromedp.BySearch))
 
 	if err != nil {
-		logf("GetGames", err.Error())
+		logf("GetGameIDs", err.Error())
 	} else {
 		
 		for _, n := range nodes {
@@ -259,7 +287,7 @@ func GetGames(d string) map[string] int {
 			if strings.Contains(u, MATCH_BOXSCORE) {
 				
 				x := strings.Split(u, STRING_EQUAL)
-				games[strings.TrimSpace(x[len(x)-1])] = 1
+				ids[strings.TrimSpace(x[len(x)-1])] = 1
 
 			}
 
@@ -267,21 +295,25 @@ func GetGames(d string) map[string] int {
 
 	}
 
-	return games
+	return ids
 
-} // getGames
+} // GetGameIDs
 
 
-func GetStats(games map[string] int) []Stats {
+func GetGames(gameIDs map[string] int) []Game {
 
-	all := []Stats{}
+	if gameIDs == nil {
+		return nil
+	}
 
-	for g, _ := range games {
+	all := []Game{}
 
-		res, err := http.Get(ESPN_BOXSCORE_URL + g)
+	for id, _ := range gameIDs {
+
+		res, err := http.Get(fmt.Sprintf("%s%s", ESPN_BOXSCORE_URL, id))
 
 		if err != nil {
-			logf("GetStats", err.Error())
+			logf("GetGames", err.Error())
 		} else {
 	
 			defer res.Body.Close()
@@ -289,12 +321,14 @@ func GetStats(games map[string] int) []Stats {
 			doc, err := goquery.NewDocumentFromReader(res.Body)
 	
 			if err != nil {
-				logf("GetStats", err.Error())
+				logf("GetGames", err.Error())
 			} else {
 
-				stats := parseBoxScore(doc)
-
-				all = append(all, *stats)
+				game := parseBoxScore(doc)
+				
+				game.ID = id
+				
+				all = append(all, *game)
 
 			}
 	
@@ -306,4 +340,4 @@ func GetStats(games map[string] int) []Stats {
 
 	return all
 
-} // getStats
+} // GetGames

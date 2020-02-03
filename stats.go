@@ -8,7 +8,7 @@ const (
 const (
   ESPN_BASE_URL               = `https://www.espn.com`
 	ESPN_SCOREBOARD_URL					= `https://espn.com/nba/scoreboard`
-	ESPN_SCOREBOARD_DATE_URL		= `/_/date/%s`
+	ESPN_SCOREBOARD_DATE_URL		= `https://espn.com/nba/scoreboard/_/date/%s`
 	ESPN_BOXSCORE_URL           = `https://www.espn.com/nba/boxscore?gameId=`
 )
 
@@ -87,4 +87,9 @@ const (
 const (
 	STARTERS										= "starters"
 	BENCH												= "bench"
+)
+
+const (
+	DATE_FORMAT                 = "20060102"
+	YEAR_FORMAT                 = "06"
 )

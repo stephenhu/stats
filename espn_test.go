@@ -5,18 +5,56 @@ import (
 )
 
 
-func TestGetGames(t *testing.T) {
+func TestGetGameIDsEmptyDate(t *testing.T) {
 
-	games := GetGames("")
+	ids := GetGameIDs("")
 
-	if games == nil {
+	if ids == nil {
+		t.Error("No ids found.")
+	}
+
+	g := GetGames(ids)
+
+	if g == nil {
 		t.Error("No games found.")
 	}
 
-	s := GetStats(games)
+} // TestGetGameIDsEmptyDate
 
-	if s == nil {
-		t.Error("No stats found.")
+
+func TestGetGameIDsWithDate(t *testing.T) {
+
+  ids := GetGameIDs("20200128")
+
+	if ids == nil {
+		t.Error("No ids found.")
 	}
 
-} // testGetGames
+	g := GetGames(ids)
+
+	if g == nil {
+		t.Error("No games found.")
+	}
+
+} // TestGetGameIDsWithDate
+
+
+func TestGetGameIDsFrom(t *testing.T) {
+
+	ids := GetGameIDsFrom("20200128")
+
+	if len(ids) == 0 {
+		t.Error("No ids found.")
+	}
+
+	t.Log(ids)
+
+	g := GetGames(ids)
+
+	if g == nil {
+		t.Error("No games found.")
+	}
+
+	t.Log(g)
+	
+} // TestGetGameIDsFrom

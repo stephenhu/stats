@@ -2,23 +2,17 @@ package stats
 
 type Season struct {
 	Name						string					`json:"name"`
-	Games           []Stats         `json:"games"`
+	Games           []Game          `json:"games"`
 }
 
-type Stats struct {
-	Home						Team						`json:"homeTeam"`
-	Away						Team						`json:"awayTeam"`
-	DateOf          string          `json:"dateOf"`
+type Game struct {
+	ID              string          `json:"id"`
+	Home						Team						`json:"home"`
+	Away						Team						`json:"away"`
+	Date            string          `json:"date"`
 }
 
-type Team struct {
-	Name						string					`json:"name"`
-	Players         []Player				`json:"players"`
-}
-
-type Player struct {
-	Name						string					`json:"name"`
-	Minutes					int							`json:"minutes"`
+type Data struct {
 	Fga							int							`json:"fga"`
 	Fgm							int							`json:"fgm"`
 	Fg3a						int							`json:"fg3a"`
@@ -35,8 +29,30 @@ type Player struct {
 	Fouls						int							`json:"fouls"`
 	PlusMinus				int							`json:"plusMinus"`
 	Points					int							`json:"points"`
+}
+
+type Player struct {
+	Name						string					`json:"name"`
+  Stats         	Data         		`json:"data"`
+	Minutes					int							`json:"minutes"`
 	Starter         bool            `json:"starter"`
 	DnpReason      	string          `json:"dnpReason"`
 	Position        string          `json:"position"`
 }
- 
+
+type Team struct {
+	Name						string					`json:"name"`
+	Score           []int           `json:"score"`
+	Players         []Player				`json:"players"`
+	Stats           Data            `json:"stats"`
+}
+
+type Info struct {
+	Begin						int							`json:"begin"`
+	End							int							`json:"end"`
+}
+
+type SeasonInfo struct {
+	Regular					Info						`json:"regular"`
+	Playoffs        Info            `json:"playoffs"`
+}
