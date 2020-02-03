@@ -51,8 +51,3 @@ type Info struct {
 	Begin						int							`json:"begin"`
 	End							int							`json:"end"`
 }
-
-type SeasonInfo struct {
-	Regular					Info						`json:"regular"`
-	Playoffs        Info            `json:"playoffs"`
-}

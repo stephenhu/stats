@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"path"
+	"path/filepath"
 	"net/url"
 	"strconv"
 	"time"
@@ -58,16 +59,45 @@ func seasonKey(t time.Time, current bool) string {
 } // seasonKey
 
 
+func generatePath(d string) string {
+
+	if d == "" || !seasonCheck(d) {
+		return filepath.Join(SEASON_DEFAULT, d)
+	}
+
+	t, err := time.Parse(DATE_FORMAT, d)
+
+	if err != nil {
+		logf("generatePath", err.Error())
+		return filepath.Join(SEASON_DEFAULT, d)
+	} else {
+		
+		cm := t.Month()
+
+		if cm >= time.October && cm <= time.December {
+			return filepath.Join(seasonKey(t, true), d)
+		} else if cm >= time.January && cm <= time.June {
+			return filepath.Join(seasonKey(t, false), d)
+		} else {
+			return filepath.Join(SEASON_DEFAULT, d)
+		}
+
+	}
+
+
+} // generatePath 
+
+
 func getSeason(t time.Time) []string {
 
 	cm := t.Month()
 
 	if cm >= time.October && cm <= time.December {
-		return seasons[seasonKey(t, true)]
+		return Seasons[seasonKey(t, true)]
 	} else if cm >= time.January && cm <= time.June {
-		return seasons[seasonKey(t, false)]
+		return Seasons[seasonKey(t, false)]
 	} else {
-		return seasons["1920"]
+		return Seasons["1920"]
 	}
 
 } // getSeason

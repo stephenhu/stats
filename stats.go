@@ -2,6 +2,7 @@ package stats
 
 const (
 	APP_NAME										= "stats"
+	APP_STORAGE                 = "nba"
 	APP_VERSION             		= "1.0"
 )
 

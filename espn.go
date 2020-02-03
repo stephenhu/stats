@@ -2,8 +2,9 @@ package stats
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"log"
+	//"log"
 	"net/http"
 	"strings"
 
@@ -225,28 +226,7 @@ func parseBoxScore(d *goquery.Document) *Game {
 } // parseBoxScore
 
 
-func GetGameIDsFrom(d string) map[string]int {
-
-	all := map[string]int{}
-
-	days := getDays(d)
-
-	for _, d := range days {
-
-		ids := GetGameIDs(d)
-
-		for k, _ := range ids {
-			all[k] = 1
-		}
-		
-	}
-
-	return all
-
-} // GetGameIDsFrom
-
-
-func GetGameIDs(d string) map[string] int {
+func GetGameIDs(d string) map[string] string {
 
 	var location string
 
@@ -256,7 +236,7 @@ func GetGameIDs(d string) map[string] int {
 		location = ESPN_BOXSCORE_URL
 	}
 
-	ids := map[string] int{}
+	ids := map[string] string{}
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.Flag("headless", true),
@@ -287,7 +267,7 @@ func GetGameIDs(d string) map[string] int {
 			if strings.Contains(u, MATCH_BOXSCORE) {
 				
 				x := strings.Split(u, STRING_EQUAL)
-				ids[strings.TrimSpace(x[len(x)-1])] = 1
+				ids[strings.TrimSpace(x[len(x)-1])] = d
 
 			}
 
@@ -300,15 +280,63 @@ func GetGameIDs(d string) map[string] int {
 } // GetGameIDs
 
 
-func GetGames(gameIDs map[string] int) []Game {
+func GetGameIDsFrom(d string) map[string]string {
 
-	if gameIDs == nil {
+	all := map[string]string{}
+
+	days := getDays(d)
+
+	for _, day := range days {
+
+		ids := GetGameIDs(day)
+
+		for k, _ := range ids {
+			all[k] = day
+		}
+		
+	}
+
+	return all
+
+} // GetGameIDsFrom
+
+
+func GetGameIDsBySeason(d string) map[string]string {
+
+	all := map[string]string{}
+
+	season, ok := Seasons[d]
+
+	if ok {
+
+		days := getDays(season[SEASON_INDEX_BEGIN])
+
+		for _, d := range days {
+
+			ids := GetGameIDs(d)
+
+			for k, _ := range ids {
+				all[k] = d
+			}
+			
+		}
+
+	}
+	
+	return all
+
+} // GetGameIDsBySeason
+
+
+func GetGames(gameIDs map[string] string) []Game {
+
+	if gameIDs == nil || len(gameIDs) == 0 {
 		return nil
 	}
 
 	all := []Game{}
 
-	for id, _ := range gameIDs {
+	for id, gameDate := range gameIDs {
 
 		res, err := http.Get(fmt.Sprintf("%s%s", ESPN_BOXSCORE_URL, id))
 
@@ -326,7 +354,8 @@ func GetGames(gameIDs map[string] int) []Game {
 
 				game := parseBoxScore(doc)
 				
-				game.ID = id
+				game.ID 		= id
+				game.Date   = gameDate
 				
 				all = append(all, *game)
 
@@ -336,8 +365,47 @@ func GetGames(gameIDs map[string] int) []Game {
 	
 	}
 
-	log.Printf("%+v", all)	
+	//log.Printf("%+v", all)	
 
 	return all
 
 } // GetGames
+
+
+func StoreSeason(s string) {
+
+	ids := GetGameIDsBySeason(s)
+
+	games := GetGames(ids)
+
+	StoreGames(games)
+
+} // StoreSeason
+
+
+func StoreGameDay(d string) {
+
+	ids := GetGameIDs(d)
+
+	games := GetGames(ids)
+
+  StoreGames(games)
+
+} // StoreGameDay
+
+
+func StoreGames(games []Game) {
+
+	for _, g := range games {
+
+		j, err := json.Marshal(g)
+
+		if err != nil {
+			logf("StoreSeason", err.Error())
+		}		
+
+		put(&g, j)
+
+	}
+
+} // StoreGames
