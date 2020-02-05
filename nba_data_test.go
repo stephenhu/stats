@@ -58,8 +58,6 @@ func TestNbaStoreDay(t *testing.T) {
 
 func TestNbaStoreFromDay(t *testing.T) {
 	NbaStoreFromDay("20200201")
-
-	// TODO: check directory for files
 } // TestNbaStoreFromDay
 
 

@@ -39,8 +39,6 @@ func put(g *Game, buf []byte) {
 
 	dir := generatePath(g.Date)
 
-	logf("put", dir)
-	logf("put", g.Date)
 	root := initStorage(dir)
 
 	f := filepath.Join(root, fmt.Sprintf(
