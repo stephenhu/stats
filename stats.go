@@ -20,6 +20,12 @@ const (
 )
 
 const (
+	NBA_BASE_URL									= "https://data.nba.net/data/10s/prod/v1"
+	NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
+	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"							
+)
+
+const (
 	HTML_ANCHOR                 = "a"
 	HTML_ARTICLE								= "article"
 	HTML_ATTR_CLASS							= "class"
@@ -39,7 +45,8 @@ const (
 	MATCH_BOXSCORE_RE						= "gameId=[0-9]+}"
 )
 
-const (	
+const (
+	STRING_COLON                = ":"
 	STRING_EMPTY                = ""
 	STRING_EQUAL                = "="
 	STRING_MINUS                = "-"
@@ -92,5 +99,10 @@ const (
 
 const (
 	DATE_FORMAT                 = "20060102"
-	YEAR_FORMAT                 = "06"
+	YEAR_FORMAT                 = "2006"
+)
+
+const (
+	JSON_INDENT									= "  "
+	JSON_PREFIX									= ""
 )

@@ -167,6 +167,9 @@ func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 	
 			players = append(players, p)
 
+		} else {
+
+
 		}
 
 	})
@@ -409,7 +412,7 @@ func StoreGames(games []Game) {
 
 	for _, g := range games {
 
-		j, err := json.Marshal(g)
+		j, err := json.MarshalIndent(g, JSON_PREFIX, JSON_INDENT)
 
 		if err != nil {
 			logf("StoreSeason", err.Error())

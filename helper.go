@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -20,14 +21,14 @@ func logf(fname string, msg string) {
 func atoi(s string) int {
 
 	if s == STRING_EMPTY {
-		logf("Atoi", "Empty string.")
+		logf("atoi", "Empty string.")
 		return 0
 	}
 
 	val, err := strconv.ParseInt(s, BASE10, BITS32)
 	
 	if err != nil {
-		logf("Atoi", fmt.Sprintf("Field: %s, %s", s, err.Error()))
+		logf("atoi", fmt.Sprintf("Field: %s, %s", s, err.Error()))
 		return 0
 	} else {
 		return int(val)
@@ -38,24 +39,16 @@ func atoi(s string) int {
 
 func seasonKey(t time.Time, current bool) string {
 
-	ty := t.Format(YEAR_FORMAT)
-
 	if current {
-
-		tn := t.AddDate(1, 0, 0)
-
-		return fmt.Sprintf("%s%s", ty,
-	    tn.Format(YEAR_FORMAT))
-
+		return t.Format(YEAR_FORMAT)
 	} else {
-
+		
 		tp := t.AddDate(-1, 0, 0)
 
-		return fmt.Sprintf("%s%s", tp.Format(YEAR_FORMAT),
-			ty)
-			
-	}
+		return tp.Format(YEAR_FORMAT)
 
+	}
+	
 } // seasonKey
 
 
@@ -97,7 +90,7 @@ func getSeason(t time.Time) []string {
 	} else if cm >= time.January && cm <= time.June {
 		return Seasons[seasonKey(t, false)]
 	} else {
-		return Seasons["1920"]
+		return Seasons["2020"]
 	}
 
 } // getSeason
@@ -198,6 +191,19 @@ func getDays(d string) []string {
 	}
 
 } // getDays
+
+
+func mtoi(s string) int {
+
+	toks := strings.Split(s, STRING_COLON)
+
+	if len(toks) != 2 {
+		logf("minsToInt", fmt.Sprintf("Unknown minutes format: %s", s))		
+	}
+
+	return atoi(toks[0])
+
+} // mtoi
 
 
 func StringUrlJoin(base string, p string) (string, error) {

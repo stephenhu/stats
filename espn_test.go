@@ -7,6 +7,8 @@ import (
 
 func TestGetGameIDsEmptyDate(t *testing.T) {
 
+	t.Skip("deprecate in favor of data.nba.net")
+
 	ids := GetGameIDs("")
 
 	if ids == nil {
@@ -24,6 +26,8 @@ func TestGetGameIDsEmptyDate(t *testing.T) {
 
 func TestGetGameIDsWithDate(t *testing.T) {
 
+	t.Skip("deprecate in favor of data.nba.net")
+
   ids := GetGameIDs("20200128")
 
 	if ids == nil {
@@ -40,6 +44,8 @@ func TestGetGameIDsWithDate(t *testing.T) {
 
 
 func TestGetGameIDsFrom(t *testing.T) {
+
+	t.Skip("deprecate in favor of data.nba.net")
 
 	ids := GetGameIDsFrom("20200128")
 
@@ -62,6 +68,8 @@ func TestGetGameIDsFrom(t *testing.T) {
 
 func TestGetSeasonGameIDs(t *testing.T) {
 
+	t.Skip("deprecate in favor of data.nba.net")
+	
 	ids := GetGameIDsBySeason("1920")
 
 	if len(ids) == 0 {

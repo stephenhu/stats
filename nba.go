@@ -1,18 +1,20 @@
 package stats
 
 type Season struct {
+	ID              string          `json:"id"`
 	Name						string					`json:"name"`
 	Games           []Game          `json:"games"`
 }
 
 type Game struct {
 	ID              string          `json:"id"`
+	SID        			string          `json:"sid"`
 	Home						Team						`json:"home"`
 	Away						Team						`json:"away"`
 	Date            string          `json:"date"`
 }
 
-type Data struct {
+type Stats struct {
 	Fga							int							`json:"fga"`
 	Fgm							int							`json:"fgm"`
 	Fg3a						int							`json:"fg3a"`
@@ -32,8 +34,9 @@ type Data struct {
 }
 
 type Player struct {
+	ID              string          `json:"id"`
 	Name						string					`json:"name"`
-  Stats         	Data         		`json:"data"`
+  Stats         	`json:"playerStats"`
 	Minutes					int							`json:"minutes"`
 	Starter         bool            `json:"starter"`
 	DnpReason      	string          `json:"dnpReason"`
@@ -41,13 +44,10 @@ type Player struct {
 }
 
 type Team struct {
+	ID              string          `json:"id"`
 	Name						string					`json:"name"`
-	Score           []int           `json:"score"`
+	Score           int             `json:"score"`
+	ScoreDetail     []int           `json:"scoreDetail"`
 	Players         []Player				`json:"players"`
-	Stats           Data            `json:"stats"`
-}
-
-type Info struct {
-	Begin						int							`json:"begin"`
-	End							int							`json:"end"`
+	Stats           `json:"stats"`
 }
