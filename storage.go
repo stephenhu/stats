@@ -1,7 +1,8 @@
 package stats
 
 import (
-	"fmt"	
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -35,15 +36,8 @@ func initStorage(dir string) string {
 } // initStorage
 
 
-func put(g *Game, buf []byte) {
-
-	dir := generatePath(g.Date)
-
-	root := initStorage(dir)
-
-	f := filepath.Join(root, fmt.Sprintf(
-		"%s.%s.json", g.Away.Name, g.Home.Name))
-
+func put(f string, buf []byte) {
+	
 	fh, err := os.Create(strings.ToLower(f))
 
 	if err != nil {
@@ -54,6 +48,110 @@ func put(g *Game, buf []byte) {
 
 		fh.Write(buf)
 
+		fh.Sync()
+
 	}
 
 } // put
+
+
+func putGame(g *Game) {
+
+	dir := generatePath(g.Date)
+
+	root := initStorage(dir)
+
+	f := filepath.Join(root, fmt.Sprintf(
+		"%s.%s.json", g.Away.Name, g.Home.Name))
+
+	j, err := json.MarshalIndent(g, JSON_PREFIX, JSON_INDENT)
+
+	if err != nil {
+		logf("putGame", err.Error())
+	} else {
+		put(f, j)	
+	}
+
+} // putGame
+
+
+func putPlayers(all *AllPlayers) {
+
+	if all != nil {
+
+		if all.SeasonID == "" {
+			logf("putPlayers", "Failed to store players due to an empty season")
+		} else {
+
+			root := initStorage(all.SeasonID)
+			
+			f := filepath.Join(root, PLAYERS_FILE)
+
+			j, err := json.MarshalIndent(all, JSON_PREFIX, JSON_INDENT)
+
+			if err != nil {
+				logf("putPlayers", err.Error())
+			} else {
+				put(f, j)
+			}
+
+		}
+
+	} else {
+		logf("putPlayers", "Failed to store nil players")
+	}
+
+} // putPlayers
+
+
+func putProfile(profile *PlayerCareer) {
+
+	if profile != nil {
+		
+		root := initStorage(filepath.Join(profile.SeasonID, PLAYERS_DIR))		
+
+		f := filepath.Join(root, fmt.Sprintf("%s.%s.json",
+		  profile.First, profile.Last))
+
+		j, err := json.MarshalIndent(profile, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("putPlayers", err.Error())
+		} else {
+			put(f, j)
+		}
+
+	} else {
+		logf("putProfile", "Failed to store nil profile")
+	}
+
+} // putProfile
+
+
+func putTeams(teams *AllTeams) {
+
+	if teams != nil {
+
+		if teams.SeasonID == "" {
+			logf("putTeams", "Failed to store teams due to empty seasonId")
+		} else {
+
+			root := initStorage(teams.SeasonID)
+			
+			f := filepath.Join(root, TEAMS_FILE)
+
+			j, err := json.MarshalIndent(teams, JSON_PREFIX, JSON_INDENT)
+
+			if err != nil {
+				logf("putTeams", err.Error())
+			} else {
+				put(f, j)
+			}
+
+		}
+
+	} else {
+		logf("putTeams", "Failed to store teams, nil teams.")
+	}
+
+} // putTeams

@@ -1,5 +1,8 @@
 # stats.nba.com
 
+https://github.com/kashav/nba.js/blob/master/docs/api/STATS.md
+
+
 `based on data from https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation`
 
 `stats.nba.com/stats/{endpoint}/?{params}`

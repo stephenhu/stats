@@ -2,7 +2,7 @@ package stats
 
 import (
 	"context"
-	"encoding/json"
+	//"encoding/json"
 	"fmt"
 	//"log"
 	"net/http"
@@ -410,16 +410,8 @@ func StoreFromDay(d string) {
 
 func StoreGames(games []Game) {
 
-	for _, g := range games {
-
-		j, err := json.MarshalIndent(g, JSON_PREFIX, JSON_INDENT)
-
-		if err != nil {
-			logf("StoreSeason", err.Error())
-		}		
-
-		put(&g, j)
-
+	for _, g := range games {	
+		putGame(&g)
 	}
 
 } // StoreGames

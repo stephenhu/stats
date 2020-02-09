@@ -8,6 +8,44 @@ import (
 	"net/http"
 )
 
+type NbaInternal struct {
+	Date					string						`json:"pubDateTime"`
+}
+
+type NbaAdvStats struct {
+	SeasonID					int						`json:"seasonYear"`
+	TeamID						string        `json:"teamId"`
+	Minutes						string				`json:"min"`
+	Points						string				`json:"points"`
+	Oreb							string				`json:"offReb"`
+	Dreb							string				`json:"defReb"`
+	Treb							string				`json:"totReb"`
+	Assists						string				`json:"assists"`	
+	Turnovers					string				`json:"turnovers"`
+	Steals						string				`json:"steals"`
+	Blocks						string				`json:"blocks"`
+	Fouls							string				`json:"pFouls"`
+	Fgm               string        `json:"fgm"`
+	Fga               string        `json:"fga"`
+	Fg3m              string        `json:"tpm"`
+	Fg3a              string        `json:"tpa"`
+	Ftm               string        `json:"ftm"`
+	Fta               string        `json:"fta"`
+	Played						string				`json:"gamesPlayed"`
+	Started						string				`json:"gamesStarted"`
+	PlusMinus					string				`json:"plusMinus"`
+	Ppg								string				`json:"ppg"`			// points per game
+	Rpg								string				`json:"rpg"`			// rebounds per game
+	Apg								string				`json:"apg"`			// assists per game
+	Mpg								string				`json:"mpg"`			// minutes per game
+	Topg							string				`json:"topg"`			// turnovers per game
+	Spg								string				`json:"spg"`			// steals per game
+	Bpg								string				`json:"bpg"`			// blocks per game
+	Fgp								string				`json:"fgp"`			// fg %
+	Fg3p							string				`json:"tpp"`			// three point %
+	Ftp								string				`json:"ftp"`			// free throw %
+}
+
 type NbaTeamData struct {
 	Points        string           	`json:"points"`
 	Minutes       string        		`json:"min"`
@@ -117,6 +155,7 @@ func convScores(scores []NbaScoreData) []int {
 	return ret
 
 } // convScores
+
 
 func convPlayers(players []NbaPlayerData, g *Game) {
 
@@ -369,13 +408,7 @@ func NbaStoreDay(d string) {
 	
 				game := convBoxscore(&b)
 	
-				j, err := json.MarshalIndent(game, JSON_PREFIX, JSON_INDENT)
-	
-				if err != nil {
-					logf("NbaStoreDay", err.Error())
-				} else {
-					put(game, j)
-				}
+				putGame(game)				
 	
 			}
 	
@@ -408,4 +441,3 @@ func NbaStoreSeason(s string) {
 	}
 
 } // NbaStoreSeason
-

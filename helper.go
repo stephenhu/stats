@@ -21,7 +21,6 @@ func logf(fname string, msg string) {
 func atoi(s string) int {
 
 	if s == STRING_EMPTY {
-		logf("atoi", "Empty string.")
 		return 0
 	}
 

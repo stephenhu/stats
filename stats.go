@@ -22,7 +22,10 @@ const (
 const (
 	NBA_BASE_URL									= "https://data.nba.net/data/10s/prod/v1"
 	NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
-	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"							
+	NBA_API_PLAYERS								= "/%s/players.json"
+	NBA_API_PLAYER_PROFILE        = "/%s/players/%s_profile.json"
+	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
+	NBA_API_TEAMS                 = "/%s/teams.json"							
 )
 
 const (
@@ -105,4 +108,10 @@ const (
 const (
 	JSON_INDENT									= "  "
 	JSON_PREFIX									= ""
+)
+
+const (
+	PLAYERS_DIR                 = "players"
+	PLAYERS_FILE								= "players.json"	
+	TEAMS_FILE                  = "teams.json"
 )
