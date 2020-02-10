@@ -114,7 +114,7 @@ type NbaTeamScore struct {
 	ID            string        		`json:"teamId"`
 	ShortName     string        		`json:"triCode"`
 	Score         string						`json:"score"`
-	ScoreDetail   []NbaScoreData    `json:"linescore"`
+	Periods   		[]NbaScoreData    `json:"linescore"`
 }
 
 type NbaStats struct {
@@ -242,7 +242,7 @@ func convTeamScore(t NbaTeamScore) Team {
 	team.ID							= t.ID
 	team.Name   				= t.ShortName
 	team.Score  				= atoi(t.Score)
-	team.ScoreDetail  	= convScores(t.ScoreDetail)
+	team.Periods  			= convScores(t.Periods)
 
 	return team
 

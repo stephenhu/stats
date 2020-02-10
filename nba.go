@@ -13,11 +13,12 @@ type Season struct {
 
 type Game struct {
 	ID              string          `json:"id"`
-	SeasonID        string          `json:"seasonId"`
-	Home						Team						`json:"home"`
-	Away						Team						`json:"away"`
+	SeasonID        string          `json:"seasonId"`  // discard
 	Date            string          `json:"date"`
 	PubDate					string					`json:"pubDate"`
+	Source          string          `json:"source"`
+	Home						Team						`json:"home"`
+	Away						Team						`json:"away"`
 }
 
 type Stats struct {
@@ -75,13 +76,13 @@ type AdvStats struct {
 
 type Player struct {
 	ID              string          `json:"id"`
-	Name						string					`json:"name"`
-  Stats         	`json:"stats"`
+	Name						string					`json:"name"`  
 	Minutes					int							`json:"minutes"`
 	Seconds         int             `json:"seconds"`
 	Starter         bool            `json:"starter"`
 	DnpReason      	string          `json:"dnpReason"`
 	Position        string          `json:"position"`
+	Stats
 }
 
 type PlayerInfo struct {
@@ -150,12 +151,12 @@ type TeamInfo struct {
 
 type Team struct {
 	ID              string          `json:"id"`
-	SeasonID        string          `json:"seasonId"`
+	SeasonID        string          `json:"seasonId"`   // discard
 	Name						string					`json:"name"`
 	Score           int             `json:"score"`
-	ScoreDetail     []int           `json:"scoreDetail"`
+	Periods     		[]int           `json:"periods"`
 	Players         []Player				`json:"players"`
-	Stats           `json:"stats"`	
+	Stats           `json:"summary"`
 }
 
 type AllRanks struct {
