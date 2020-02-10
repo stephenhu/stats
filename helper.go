@@ -20,7 +20,7 @@ func logf(fname string, msg string) {
 
 func atoi(s string) int {
 
-	if s == STRING_EMPTY {
+	if s == STRING_EMPTY || s == STRING_MINUS {
 		return 0
 	}
 
@@ -85,11 +85,11 @@ func getSeason(t time.Time) []string {
 	cm := t.Month()
 
 	if cm >= time.October && cm <= time.December {
-		return Seasons[seasonKey(t, true)]
+		return official_seasons[seasonKey(t, true)]
 	} else if cm >= time.January && cm <= time.June {
-		return Seasons[seasonKey(t, false)]
+		return official_seasons[seasonKey(t, false)]
 	} else {
-		return Seasons["2020"]
+		return official_seasons["2020"]
 	}
 
 } // getSeason
@@ -110,14 +110,16 @@ func seasonCheck(d string) bool {
 
 		season := getSeason(t)
 
-		begin, err := time.Parse(DATE_FORMAT, season[SEASON_INDEX_BEGIN])
+		begin, err := time.Parse(DATE_FORMAT,
+			season[SEASON_INDEX_BEGIN])
 
 		if err != nil {
 			logf("seasonCheck", err.Error())
 			return false
 		} else {
 
-			end, err 	:= time.Parse(DATE_FORMAT, season[SEASON_INDEX_PLAYOFFS_END])
+			end, err 	:= time.Parse(DATE_FORMAT,
+				season[SEASON_INDEX_PLAYOFFS_END])
 
 			if err != nil {
 				
@@ -127,7 +129,8 @@ func seasonCheck(d string) bool {
 				
 			}
 
-			if (t.After(begin) || t.Equal(begin)) && (t.Equal(end) || t.Before(end)) {
+			if (t.After(begin) || t.Equal(begin)) &&
+			  (t.Equal(end) || t.Before(end)) {
 				return true
 			} else {
 				return false
@@ -192,15 +195,20 @@ func getDays(d string) []string {
 } // getDays
 
 
-func mtoi(s string) int {
+func mtoi(s string) (int, int) {
 
 	toks := strings.Split(s, STRING_COLON)
 
-	if len(toks) != 2 {
-		logf("minsToInt", fmt.Sprintf("Unknown minutes format: %s", s))		
-	}
+	tokenLen := len(toks)
 
-	return atoi(toks[0])
+	if tokenLen == 2 {
+		return atoi(toks[0]), atoi(toks[1])	
+	} else if tokenLen == 1 {		
+		return atoi(toks[0]), 0		
+	} else {
+		logf("mtoi", fmt.Sprintf("Unknown minutes format: %s", s))
+		return 0, 0
+	}
 
 } // mtoi
 

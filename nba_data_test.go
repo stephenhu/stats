@@ -50,8 +50,7 @@ func TestNbaGetBoxscores(t *testing.T) {
 
 
 func TestNbaStoreDay(t *testing.T) {
-	NbaStoreDay("20200201")
-
+	NbaStoreDay("20151113")
 	// TODO: check directory for files
 } // TestNbaStoreDay
 
@@ -62,5 +61,5 @@ func TestNbaStoreFromDay(t *testing.T) {
 
 
 func TestNbaStoreSeason(t *testing.T) {
-	NbaStoreSeason("2019")
+	NbaStoreSeason("2015")
 } // TestNbaStoreSeason

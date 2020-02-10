@@ -64,6 +64,7 @@ type NbaLeaguePlayers struct {
 
 type NbaPlayerProfile struct {
 	NbaLeague2				`json:"league"`
+	NbaInternal       `json:"_internal"`
 	ID						string        `json:"id"`
 	SeasonID			string        `json:"seasonId"`
 	First         string        `json:"first"`
@@ -115,7 +116,7 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 		all := AllPlayers{}
 		
 		all.SeasonID  = lp.SeasonID
-		all.Date    	= lp.Date
+		all.PubDate   = lp.PubDate
 
 		for _, p := range lp.Players {
 
@@ -164,6 +165,7 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 	career := PlayerCareer{}
 
 	career.ID 				= pp.ID
+	career.PubDate    = pp.PubDate
 	career.SeasonID   = pp.SeasonID
 	career.First			= pp.First
 	career.Last				= pp.Last

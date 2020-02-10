@@ -308,7 +308,7 @@ func GetGameIDsBySeason(d string) map[string]string {
 
 	all := map[string]string{}
 
-	season, ok := Seasons[d]
+	season, ok := official_seasons[d]
 
 	if ok {
 

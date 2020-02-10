@@ -5,9 +5,9 @@ https://github.com/kashav/nba.js/blob/master/docs/api/STATS.md
 
 `based on data from https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation`
 
-`stats.nba.com/stats/{endpoint}/?{params}`
+`stats-prod.nba.com/stats/{endpoint}/?{params}`
 
-`stats.nba.com/stats/scoreboard/?GameDate=02/14/2015&LeagueID=00&DayOffset=0`
+`stats-prod.nba.com/stats/scoreboard/?GameDate=02/14/2015&LeagueID=00&DayOffset=0`
 
 
 ## league id

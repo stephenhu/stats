@@ -8,8 +8,13 @@ import (
 	"net/http"
 )
 
+type NbaRankStat struct {
+	Average				string					`json:"avg"`
+	Rank					string					`json:"rank"`
+}
+
 type NbaInternal struct {
-	Date					string						`json:"pubDateTime"`
+	PubDate				string						`json:"pubDateTime"`
 }
 
 type NbaAdvStats struct {
@@ -120,27 +125,30 @@ type NbaStats struct {
 
 type NbaGameData struct {
 	ID						string            `json:"gameId"`
-	SID           string            `json:"seasonYear"`
+	SeasonID      string            `json:"seasonYear"`
 	Date          string            `json:"homeStartDate"`
 	AwayScore			NbaTeamScore			`json:"vTeam"`
 	HomeScore			NbaTeamScore			`json:"hTeam"`
 }
 
 type NbaBoxscore struct {
+	NbaInternal   `json:"_internal"`
 	NbaGameData		`json:"basicGameData"`
 	NbaStats			`json:"stats"`
 }
 
 type NbaGame struct {
 	ID        		string        `json:"gameId"`
-	SID						string				`json:"seasonYear"`
-	Date          string        `json:"homeStartDate"`
+	SeasonID			string				`json:"seasonYear"`
+	Date          string        `json:"startDateEastern"`
 	Away          NbaTeamScore  `json:"away"`
 	Home          NbaTeamScore  `json:"home"`
 }
 
 type NbaScoreboard struct {
 	Games					[]NbaGame			`json:"games"`
+	NbaInternal   `json:"_internal"`
+	Date					string				`json:"date"`
 }
 
 
@@ -166,10 +174,13 @@ func convPlayers(players []NbaPlayerData, g *Game) {
 
 		player := Player{}
 
+		minutes, seconds := mtoi(p.Minutes)
+
 		player.ID 					= p.ID
 		player.Name 				= fmt.Sprintf("%s %s", p.First, p.Last)
 		player.Points 			= atoi(p.Points)
-		player.Minutes 			= mtoi(p.Minutes)
+		player.Minutes 			= minutes
+		player.Seconds      = seconds
 		player.Fgm 					= atoi(p.Fgm)
 		player.Fga 					= atoi(p.Fga)
 		player.Fg3m 				= atoi(p.Fg3m)
@@ -246,11 +257,12 @@ func convBoxscore(b *NbaBoxscore) *Game {
 		return nil
 	}
 
-	game.ID			= b.ID
-	game.SID    = b.SID
-	game.Date   = b.Date
-	game.Away   = convTeamScore(b.AwayScore)
-	game.Home   = convTeamScore(b.HomeScore)
+	game.ID					= b.ID
+	game.SeasonID   = b.SeasonID
+	game.Date   		= b.Date
+	game.PubDate   	= b.PubDate
+	game.Away   		= convTeamScore(b.AwayScore)
+	game.Home   		= convTeamScore(b.HomeScore)
 
 	convTeam(&b.Away, &game.Away)
 	convTeam(&b.Home, &game.Home)
@@ -314,7 +326,11 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 				logf("NbaGetScoreboard", err.Error())
 				return nil
 			} else {
+
+				scoreboard.Date	= d
+
 				return &scoreboard
+
 			}
 
 		}
@@ -353,8 +369,8 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 		return nil
 	}
 
-	for _, g := range s.Games {
-
+	for _, g := range s.Games {		
+		
 		res, err := http.Get(BoxscoreApi(g.Date, g.ID))
 
 		if err != nil {
@@ -376,7 +392,10 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 				if err != nil {
 					logf("NbaGetBoxscores", err.Error())
 				} else {
-					scores = append(scores, box)					
+					
+					box.Date = s.Date
+					scores = append(scores, box)
+
 				}
 
 			}
@@ -432,7 +451,7 @@ func NbaStoreFromDay(d string) {
 
 func NbaStoreSeason(s string) {
 
-	season, ok := Seasons[s]
+	season, ok := official_seasons[s]
 
 	if ok {
 		NbaStoreFromDay(season[SEASON_INDEX_BEGIN])

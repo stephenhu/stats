@@ -1,5 +1,10 @@
 package stats
 
+type RankStat struct {
+	Average				string					`json:"avg"`
+	Rank					int							`json:"rank"`
+}
+
 type Season struct {
 	ID              string          `json:"id"`
 	Name						string					`json:"name"`
@@ -8,10 +13,11 @@ type Season struct {
 
 type Game struct {
 	ID              string          `json:"id"`
-	SID        			string          `json:"sid"`
+	SeasonID        string          `json:"seasonId"`
 	Home						Team						`json:"home"`
 	Away						Team						`json:"away"`
 	Date            string          `json:"date"`
+	PubDate					string					`json:"pubDate"`
 }
 
 type Stats struct {
@@ -70,7 +76,7 @@ type AdvStats struct {
 type Player struct {
 	ID              string          `json:"id"`
 	Name						string					`json:"name"`
-  Stats         	`json:"playerStats"`
+  Stats         	`json:"stats"`
 	Minutes					int							`json:"minutes"`
 	Seconds         int             `json:"seconds"`
 	Starter         bool            `json:"starter"`
@@ -103,8 +109,27 @@ type SeasonStats struct {
 	Summary       AdvStats      `json:"summary"`
 }
 
+type TeamRanks struct {
+	ID								string						`json:"id"`
+	Minutes						RankStat					`json:"minutes"`
+	Fgp								RankStat					`json:"fgp"`
+	Fg3p							RankStat					`json:"fg3p"`
+	Ftp								RankStat					`json:"ftp"`
+	Oreb							RankStat					`json:"oreb"`
+	Dreb							RankStat					`json:"dreb"`
+	Treb							RankStat					`json:"treb"`
+	Assists						RankStat					`json:"assists"`
+	Turnovers					RankStat					`json:"turnovers"`
+	Steals						RankStat					`json:"steals"`
+	Blocks						RankStat					`json:"blocks"`
+	Points						RankStat					`json:"points"`
+	OpponentPoints		RankStat					`json:"opponentPoints"`
+	Efficiency				RankStat					`json:"efficiency"`
+}
+
 type PlayerCareer struct {
 	ID 						string				`json:"id"`				// player id
+	PubDate				string				`json:"pubDate"`
 	SeasonID      string        `json:"seasonId"`
 	First         string        `json:"first"`
 	Last         	string        `json:"last"`
@@ -133,14 +158,20 @@ type Team struct {
 	Stats           `json:"stats"`	
 }
 
+type AllRanks struct {
+	SeasonID				string          `json:"seasonId"`
+	PubDate					string					`json:"pubDate"`
+	Teams 					[]TeamRanks			`json:"teams"`
+}
+
 type AllTeams struct {
 	SeasonID				string					`json:"seasonId"`
-	Date						string					`json:"date"`
+	PubDate					string					`json:"pubDate"`
 	Teams						[]TeamInfo			`json:"teams"`
 }
 
 type AllPlayers struct {
 	SeasonID        string         	`json:"seasonId"`
-	Date            string          `json:"date"`	
+	PubDate					string					`json:"pubDate"`
 	Players					[]PlayerInfo		`json:"players"`
 }

@@ -7,7 +7,7 @@ const (
 )
 
 const (
-  ESPN_BASE_URL               = `https://www.espn.com`
+	ESPN_BASE_URL               = `https://www.espn.com`	
 	ESPN_SCOREBOARD_URL					= `https://espn.com/nba/scoreboard`
 	ESPN_SCOREBOARD_DATE_URL		= `https://espn.com/nba/scoreboard/_/date/%s`
 	ESPN_BOXSCORE_URL           = `https://www.espn.com/nba/boxscore?gameId=`
@@ -25,7 +25,8 @@ const (
 	NBA_API_PLAYERS								= "/%s/players.json"
 	NBA_API_PLAYER_PROFILE        = "/%s/players/%s_profile.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
-	NBA_API_TEAMS                 = "/%s/teams.json"							
+	NBA_API_TEAMS                 = "/%s/teams.json"
+	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"						
 )
 
 const (
@@ -113,5 +114,7 @@ const (
 const (
 	PLAYERS_DIR                 = "players"
 	PLAYERS_FILE								= "players.json"	
+	TEAMS_DIR                   = "teams"
 	TEAMS_FILE                  = "teams.json"
+	TEAM_RANKS_FILE             = "team.ranks.json"
 )

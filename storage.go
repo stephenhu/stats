@@ -3,6 +3,7 @@ package stats
 import (
 	"encoding/json"
 	"fmt"
+	//"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -155,3 +156,32 @@ func putTeams(teams *AllTeams) {
 	}
 
 } // putTeams
+
+
+func putTeamRanks(ranks *AllRanks) {
+
+	if ranks != nil {
+
+		if ranks.SeasonID == "" {
+			logf("putTeamRanks", "Failed to store team ranks due to empty seasonId")
+		} else {
+
+			root := initStorage(ranks.SeasonID)
+			
+			f := filepath.Join(root, TEAM_RANKS_FILE)
+
+			j, err := json.MarshalIndent(ranks, JSON_PREFIX, JSON_INDENT)
+
+			if err != nil {
+				logf("putTeamRanks", err.Error())
+			} else {
+				put(f, j)
+			}
+
+		}
+
+	} else {
+		logf("putTeamRanks", "Failed to store team ranks, nil teams.")
+	}
+
+} // putTeamRanks
