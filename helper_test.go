@@ -21,7 +21,7 @@ func TestGetSeason(t *testing.T) {
 
 func TestGetDays(t *testing.T) {
 
-	days := getDays("20200130")
+	days := getDays("20151030")
 
 	t.Log(days)
 

@@ -172,21 +172,32 @@ func getDays(d string) []string {
 
 			now := time.Now()
 
-			tn := t
+			season := getSeason(t)
+			
+			end, err := time.Parse(DATE_FORMAT, season[SEASON_INDEX_PLAYOFFS_END])
 
-			for {
-				
-				if tn.After(now) {
-					break
-				} else {
-					days = append(days, tn.Format(DATE_FORMAT))
-				}
+			if err != nil {
+				logf("getDays", err.Error())
+				return days
+			} else {
 
-				tn = tn.AddDate(0, 0, 1)
+				tn := t
 
-			}
+				for {
+					
+					if tn.After(now) || tn.After(end) {
+						break
+					} else {
+						days = append(days, tn.Format(DATE_FORMAT))
+					}
 	
-			return days
+					tn = tn.AddDate(0, 0, 1)
+	
+				}
+		
+				return days
+	
+			}
 
 		}
 
