@@ -120,7 +120,9 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 
 		for _, p := range lp.Players {
 
-			if p.Active {
+			_, ok := official_teams[p.TeamID]
+			
+			if ok {
 
 				pi := PlayerInfo{}
 

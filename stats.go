@@ -126,7 +126,7 @@ const (
 	PLAYERS_DIR                 = "players"
 	PLAYERS_FILE								= "players.json"
 	PLAYS_FILE                  = "%s.%s.plays.json"
-	TEAMS_DIR                   = "teams"
+	//TEAMS_DIR                   = "teams"
 	TEAMS_FILE                  = "teams.json"
 	TEAM_RANKS_FILE             = "team.ranks.json"
 )

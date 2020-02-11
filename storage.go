@@ -3,6 +3,7 @@ package stats
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	//"log"
 	"os"
 	"path/filepath"
@@ -10,26 +11,39 @@ import (
 )
 
 
-func initStorage(dir string) string {	
+func fileExists(f string) bool {
 
-	f := filepath.Join(APP_STORAGE, dir)
-	
 	_, err := os.Stat(f)
 
 	if err != nil {
 		
+		logf("fileExists", err.Error())
+
 		if os.IsNotExist(err) {
-		
-			logf("initStorage", err.Error())
-
-			os.MkdirAll(f, 0755)
-
-			return f
-
-		} else {			
-			return ""
+			return false
+		} else {
+			return true
 		}
 
+	} else {
+		return true
+	}
+
+} // fileExists
+
+
+func initStorage(dir string) string {	
+
+	var f string
+
+	if dir == "" {
+		f = APP_STORAGE
+	} else {
+		f = filepath.Join(APP_STORAGE, dir)
+	}
+	
+	if !fileExists(f) {
+		os.MkdirAll(f, 0755)	
 	}
 
 	return f
@@ -38,16 +52,128 @@ func initStorage(dir string) string {
 
 
 func checkStorage() bool {
-
-	_, err := os.Stat(APP_STORAGE)
-
-	if err != nil || os.IsNotExist(err) {
-		return false
-	} else {
-		return true
-	}
-	
+	return fileExists(APP_STORAGE)
 } // checkStorage
+
+
+func loadFile(f string) []byte {	
+
+	buf, err := ioutil.ReadFile(f)
+
+	if err != nil {
+		logf("loadFile", err.Error())
+		return nil
+	}
+
+	return buf
+
+} // loadFile
+
+
+func mergeTeams(teams *AllTeams, f string) {
+
+	buf := loadFile(f)
+
+	if buf == nil {
+		logf("mergeTeams", fmt.Sprintf("Unable to load %s", f))
+	} else {
+
+		oldTeams := AllTeams{}
+
+		err := json.Unmarshal(buf, &oldTeams)
+
+		if err != nil {
+			logf("mergeTeams", err.Error())
+		} else {
+
+			newTeams := []TeamInfo{}
+
+			for _, nt := range teams.Teams {
+
+				found := false
+
+				for _, ot := range oldTeams.Teams {
+
+					if nt.ID == ot.ID {
+						found = true
+					}
+
+				}
+
+				if !found {
+					newTeams = append(newTeams, nt)
+				}
+
+			}
+
+			oldTeams.Teams = append(oldTeams.Teams, newTeams...)
+
+			j, err := json.MarshalIndent(oldTeams, JSON_PREFIX, JSON_INDENT)
+
+			if err != nil {
+				logf("mergeTeams", err.Error())
+			} else {
+				put(f, j)
+			}
+
+		}
+
+	}
+
+} // mergeTeams
+
+
+func mergePlayers(players *AllPlayers, f string) {
+
+	buf := loadFile(f)
+
+	if buf == nil {
+		logf("mergePlayers", fmt.Sprintf("Unable to load %s", f))
+	} else {
+
+		oldPlayers := AllPlayers{}
+
+		err := json.Unmarshal(buf, &oldPlayers)
+
+		if err != nil {
+			logf("mergePlayers", err.Error())
+		} else {
+
+			newPlayers := []PlayerInfo{}
+
+			for _, np := range players.Players {
+
+				found := false
+
+				for _, op := range oldPlayers.Players {
+
+					if np.ID == op.ID {
+						found = true
+					}
+
+				}
+
+				if !found {
+					newPlayers = append(newPlayers, np)
+				}
+
+			}
+
+			oldPlayers.Players = append(oldPlayers.Players, newPlayers...)
+
+			j, err := json.MarshalIndent(oldPlayers, JSON_PREFIX, JSON_INDENT)
+
+			if err != nil {
+				logf("mergePlayers", err.Error())
+			} else {
+				put(f, j)
+			}
+
+		}
+
+	}
+
+} // mergePlayers
 
 
 func put(f string, buf []byte) {
@@ -97,13 +223,13 @@ func putPlayers(all *AllPlayers) {
 
 	if all != nil {
 
-		if all.SeasonID == "" {
-			logf("putPlayers", "Failed to store players due to an empty season")
-		} else {
+		root := initStorage("")
+		
+		f := filepath.Join(root, PLAYERS_FILE)
 
-			root := initStorage(all.SeasonID)
-			
-			f := filepath.Join(root, PLAYERS_FILE)
+		if fileExists(f) {
+			mergePlayers(all, f)
+		} else {
 
 			j, err := json.MarshalIndent(all, JSON_PREFIX, JSON_INDENT)
 
@@ -112,11 +238,11 @@ func putPlayers(all *AllPlayers) {
 			} else {
 				put(f, j)
 			}
-
+	
 		}
 
 	} else {
-		logf("putPlayers", "Failed to store nil players")
+		logf("putPlayers", "Unable to store empty players")
 	}
 
 } // putPlayers
@@ -148,28 +274,27 @@ func putProfile(profile *PlayerCareer) {
 
 func putTeams(teams *AllTeams) {
 
-	if teams != nil {
+	if teams == nil {
+		logf("putTeams", "Unable to store empty teams")
+		return
+	}
 
-		if teams.SeasonID == "" {
-			logf("putTeams", "Failed to store teams due to empty seasonId")
+	root := initStorage("")
+
+	f := filepath.Join(root, TEAMS_FILE)
+
+	if fileExists(f) {
+		mergeTeams(teams, f)
+	} else {
+
+		j, err := json.MarshalIndent(teams, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("putTeams", err.Error())
 		} else {
-
-			root := initStorage(teams.SeasonID)
-			
-			f := filepath.Join(root, TEAMS_FILE)
-
-			j, err := json.MarshalIndent(teams, JSON_PREFIX, JSON_INDENT)
-
-			if err != nil {
-				logf("putTeams", err.Error())
-			} else {
-				put(f, j)
-			}
-
+			put(f, j)
 		}
 
-	} else {
-		logf("putTeams", "Failed to store teams, nil teams.")
 	}
 
 } // putTeams
