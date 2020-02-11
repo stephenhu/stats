@@ -61,5 +61,5 @@ func TestNbaStoreFromDay(t *testing.T) {
 
 
 func TestNbaStoreSeason(t *testing.T) {
-	NbaStoreSeason("2015")
+	NbaStoreSeason("2019")
 } // TestNbaStoreSeason

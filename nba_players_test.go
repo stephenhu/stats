@@ -7,7 +7,7 @@ import (
 
 func TestNbaStorePlayers(t *testing.T) {
 
-	lp := NbaGetPlayers("2019")
+	lp := NbaGetPlayers("2016")
 
 	if lp == nil {
 		t.Error("No players returned")

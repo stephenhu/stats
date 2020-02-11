@@ -37,9 +37,24 @@ func initStorage(dir string) string {
 } // initStorage
 
 
+func checkStorage() bool {
+
+	_, err := os.Stat(APP_STORAGE)
+
+	if err != nil || os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
+	
+} // checkStorage
+
+
 func put(f string, buf []byte) {
 	
-	fh, err := os.Create(strings.ToLower(f))
+	lf := strings.ToLower(f)
+
+	fh, err := os.Create(lf)
 
 	if err != nil {
 		logf("put", err.Error())
@@ -50,6 +65,8 @@ func put(f string, buf []byte) {
 		fh.Write(buf)
 
 		fh.Sync()
+
+		logf("INFO", fmt.Sprintf("%s created successfully.", lf))
 
 	}
 
@@ -63,7 +80,7 @@ func putGame(g *Game) {
 	root := initStorage(dir)
 
 	f := filepath.Join(root, fmt.Sprintf(
-		"%s.%s.json", g.Away.Name, g.Home.Name))
+		GAME_FILE, g.Away.Name, g.Home.Name))
 
 	j, err := json.MarshalIndent(g, JSON_PREFIX, JSON_INDENT)
 
@@ -181,7 +198,7 @@ func putTeamRanks(ranks *AllRanks) {
 		}
 
 	} else {
-		logf("putTeamRanks", "Failed to store team ranks, nil teams.")
+		logf("putTeamRanks", "Failed to store empty team ranks.")
 	}
 
 } // putTeamRanks

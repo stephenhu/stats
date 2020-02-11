@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	//"log"
-	"net/http"
+	//"net/http"
 )
 
 type NbaRankStat struct {
@@ -129,6 +129,7 @@ type NbaGameData struct {
 	Date          string            `json:"homeStartDate"`
 	AwayScore			NbaTeamScore			`json:"vTeam"`
 	HomeScore			NbaTeamScore			`json:"hTeam"`
+	Plays         []NbaPlay					`json:"plays"`
 }
 
 type NbaBoxscore struct {
@@ -263,6 +264,7 @@ func convBoxscore(b *NbaBoxscore) *Game {
 	game.PubDate   	= b.PubDate
 	game.Away   		= convTeamScore(b.AwayScore)
 	game.Home   		= convTeamScore(b.HomeScore)
+	game.Plays      = convPlays(b.Plays)
 
 	convTeam(&b.Away, &game.Away)
 	convTeam(&b.Home, &game.Home)
@@ -304,7 +306,7 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 
 	scoreboard := NbaScoreboard{}
 
-	res, err := http.Get(ScoreboardApi(d))
+	res, err := client.Get(ScoreboardApi(d))
 
 	if err != nil {
 		logf("NbaGetScoreboard", err.Error())
@@ -371,7 +373,7 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 
 	for _, g := range s.Games {		
 		
-		res, err := http.Get(BoxscoreApi(g.Date, g.ID))
+		res, err := client.Get(BoxscoreApi(g.Date, g.ID))
 
 		if err != nil {
 			logf("NbaGetBoxscores", err.Error())
@@ -394,6 +396,14 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 				} else {
 					
 					box.Date = s.Date
+
+					plays := NbaGetPlays(box.Date, box.ID)
+
+					if plays != nil {
+						box.Plays = plays
+					}
+					
+
 					scores = append(scores, box)
 
 				}

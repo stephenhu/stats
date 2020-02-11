@@ -33,17 +33,23 @@ information.
 there's an ancillary set of data that also needs to be maintained such as
 player and team information.
 
-and more advanced data like play by play and sportsvu, etc data can also
-enhance analysis.
+and more advanced data like play by play, synergy, and sportsvu etc data can 
+also enhance analysis.
 
 gameid is different from espn and data.nba
 
+## normalization
+
+since there are different sources and these sources have different formats, it's
+important to normalize the data.
+
 ## crawler
 
-there needs to be a method to account for data download completion
+there needs to be a method to account for data download completion, for now, 
+let's make this single threaded and simple, messages will be printed out to
+console.
 
-
-## storage
+## persistent storage
 
 in general, the idea is to save all non-transient data to the filesystem as
 a set of normalized json files that can be redistributable or loaded into a 
@@ -69,6 +75,33 @@ nba
   teams
     teams.json
 ```
+
+## caching
+
+in general, all data should be placed into cache for highest performance.  the caching happens
+by crawling the filesystem.
+
+for transient information like game season stats and averages, data should be
+pulled into memory from the json files during startup.
+
+* do teams need to be cached per season or can there be a general teams map for all seasons?
+* same question for players, in general i think there should be a generic players map
+
+1. seattle supersonics -> oklahoma thunder
+1. charlotte hornets -> new orleans pelicans
+1. charlotte bobcats
+1. new jersey nets -> brooklyn nets
+1. vancouver grizzlies -> memphis grizzlies
+1. washington bullets -> washington wizards
+
+maps | key | value | objects estimated | notes
+--- | --- | --- | --- | ---
+players | steven.adams | PlayerInfo | 450+ | players names that are the same will cause conflict
+teams | 2019.clippers | TeamInfo | 30 |
+games | 20191022.atl.bos | Game | 82 x 30 = 2460/2 + playoffs (8*7 + 4*7 + 2*7 + 7 = 105)
+team season stats | 2019.atl | Stats | 30 |
+player season stats | 2019.steven.adams | Stats | 450 |
+play logs | 20191022.atl.bos | Playlog |  1230  + 105 = 1335 |
 
 ## analysis
 

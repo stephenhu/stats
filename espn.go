@@ -5,7 +5,7 @@ import (
 	//"encoding/json"
 	"fmt"
 	//"log"
-	"net/http"
+	//"net/http"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -341,7 +341,7 @@ func GetGames(gameIDs map[string] string) []Game {
 
 	for id, gameDate := range gameIDs {
 
-		res, err := http.Get(fmt.Sprintf("%s%s", ESPN_BOXSCORE_URL, id))
+		res, err := client.Get(fmt.Sprintf("%s%s", ESPN_BOXSCORE_URL, id))
 
 		if err != nil {
 			logf("GetGames", err.Error())

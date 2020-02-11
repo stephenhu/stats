@@ -11,14 +11,34 @@ type Season struct {
 	Games           []Game          `json:"games"`
 }
 
+type Play struct {
+	Clock							string					`json:"clock"`
+	Description				string					`json:"description"`
+	PersonID					string					`json:"personId"`
+	TeamID						string					`json:"teamId"`
+	Away         			int          		`json:"away"`
+	Home         			int          		`json:"home"`
+	EventType      		int          		`json:"eventType"`
+	ScoreChanged      bool            `json:"scoreChanged"`
+	Formatted					string					`json:"formatted"`	
+}
+
+type GameLog struct {
+	Date            string          `json:"date"`
+	PubDate					string					`json:"pubDate"`
+	GameID          string          `json:"gameId"`
+	Plays           []Play          `json:"plays"`
+}
+
 type Game struct {
 	ID              string          `json:"id"`
-	SeasonID        string          `json:"seasonId"`  // discard
+	SeasonID        string          `json:"seasonId"`  // discard?
 	Date            string          `json:"date"`
 	PubDate					string					`json:"pubDate"`
 	Source          string          `json:"source"`
 	Home						Team						`json:"home"`
 	Away						Team						`json:"away"`
+	Plays           []Play					`json:"plays"`
 }
 
 type Stats struct {

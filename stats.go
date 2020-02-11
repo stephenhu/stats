@@ -1,5 +1,10 @@
 package stats
 
+import(
+	"net/http"
+	"time"
+)
+
 const (
 	APP_NAME										= "stats"
 	APP_STORAGE                 = "nba"
@@ -24,6 +29,7 @@ const (
 	NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
 	NBA_API_PLAYERS								= "/%s/players.json"
 	NBA_API_PLAYER_PROFILE        = "/%s/players/%s_profile.json"
+	NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
 	NBA_API_TEAMS                 = "/%s/teams.json"
 	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"						
@@ -107,14 +113,28 @@ const (
 )
 
 const (
+	MAX_SEASON_END							= "0630"			// add buffer to be safe
+)
+
+const (
 	JSON_INDENT									= "  "
 	JSON_PREFIX									= ""
 )
 
 const (
+	GAME_FILE                 	= "%s.%s.json"
 	PLAYERS_DIR                 = "players"
-	PLAYERS_FILE								= "players.json"	
+	PLAYERS_FILE								= "players.json"
+	PLAYS_FILE                  = "%s.%s.plays.json"
 	TEAMS_DIR                   = "teams"
 	TEAMS_FILE                  = "teams.json"
 	TEAM_RANKS_FILE             = "team.ranks.json"
 )
+
+const (
+	HTTP_TIMEOUT                = 45			// seconds
+)
+
+var client = http.Client{
+	Timeout: HTTP_TIMEOUT * time.Second,
+}

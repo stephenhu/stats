@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	//"log"
-	"net/http"
+	//"net/http"
 )
 
 type NbaTeamRanks struct {
@@ -188,7 +188,7 @@ func NbaGetTeams(d string) *NbaTeams {
 
 	teams.SeasonID = d
 
-	res, err := http.Get(TeamsApi(d))
+	res, err := client.Get(TeamsApi(d))
 
 	if err != nil {
 		logf("NbaGetTeams", err.Error())
@@ -226,7 +226,7 @@ func NbaGetTeamRanks(d string) *NbaRanks {
 
 	ranks.SeasonID = d
 
-	res, err := http.Get(TeamRanksApi(d))
+	res, err := client.Get(TeamRanksApi(d))
 
 	if err != nil {
 		logf("NbaGetTeamRanks", err.Error())

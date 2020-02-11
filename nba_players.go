@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
+	//"net/http"
 )
 
 type NbaPlayerInfo struct {
@@ -234,7 +234,7 @@ func NbaGetPlayers(s string) *NbaLeaguePlayers {
 
 	lp := NbaLeaguePlayers{}
 
-	res, err := http.Get(PlayersApi(s))
+	res, err := client.Get(PlayersApi(s))
 
 	if err != nil {
 		logf("NbaGetPlayers", err.Error())
@@ -282,7 +282,7 @@ func NbaGetProfiles(s string, lp *NbaLeaguePlayers) []NbaPlayerProfile {
 
 			if p.Active {
 	
-				res, err := http.Get(PlayerProfileApi(s, p.ID))
+				res, err := client.Get(PlayerProfileApi(s, p.ID))
 	
 				if err != nil {
 					logf("NbaGetProfiles", err.Error())
