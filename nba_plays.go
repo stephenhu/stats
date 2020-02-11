@@ -61,15 +61,15 @@ func convPlays(plays []NbaPlay) []Play {
 } // convGameLog
 
 
-func PlaysApi(d string, gid string) string {
-
-	if d == "" || gid == "" {
+func PlaysApi(d string, gid string, period int) string {
+	
+	if d == "" || gid == "" || period < 1 {
 		return ""
 	}
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_PLAYS, d, gid, 1))
+		fmt.Sprintf(NBA_API_PLAYS, d, gid, period))
 
 } // PlaysApi
 
@@ -80,37 +80,43 @@ func NbaGetPlays(d string, gid string) []NbaPlay {
 		return nil
 	}
 
-	gl := NbaGameLog{}
+	all := []NbaPlay{}
 
-	res, err := client.Get(PlaysApi(d, gid))
+	// TODO: include overtime pbp
 
-	if err != nil {
-		logf("NbaGetPlays", err.Error())
-		return nil
-	} else {
-
-		defer res.Body.Close()
-
-		buf, err := ioutil.ReadAll(res.Body)
+	for period := 1; period < 5; period++ {
+	
+		res, err := client.Get(PlaysApi(d, gid, period))		
 
 		if err != nil {
 			logf("NbaGetPlays", err.Error())
 			return nil
 		} else {
 
-			err := json.Unmarshal(buf, &gl)
+			defer res.Body.Close()
+
+			buf, err := ioutil.ReadAll(res.Body)
 
 			if err != nil {
-				logf("NbaGetPlays", err.Error())
-				return nil
-			} else {								
+				logf("NbaGetPlays", err.Error())				
+			} else {
 
-				return gl.Plays
+				quarter := NbaGameLog{}
+
+				err := json.Unmarshal(buf, &quarter)
+
+				if err != nil {
+					logf("NbaGetPlays", err.Error())					
+				} else {										
+					all = append(all, quarter.Plays...)					
+				}
 
 			}
-
+					
 		}
-				
+
 	}
+
+	return all
 
 } // NbaGetPlays
