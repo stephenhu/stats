@@ -11,4 +11,5 @@ defined as `isActive` or to check if the `teamId` is an NBA team
 flag called `isNBAFranchise` to identify the nba teams
 * 2015, 2016 do not have the IsActive flag for players, will need to
 filter based on team data
-* 
+* player info is relative to a season, data is very inconsistent across seasons, an example is 2015 denzel valentine is missing a lot of fields, there's also a field for years which gets incremented after each season.  i think the best thing to do is to keep player info per season.
+* for some reason 2016 player data team id has 2 values delimited by space, it's the same 2 team id's, something tells me the nba is messing around with this data to make it harder to parse the data.  so many data inconsistencies, this makes it even more important to gather and normalize this data.

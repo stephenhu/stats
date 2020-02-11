@@ -120,8 +120,10 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 
 		for _, p := range lp.Players {
 
-			_, ok := official_teams[p.TeamID]
-			
+			tid := filterId(p.TeamID)
+
+			_, ok := official_teams[tid]
+
 			if ok {
 
 				pi := PlayerInfo{}
@@ -129,7 +131,7 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 				pi.ID							= p.ID
 				pi.First					= p.First
 				pi.Last						= p.Last
-				pi.TeamID					= p.TeamID
+				pi.TeamID					= tid
 				pi.Jersey					= p.Jersey
 				pi.Position				= p.Position
 				pi.Feet						= atoi(p.Feet)

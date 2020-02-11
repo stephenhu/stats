@@ -259,6 +259,25 @@ func mtoi(s string) (int, int) {
 } // mtoi
 
 
+func filterId(id string) string {
+
+	if id == STRING_EMPTY {
+		return STRING_EMPTY
+	}
+
+	if strings.Contains(id, STRING_SPACE) {
+
+		toks := strings.Split(id, STRING_SPACE)
+
+		return strings.TrimSpace(toks[0])
+
+	} else {
+		return id
+	}
+
+} // filterId
+
+
 func StringUrlJoin(base string, p string) (string, error) {
 
 	u, err := url.Parse(base)

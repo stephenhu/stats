@@ -70,112 +70,6 @@ func loadFile(f string) []byte {
 } // loadFile
 
 
-func mergeTeams(teams *AllTeams, f string) {
-
-	buf := loadFile(f)
-
-	if buf == nil {
-		logf("mergeTeams", fmt.Sprintf("Unable to load %s", f))
-	} else {
-
-		oldTeams := AllTeams{}
-
-		err := json.Unmarshal(buf, &oldTeams)
-
-		if err != nil {
-			logf("mergeTeams", err.Error())
-		} else {
-
-			newTeams := []TeamInfo{}
-
-			for _, nt := range teams.Teams {
-
-				found := false
-
-				for _, ot := range oldTeams.Teams {
-
-					if nt.ID == ot.ID {
-						found = true
-					}
-
-				}
-
-				if !found {
-					newTeams = append(newTeams, nt)
-				}
-
-			}
-
-			oldTeams.Teams = append(oldTeams.Teams, newTeams...)
-
-			j, err := json.MarshalIndent(oldTeams, JSON_PREFIX, JSON_INDENT)
-
-			if err != nil {
-				logf("mergeTeams", err.Error())
-			} else {
-				put(f, j)
-			}
-
-		}
-
-	}
-
-} // mergeTeams
-
-
-func mergePlayers(players *AllPlayers, f string) {
-
-	buf := loadFile(f)
-
-	if buf == nil {
-		logf("mergePlayers", fmt.Sprintf("Unable to load %s", f))
-	} else {
-
-		oldPlayers := AllPlayers{}
-
-		err := json.Unmarshal(buf, &oldPlayers)
-
-		if err != nil {
-			logf("mergePlayers", err.Error())
-		} else {
-
-			newPlayers := []PlayerInfo{}
-
-			for _, np := range players.Players {
-
-				found := false
-
-				for _, op := range oldPlayers.Players {
-
-					if np.ID == op.ID {
-						found = true
-					}
-
-				}
-
-				if !found {
-					newPlayers = append(newPlayers, np)
-				}
-
-			}
-
-			oldPlayers.Players = append(oldPlayers.Players, newPlayers...)
-
-			j, err := json.MarshalIndent(oldPlayers, JSON_PREFIX, JSON_INDENT)
-
-			if err != nil {
-				logf("mergePlayers", err.Error())
-			} else {
-				put(f, j)
-			}
-
-		}
-
-	}
-
-} // mergePlayers
-
-
 func put(f string, buf []byte) {
 	
 	lf := strings.ToLower(f)
@@ -223,22 +117,16 @@ func putPlayers(all *AllPlayers) {
 
 	if all != nil {
 
-		root := initStorage("")
+		root := initStorage(all.SeasonID)
 		
 		f := filepath.Join(root, PLAYERS_FILE)
 
-		if fileExists(f) {
-			mergePlayers(all, f)
+		j, err := json.MarshalIndent(all, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("putPlayers", err.Error())
 		} else {
-
-			j, err := json.MarshalIndent(all, JSON_PREFIX, JSON_INDENT)
-
-			if err != nil {
-				logf("putPlayers", err.Error())
-			} else {
-				put(f, j)
-			}
-	
+			put(f, j)
 		}
 
 	} else {
@@ -276,16 +164,11 @@ func putTeams(teams *AllTeams) {
 
 	if teams == nil {
 		logf("putTeams", "Unable to store empty teams")
-		return
-	}
-
-	root := initStorage("")
-
-	f := filepath.Join(root, TEAMS_FILE)
-
-	if fileExists(f) {
-		mergeTeams(teams, f)
 	} else {
+
+		root := initStorage(teams.SeasonID)
+
+		f := filepath.Join(root, TEAMS_FILE)
 
 		j, err := json.MarshalIndent(teams, JSON_PREFIX, JSON_INDENT)
 

@@ -61,6 +61,7 @@ const (
 	STRING_EQUAL                = "="
 	STRING_MINUS                = "-"
 	STRING_NA                   = "--"
+	STRING_SPACE                = " "
 	STRING_ZERO                 = "0"
 	STRING_ZERO_FLOAT           = "0.0"
 )
