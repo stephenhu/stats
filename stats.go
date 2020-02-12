@@ -115,6 +115,7 @@ const (
 
 const (
 	MAX_SEASON_END							= "0630"			// add buffer to be safe
+	MAX_PERIODS                 = 10					// 6 overtimes
 )
 
 const (

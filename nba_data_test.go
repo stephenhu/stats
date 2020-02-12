@@ -55,6 +55,18 @@ func TestNbaStoreDay(t *testing.T) {
 } // TestNbaStoreDay
 
 
+func TestNbaStoreDayWithOvertime(t *testing.T) {
+	NbaStoreDay("20190504")
+	// TODO: check directory for files
+} // TestNbaStoreDayWithOvertime
+
+
+func TestNbaStoreDayNoGames(t *testing.T) {
+	//NbaStoreDay("20151113")
+	// TODO: check directory for files
+} // TestNbaStoreDayNoGames
+
+
 func TestNbaStoreFromDay(t *testing.T) {
 	NbaStoreFromDay("20200201")
 } // TestNbaStoreFromDay

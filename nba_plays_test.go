@@ -5,16 +5,26 @@ import (
 )
 
 
-func TestNbaStorePlays(t *testing.T) {
+func TestNbaGetPlays(t *testing.T) {
 
-	plays := NbaGetPlays("20190206", "0021800804")
+	plays := NbaGetGamePlays("20190206", "0021800804", 4)
 
 	if plays == nil {
 		t.Error("Plays are nil")
 	} else {
-
 		t.Logf("%+v", plays)
-
 	}
 
-} // TestNbaStorePlays
+} // TestNbaGetPlays
+
+func TestNbaGetPlaysWithOvertime(t *testing.T) {
+
+	plays := NbaGetGamePlays("20190504", "0041800223", 5)
+
+	if plays == nil {
+		t.Error("Plays are nil")
+	} else {
+		t.Log(plays)
+	}
+
+} // TestNbaGetPlaysWithOvertime

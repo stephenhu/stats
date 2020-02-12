@@ -397,13 +397,13 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 					
 					box.Date = s.Date
 
-					plays := NbaGetPlays(box.Date, box.ID)
+					plays := NbaGetGamePlays(box.Date, box.ID,
+						len(box.AwayScore.Periods))
 
 					if plays != nil {
 						box.Plays = plays
 					}
 					
-
 					scores = append(scores, box)
 
 				}

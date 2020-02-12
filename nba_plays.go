@@ -74,49 +74,64 @@ func PlaysApi(d string, gid string, period int) string {
 } // PlaysApi
 
 
-func NbaGetPlays(d string, gid string) []NbaPlay {
+func NbaGetPeriodPlays(d string, gid string, period int) []NbaPlay {
 
-	if d == "" || gid == "" {
+	if d == "" || gid == "" || period < 1 || period > MAX_PERIODS {
+		return nil
+	}
+
+	res, err := client.Get(PlaysApi(d, gid, period))		
+
+	if err != nil {
+		logf("NbaGetPeriodPlays", err.Error())
+		return nil
+	} else {
+
+		defer res.Body.Close()		
+
+		buf, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			logf("NbaGetPeriodPlays", err.Error())
+			return nil
+		} else {
+
+			gl := NbaGameLog{}
+
+			err := json.Unmarshal(buf, &gl)
+
+			if err != nil {
+				logf("NbaGetPeriodPlays", err.Error())
+				return nil
+			} else {					
+				return gl.Plays
+			}
+
+		}
+
+	}
+
+} // NbaGetPeriodPlays
+
+
+func NbaGetGamePlays(d string, gid string, periods int) []NbaPlay {
+
+	if d == "" || gid == "" || periods < 4 || periods > MAX_PERIODS {
 		return nil
 	}
 
 	all := []NbaPlay{}
 
-	// TODO: include overtime pbp
-
-	for period := 1; period < 5; period++ {
-	
-		res, err := client.Get(PlaysApi(d, gid, period))		
-
-		if err != nil {
-			logf("NbaGetPlays", err.Error())
-			return nil
-		} else {
-
-			defer res.Body.Close()
-
-			buf, err := ioutil.ReadAll(res.Body)
-
-			if err != nil {
-				logf("NbaGetPlays", err.Error())				
-			} else {
-
-				quarter := NbaGameLog{}
-
-				err := json.Unmarshal(buf, &quarter)
-
-				if err != nil {
-					logf("NbaGetPlays", err.Error())					
-				} else {										
-					all = append(all, quarter.Plays...)					
-				}
-
-			}
-					
+	for p := 1; p <= periods; p++ {
+		
+		period := NbaGetPeriodPlays(d, gid, p)
+		
+		if period != nil {
+			all = append(all, period...)
 		}
 
 	}
 
 	return all
 
-} // NbaGetPlays
+} // NbaGetGamePlays

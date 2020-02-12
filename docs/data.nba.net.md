@@ -13,3 +13,4 @@ flag called `isNBAFranchise` to identify the nba teams
 filter based on team data
 * player info is relative to a season, data is very inconsistent across seasons, an example is 2015 denzel valentine is missing a lot of fields, there's also a field for years which gets incremented after each season.  i think the best thing to do is to keep player info per season.
 * for some reason 2016 player data team id has 2 values delimited by space, it's the same 2 team id's, something tells me the nba is messing around with this data to make it harder to parse the data.  so many data inconsistencies, this makes it even more important to gather and normalize this data.
+* the pbp api is strange in that you're getting a quarter's worth of data, there's no index for how many periods so you need
