@@ -10,13 +10,29 @@ func NbaStoreAll(s string) {
 		players := NbaGetPlayers(s)
 
 		if players != nil {
+			
 			NbaStorePlayers(players)
+
+			profiles := NbaGetProfiles(s, players)
+
+			if profiles != nil {
+				NbaStoreProfiles(profiles)
+			}
+
 		}
 
 		teams := NbaGetTeams(s)
 		
 		if teams != nil {
+			
 			NbaStoreTeams(teams)
+
+			ranks := NbaGetTeamRanks(s)
+
+			if ranks != nil {
+				NbaStoreTeamRanks(ranks)
+			}
+
 		}
 		
 		NbaStoreSeason(s)

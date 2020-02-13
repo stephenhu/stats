@@ -133,6 +133,13 @@ const (
 	TEAM_RANKS_FILE             = "team.ranks.json"
 )
 
+const (	
+	DOWNLOAD_PROFILE_BIRD_ERA         = "bird.era"					// 1978
+	DOWNLOAD_PROFILE_MODERN_ERA				= "modern.era"				// 1979
+	DOWNLOAD_PROFILE_RELATIVE_ERA     = "relative.era" 			// 1998
+	DOWNLOAD_PROFILE_SIMPLE_ERA				= "simple.era"				// 2015
+)
+
 const (
 	HTTP_TIMEOUT                = 45			// seconds
 )

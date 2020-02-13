@@ -211,13 +211,13 @@ func NbaGetTeams(d string) *NbaTeams {
 } // NbaGetTeams
 
 
-func NbaGetTeamRanks(d string) *NbaRanks {
+func NbaGetTeamRanks(s string) *NbaRanks {
 
 	ranks := NbaRanks{}
 
-	ranks.SeasonID = d
+	ranks.SeasonID = s
 
-	res, err := client.Get(TeamRanksApi(d))
+	res, err := client.Get(TeamRanksApi(s))
 
 	if err != nil {
 		logf("NbaGetTeamRanks", err.Error())
