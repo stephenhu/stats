@@ -78,39 +78,30 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 
 		for _, rank := range ranks.Teams {
 
-			tr := TeamRanks{}
+			_, ok := official_teams[rank.ID]
 
-			tr.ID												= rank.ID
-			tr.Minutes.Average					= rank.Minutes.Average
-			tr.Minutes.Rank							= atoi(rank.Minutes.Rank)
-			tr.Fgp.Average							= rank.Fgp.Average
-			tr.Fgp.Rank									= atoi(rank.Fgp.Rank)
-			tr.Fg3p.Average							= rank.Fg3p.Average
-			tr.Fg3p.Rank								= atoi(rank.Fg3p.Rank)
-			tr.Ftp.Average							= rank.Ftp.Average
-			tr.Ftp.Rank									= atoi(rank.Ftp.Rank)
-			tr.Oreb.Average							= rank.Oreb.Average
-			tr.Oreb.Rank								= atoi(rank.Oreb.Rank)
-			tr.Dreb.Average							= rank.Dreb.Average
-			tr.Dreb.Rank								= atoi(rank.Dreb.Rank)
-			tr.Treb.Average							= rank.Treb.Average
-			tr.Treb.Rank								= atoi(rank.Treb.Rank)
-			tr.Assists.Average					= rank.Assists.Average
-			tr.Assists.Rank							= atoi(rank.Assists.Rank)
-			tr.Turnovers.Average				= rank.Turnovers.Average
-			tr.Turnovers.Rank						= atoi(rank.Turnovers.Rank)
-			tr.Steals.Average						= rank.Steals.Average
-			tr.Steals.Rank							= atoi(rank.Steals.Rank)
-			tr.Blocks.Average						= rank.Blocks.Average
-			tr.Blocks.Rank							= atoi(rank.Blocks.Rank)
-			tr.Points.Average						= rank.Points.Average
-			tr.Points.Rank							= atoi(rank.Points.Rank)
-			tr.OpponentPoints.Average		= rank.OpponentPoints.Average
-			tr.OpponentPoints.Rank			= atoi(rank.OpponentPoints.Rank)
-			tr.Efficiency.Average       = rank.Efficiency.Average
-			tr.Efficiency.Rank					= atoi(rank.Efficiency.Rank)
+			if ok {
 
-			all.Teams = append(all.Teams, tr)
+				tr := TeamRanks{}
+
+				tr.ID								= rank.ID
+				tr.Fgp							= atof(rank.Fgp.Average)
+				tr.Fg3p							= atof(rank.Fg3p.Average)
+				tr.Ftp							= atof(rank.Ftp.Average)
+				tr.Oreb							= atof(rank.Oreb.Average)
+				tr.Dreb							= atof(rank.Dreb.Average)
+				tr.Treb							= atof(rank.Treb.Average)
+				tr.Assists					= atof(rank.Assists.Average)
+				tr.Turnovers				= atof(rank.Turnovers.Average)
+				tr.Steals						= atof(rank.Steals.Average)
+				tr.Blocks						= atof(rank.Blocks.Average)
+				tr.Points						= atof(rank.Points.Average)
+				tr.OpponentPoints		= atof(rank.OpponentPoints.Average)
+				tr.Efficiency       = atof(rank.Efficiency.Average)
+
+				all.Teams = append(all.Teams, tr)
+
+			}
 
 		}
 

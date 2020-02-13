@@ -36,6 +36,24 @@ func atoi(s string) int {
 } // atoi
 
 
+func atof(s string) float32 {
+
+	if s == STRING_EMPTY {
+		return 0.0
+	}
+
+	val, err := strconv.ParseFloat(s, BITS32)
+
+	if err != nil {
+		logf("atof", fmt.Sprintf("Field: %s, %s", s, err.Error()))
+		return 0.0
+	} else {		
+		return float32(val)		
+	}
+
+} // atof
+
+
 func seasonKey(t time.Time, current bool) string {
 
 	if current {

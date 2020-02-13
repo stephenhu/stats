@@ -82,16 +82,16 @@ type AdvStats struct {
 	Played						int						`json:"played"`
 	Started						int						`json:"started"`
 	PlusMinus					int						`json:"plusMinus"`
-	Ppg								string				`json:"ppg"`			// points per game
-	Rpg								string				`json:"rpg"`			// rebounds per game
-	Apg								string				`json:"apg"`			// assists per game
-	Mpg								string				`json:"mpg"`			// minutes per game
-	Topg							string				`json:"tpg"`			// turnovers per game
-	Spg								string				`json:"spg"`			// steals per game
-	Bpg								string				`json:"bpg"`			// blocks per game
-	Fgp								string				`json:"fgp"`			// fg %
-	Fg3p							string				`json:"fg3p"`			// three point %
-	Ftp								string				`json:"ftp"`			// free throw %
+	Ppg								float32				`json:"ppg"`			// points per game
+	Rpg								float32				`json:"rpg"`			// rebounds per game
+	Apg								float32				`json:"apg"`			// assists per game
+	Mpg								float32				`json:"mpg"`			// minutes per game
+	Topg							float32				`json:"tpg"`			// turnovers per game
+	Spg								float32				`json:"spg"`			// steals per game
+	Bpg								float32				`json:"bpg"`			// blocks per game
+	Fgp								float32				`json:"fgp"`			// fg %
+	Fg3p							float32				`json:"fg3p"`			// three point %
+	Ftp								float32				`json:"ftp"`			// free throw %
 }
 
 type Player struct {
@@ -130,22 +130,28 @@ type SeasonStats struct {
 	Summary       AdvStats      `json:"summary"`
 }
 
+type TeamSeasonStats struct {
+	Name              string    `json:"name"`
+	AdvStats
+	OpponentPoints		int				`json:"opponentPoints"`
+	Efficiency				string		`json:"efficiency"`
+}
+
 type TeamRanks struct {
 	ID								string						`json:"id"`
-	Minutes						RankStat					`json:"minutes"`
-	Fgp								RankStat					`json:"fgp"`
-	Fg3p							RankStat					`json:"fg3p"`
-	Ftp								RankStat					`json:"ftp"`
-	Oreb							RankStat					`json:"oreb"`
-	Dreb							RankStat					`json:"dreb"`
-	Treb							RankStat					`json:"treb"`
-	Assists						RankStat					`json:"assists"`
-	Turnovers					RankStat					`json:"turnovers"`
-	Steals						RankStat					`json:"steals"`
-	Blocks						RankStat					`json:"blocks"`
-	Points						RankStat					`json:"points"`
-	OpponentPoints		RankStat					`json:"opponentPoints"`
-	Efficiency				RankStat					`json:"efficiency"`
+	Fgp								float32						`json:"fgp"`
+	Fg3p							float32						`json:"fg3p"`
+	Ftp								float32						`json:"ftp"`
+	Oreb							float32						`json:"oreb"`
+	Dreb							float32						`json:"dreb"`
+	Treb							float32						`json:"treb"`
+	Assists						float32						`json:"assists"`
+	Turnovers					float32						`json:"turnovers"`
+	Steals						float32						`json:"steals"`
+	Blocks						float32						`json:"blocks"`
+	Points						float32						`json:"points"`
+	OpponentPoints		float32						`json:"opponentPoints"`
+	Efficiency				float32						`json:"efficiency"`
 }
 
 type PlayerCareer struct {

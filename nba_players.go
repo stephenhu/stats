@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
+	//"log"
 	//"net/http"
 )
 
@@ -95,16 +95,16 @@ func copyAdvStats(src *NbaAdvStats, dst *AdvStats) {
 	dst.Played     		= atoi(src.Played)
 	dst.Started     	= atoi(src.Started)
 	dst.PlusMinus   	= atoi(src.PlusMinus)
-	dst.Ppg     			= src.Ppg
-	dst.Rpg     			= src.Rpg
-	dst.Apg     			= src.Apg
-	dst.Mpg     			= src.Mpg
-	dst.Topg     			= src.Topg
-	dst.Spg     			= src.Spg
-	dst.Bpg     			= src.Bpg
-	dst.Fgp     			= src.Fgp
-	dst.Fg3p     			= src.Fg3p
-	dst.Ftp     			= src.Ftp
+	dst.Ppg     			= atof(src.Ppg)
+	dst.Rpg     			= atof(src.Rpg)
+	dst.Apg     			= atof(src.Apg)
+	dst.Mpg     			= atof(src.Mpg)
+	dst.Topg     			= atof(src.Topg)
+	dst.Spg     			= atof(src.Spg)
+	dst.Bpg     			= atof(src.Bpg)
+	dst.Fgp     			= atof(src.Fgp)
+	dst.Fg3p     			= atof(src.Fg3p)
+	dst.Ftp     			= atof(src.Ftp)
 
 } // copyAdvStats
 
@@ -185,8 +185,6 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 
 		copyAdvStats(&player.Total, &ss.Summary)
 
-		log.Printf("%+v", ss.Summary)
-
 		for _, team := range player.Teams {
 
 			as := AdvStats{}
@@ -196,6 +194,8 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 			ss.Teams = append(ss.Teams, as)
 
 		}
+
+		career.Seasons = append(career.Seasons, ss)
 
 	}
 

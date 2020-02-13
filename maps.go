@@ -10,7 +10,8 @@ import (
 )
 
 
-var teams_map = map[string] TeamInfo {}
+var teams_map 				= map[string] TeamInfo {}					// team list
+var team_stats_map		= map[string] TeamSeasonStats{}		// team season stats
 
 
 func teamKey(s string, id string) string {
