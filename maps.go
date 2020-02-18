@@ -1,21 +1,19 @@
 package stats
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
-	"path/filepath"
+	//"path/filepath"
 	//"strings"
 )
 
-
-var teams_map 				= map[string] TeamInfo {}					// team list
-var team_stats_map		= map[string] TeamSeasonStats{}		// team season stats
+var seasons_map				= map[string] Season{}						// seasons
+//var teams_map 				= map[string] TeamInfo {}					// team list
+//var team_stats_map		= map[string] TeamSeasonStats{}		// team season stats
 
 
 func teamKey(s string, id string) string {
-	return fmt.Sprintf("teams.%s.%s", s, id)
+	return fmt.Sprintf("%s.%s", s, id)
 } // teamKey
 
 
@@ -42,45 +40,40 @@ func loadSeasons() []string {
 } // loadSeasons
 
 
-func LoadTeams() bool {
-
+func LoadTeams() {
+/*
 	seasons := loadSeasons()
 
 	for _, season := range seasons {
 
 		p := filepath.Join(APP_STORAGE, season, TEAMS_FILE)
 
-		buf, err := ioutil.ReadFile(p)
+		buf := loadFile(p)
+
+		teams := AllTeams{}
+
+		err := json.Unmarshal(buf, &teams)
 
 		if err != nil {
 			logf("LoadTeams", err.Error())
 		} else {
 
-			teams := AllTeams{}
-
-			err := json.Unmarshal(buf, &teams)
-
-			if err != nil {
-				logf("LoadTeams", err.Error())
-			} else {
-
-				for _, t := range teams.Teams {
-					teams_map[teamKey(season, t.ID)] = t
-				}
-				
+			for _, t := range teams.Teams {
+				teams_map[teamKey(season, t.ID)] = t
 			}
-
+			
 		}
 		
 	}
-
-	return true
-
+*/
 } // LoadTeams
 
 
-func LoadGames() bool {
-	return false
+func LoadTeamStats() {
+} // LoadTeamStats
+
+
+func LoadGames() {
 } // LoadGames
 
 

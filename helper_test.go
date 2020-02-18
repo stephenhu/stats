@@ -41,7 +41,7 @@ func TestGetDaysNow(t *testing.T) {
 	days := getDays(d)
 
 	t.Log(days)
-	
+
 	if len(days) == 0 {
 		t.Error("Days should not be empty.")
 	}
@@ -54,13 +54,12 @@ func TestGetDaysCurrentSeason(t *testing.T) {
 	days := getDays("20191022")
 
 	t.Log(days)
-	
+
 	if len(days) == 0 {
 		t.Error("Days should not be empty.")
 	}
 
 } // TestGetDaysCurrentSeason
-
 
 
 func TestGetDaysFuture(t *testing.T) {
@@ -82,3 +81,50 @@ func TestGetDaysFuture(t *testing.T) {
 } // TestGetDaysFuture
 
 
+func TestGetYearsFrom(t *testing.T) {
+
+	years := getYearsFrom("2015")
+
+	if years == nil {
+		t.Error("Years are nil")
+	} else {
+
+		for _, y := range years {
+
+			_, ok := official_seasons[y]
+
+			if !ok {
+				t.Errorf("%s non-official season", y)
+			}
+
+		}
+
+	}
+
+} // TestGetYearsFrom
+
+
+func TestGetEstNow(t *testing.T) {
+
+	now := GetEstNow()
+
+	if now == nil {
+		t.Error("Return nil")
+	}
+
+	t.Log(now)
+
+} // TestGetEstNow
+
+
+func TestLatestScoreboardDate(t *testing.T) {
+
+  d := LatestScoreboardDate()
+
+	if d == "" {
+		t.Error("Empty date returned")
+	}
+
+	t.Log(d)
+
+} // TestLatestScoreboardDate

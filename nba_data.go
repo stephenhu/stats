@@ -25,7 +25,7 @@ type NbaAdvStats struct {
 	Oreb							string				`json:"offReb"`
 	Dreb							string				`json:"defReb"`
 	Treb							string				`json:"totReb"`
-	Assists						string				`json:"assists"`	
+	Assists						string				`json:"assists"`
 	Turnovers					string				`json:"turnovers"`
 	Steals						string				`json:"steals"`
 	Blocks						string				`json:"blocks"`
@@ -101,8 +101,8 @@ type NbaTeam struct {
 	NbaTeamData				`json:"totals"`
 }
 
-type NbaTeamStats struct {	
-	ShortName     string        		`json:"triCode"`	
+type NbaTeamStats struct {
+	ShortName     string        		`json:"triCode"`
 	Players				[]NbaPlayerData   `json:"activePlayers"`
 }
 
@@ -142,6 +142,7 @@ type NbaGame struct {
 	ID        		string        `json:"gameId"`
 	SeasonID			string				`json:"seasonYear"`
 	Date          string        `json:"startDateEastern"`
+	EndDateUTC    string        `json:"endTimeUTC"`
 	Away          NbaTeamScore  `json:"away"`
 	Home          NbaTeamScore  `json:"home"`
 }
@@ -270,7 +271,7 @@ func convBoxscore(b *NbaBoxscore) *Game {
 	convTeam(&b.Home, &game.Home)
 
 	convPlayers(b.Players, &game)
-	
+
 	return &game
 
 } // convBoxscore
@@ -300,6 +301,42 @@ func BoxscoreApi(d string, gid string) string {
 		fmt.Sprintf(NBA_API_BOXSCORE, d, gid))
 
 } // BoxscoreApi
+
+
+func NbaGetLatestScoreboard() *NbaScoreboard {
+
+	d := LatestScoreboardDate()
+
+	if d == "" {
+		logf("NbaGetLatestScoreboard", "Latest date incorrect")
+		return nil
+	} else {
+
+		dn := d
+
+		count := 0
+
+		var res *NbaScoreboard
+
+		for {
+
+			s := NbaGetScoreboard(dn)
+
+			if s == nil || len(s.Games) == 0 || count == SCOREBOARD_MAX_RETRY {
+				dn = moveDay(dn, -1)
+				count = count + 1
+			} else {
+				res = s
+				break
+			}
+
+		}
+
+		return res
+
+	}
+
+} // NbaGetLatestScoreboard
 
 
 func NbaGetScoreboard(d string) *NbaScoreboard {
@@ -336,7 +373,7 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 			}
 
 		}
-				
+
 	}
 
 } // NbaGetScoreboard
@@ -352,10 +389,10 @@ func NbaGetScoreboardFrom(d string) []NbaScoreboard {
 
 		s := NbaGetScoreboard(day)
 
-		if s != nil {						
-			all = append(all, *s)			
+		if s != nil {
+			all = append(all, *s)
 		}
-		
+
 	}
 
 	return all
@@ -371,8 +408,8 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 		return nil
 	}
 
-	for _, g := range s.Games {		
-		
+	for _, g := range s.Games {
+
 		res, err := client.Get(BoxscoreApi(g.Date, g.ID))
 
 		if err != nil {
@@ -394,7 +431,7 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 				if err != nil {
 					logf("NbaGetBoxscores", err.Error())
 				} else {
-					
+
 					box.Date = s.Date
 
 					plays := NbaGetGamePlays(box.Date, box.ID,
@@ -403,7 +440,7 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 					if plays != nil {
 						box.Plays = plays
 					}
-					
+
 					scores = append(scores, box)
 
 				}
@@ -415,7 +452,7 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 	}
 
 	return scores
-	
+
 } // NbaGetBoxscores
 
 
@@ -428,21 +465,21 @@ func NbaStoreDay(d string) {
 	} else {
 
 		scores := NbaGetBoxscores(s)
-	
+
 		if len(scores) == 0 {
 			logf("NbaStoreDay", fmt.Sprintf("No scores found for %s", d))
 		} else {
-	
+
 			for _, b := range scores {
-	
+
 				game := convBoxscore(&b)
-	
-				putGame(game)				
-	
+
+				putGame(game)
+
 			}
-	
+
 		}
-	
+
 	}
 
 } // NbaStoreDay

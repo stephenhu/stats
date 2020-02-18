@@ -17,7 +17,7 @@ func fileExists(f string) bool {
 
 	if err != nil {
 		
-		logf("fileExists", err.Error())
+		//logf("fileExists", err.Error())
 
 		if os.IsNotExist(err) {
 			return false

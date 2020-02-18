@@ -12,7 +12,7 @@ const (
 )
 
 const (
-	ESPN_BASE_URL               = `https://www.espn.com`	
+	ESPN_BASE_URL               = `https://www.espn.com`
 	ESPN_SCOREBOARD_URL					= `https://espn.com/nba/scoreboard`
 	ESPN_SCOREBOARD_DATE_URL		= `https://espn.com/nba/scoreboard/_/date/%s`
 	ESPN_BOXSCORE_URL           = `https://www.espn.com/nba/boxscore?gameId=`
@@ -32,7 +32,7 @@ const (
 	NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
 	NBA_API_TEAMS                 = "/%s/teams.json"
-	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"						
+	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"
 )
 
 const (
@@ -74,7 +74,7 @@ const (
 
 const (
 	INDEX_MADE                  = 0
-	INDEX_ATTEMPTS							= 1	
+	INDEX_ATTEMPTS							= 1
 	INDEX_SPAN_NAME             = 0
 	INDEX_SPAN_NAME_ABBR        = 1
 	INDEX_SPAN_POSITION         = 2
@@ -109,8 +109,16 @@ const (
 )
 
 const (
+	EST_FORMAT									= "20060102 3:04 PM MST"
 	DATE_FORMAT                 = "20060102"
 	YEAR_FORMAT                 = "2006"
+	EST													= "EST"			// Eastern Standard Time
+)
+
+const (
+	START_TIME_WEEKDAY          = 17
+	START_TIME_WEEKEND          = 15
+	SCOREBOARD_MAX_RETRY        = 5
 )
 
 const (
@@ -133,11 +141,11 @@ const (
 	TEAM_RANKS_FILE             = "team.ranks.json"
 )
 
-const (	
-	DOWNLOAD_PROFILE_BIRD_ERA         = "bird.era"					// 1978
-	DOWNLOAD_PROFILE_MODERN_ERA				= "modern.era"				// 1979
-	DOWNLOAD_PROFILE_RELATIVE_ERA     = "relative.era" 			// 1998
-	DOWNLOAD_PROFILE_SIMPLE_ERA				= "simple.era"				// 2015
+const (
+	PROFILE_BIRD_ERA         		= "bird.era"					// 1978
+	PROFILE_MODERN_ERA					= "modern.era"				// 1979
+	PROFILE_RELATIVE_ERA     		= "relative.era" 			// 1998
+	PROFILE_SIMPLE_ERA					= "simple.era"				// 2015
 )
 
 const (

@@ -6,9 +6,9 @@ type RankStat struct {
 }
 
 type Season struct {
-	ID              string          `json:"id"`
-	Name						string					`json:"name"`
-	Games           []Game          `json:"games"`
+	ID              string          		`json:"id"`
+	Name						string							`json:"name"`
+	Games           map[string]Game     `json:"games"`
 }
 
 type Play struct {

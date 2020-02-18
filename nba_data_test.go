@@ -75,3 +75,14 @@ func TestNbaStoreFromDay(t *testing.T) {
 func TestNbaStoreSeason(t *testing.T) {
 	NbaStoreSeason("2019")
 } // TestNbaStoreSeason
+
+
+func TestNbaGetLatestScoreboard(t *testing.T) {
+
+	s := NbaGetLatestScoreboard()
+
+	if s == nil {
+		t.Error("no scoreboard")
+	}
+
+} // TestNbaGetLatestScoreboard

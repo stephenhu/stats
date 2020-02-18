@@ -16,3 +16,4 @@ filter based on team data
 * the pbp api is strange in that you're getting a quarter's worth of data, there's no index for how many periods so you need parse this from the boxscore or you can
 keep incrementing the period until you get a plays array equal to 0, but that
 wastes an http request.
+* uber_stats don't seem to work
