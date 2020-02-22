@@ -5,9 +5,9 @@ import (
 )
 
 
-func TestLoadSeasons(t *testing.T) {
+func TestFindSeasons(t *testing.T) {
 
-	seasons := loadSeasons()
+	seasons := findSeasons()
 
 	t.Log(seasons)
 
@@ -15,12 +15,23 @@ func TestLoadSeasons(t *testing.T) {
 		t.Error("Seasons should not be empty.")
 	}
 
-} // TestLoadSeasons
+} // TestFindSeasons
+
+
+func TestLoadCache(t *testing.T) {
+
+	LoadCache()
+
+	LastPlayerGames(5, "Kawhi Leonard")
+	//t.Log(SeasonsMap)
+
+} // TestLoadCache
 
 
 func TestLoadTeams(t *testing.T) {
 
 	LoadTeams()
+
 /*
 	t.Log(teams_map)
 

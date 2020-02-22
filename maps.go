@@ -1,15 +1,22 @@
 package stats
 
 import (
+	"encoding/json"
 	"fmt"
+	//"log"
 	"os"
-	//"path/filepath"
+	"path/filepath"
 	//"strings"
 )
 
-var seasons_map				= map[string] Season{}						// seasons
-//var teams_map 				= map[string] TeamInfo {}					// team list
-//var team_stats_map		= map[string] TeamSeasonStats{}		// team season stats
+var GamesMap					= map[string] []Game{}
+var TeamInfoMap 			= map[string] TeamInfo{}
+
+// player name, date
+var PlayersMap  			= map[string] map[string]Player{}
+
+// team name, date
+var TeamsMap          = map[string] map[string]Team{}
 
 
 func teamKey(s string, id string) string {
@@ -17,72 +24,113 @@ func teamKey(s string, id string) string {
 } // teamKey
 
 
-func loadSeasons() []string {
+func gameKey(d string, away string, home string) string {
+	return fmt.Sprintf("%s.%s.%s", d, away, home)
+} // gameKey
 
-	f, err := os.Open(APP_STORAGE)
 
-	if err != nil {
-		logf("loadSeasons", err.Error())
-		return []string{}
-	} else {
+func loadPlayers(game Game, home bool) {
 
-		dirs, err := f.Readdirnames(0)
+	t := game.Home
 
-		if err != nil {
-			logf("loadSeasons", err.Error())
-			return []string{}
+	if !home {
+		t = game.Away
+	}
+
+	for _, p := range t.Players {
+
+		if home {
+			p.Opponent = game.Away.Name
 		} else {
-			return dirs
+			p.Opponent = game.Home.Name
 		}
+
+
+		if PlayersMap[p.Name] == nil {
+			PlayersMap[p.Name] = map[string]Player{}
+		}
+
+		PlayersMap[p.Name][game.Date] = p
 
 	}
 
-} // loadSeasons
+} // loadPlayers
 
 
-func LoadTeams() {
-/*
-	seasons := loadSeasons()
+func loadGames(game Game) {
 
-	for _, season := range seasons {
+	loadPlayers(game, true)
+	loadPlayers(game, false)
+	loadTeams(game)
 
-		p := filepath.Join(APP_STORAGE, season, TEAMS_FILE)
+} // loadPlayers
 
-		buf := loadFile(p)
 
-		teams := AllTeams{}
+func findSeasons() []os.FileInfo {
+	return getDirs("")
+} // findSeasons
 
-		err := json.Unmarshal(buf, &teams)
 
-		if err != nil {
-			logf("LoadTeams", err.Error())
-		} else {
+func parseSeason(s string) {
 
-			for _, t := range teams.Teams {
-				teams_map[teamKey(season, t.ID)] = t
+	days := getDirs(s)
+
+	for _, day := range days {
+
+		files := getFiles(s, day)
+
+		games := []Game{}
+
+		for _, f := range files {
+
+			buf := loadFile(filepath.Join(APP_STORAGE, s, day.Name(), f.Name()))
+
+			g := Game{}
+
+			err := json.Unmarshal(buf, &g)
+
+			if err != nil {
+				logf("parseSeason", err.Error())
+			} else {
+				games = append(games, g)
+				loadGames(g)
 			}
-			
+
 		}
-		
+
+		GamesMap[day.Name()] = games
+
 	}
-*/
+
+} // parseSeason
+
+
+func loadTeams(game Game) {
+
+	if TeamsMap[game.Away.Name] == nil {
+		TeamsMap[game.Away.Name] = map[string]Team{}
+	}
+
+	if TeamsMap[game.Home.Name] == nil {
+		TeamsMap[game.Home.Name] = map[string]Team{}
+	}
+
+	TeamsMap[game.Away.Name][game.Date] = game.Away
+	TeamsMap[game.Home.Name][game.Date] = game.Home
+
 } // LoadTeams
-
-
-func LoadTeamStats() {
-} // LoadTeamStats
-
-
-func LoadGames() {
-} // LoadGames
 
 
 func LoadCache() {
 
 	if checkStorage() {
 
-		LoadTeams()
-		
+		now := GetEstNow()
+
+		sk := seasonKeyByDate(now.Format(DATE_FORMAT))
+
+		parseSeason(sk)
+
 	}
 
 } // LoadCache

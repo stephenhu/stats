@@ -16,6 +16,8 @@ const (
 	ESPN_SCOREBOARD_URL					= `https://espn.com/nba/scoreboard`
 	ESPN_SCOREBOARD_DATE_URL		= `https://espn.com/nba/scoreboard/_/date/%s`
 	ESPN_BOXSCORE_URL           = `https://www.espn.com/nba/boxscore?gameId=`
+	ESPN_PLAYER_ICON_URL        = `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/%s.png&h=80&w=110&scale=crop`
+	ESPN_TEAM_ICON_URL          = `https://a.espncdn.com/i/teamlogos/nba/500/%s.png`
 )
 
 const (

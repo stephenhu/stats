@@ -456,3 +456,14 @@ func LatestScoreboardDate() string {
 	}
 
 } // LatestScoreboardDate
+
+
+func LastDownload() string {
+
+  /*seasons := loadSeasons()
+
+	last := seasons[len(seasons)-1]*/
+
+	return ""
+
+} // LastDownload

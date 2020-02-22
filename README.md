@@ -1,14 +1,15 @@
 # stats
 
-golang library for scraping statistics from sports sites and set of functions to help with
-analysis.
+golang library for scraping nba stats from various web sites and api's, normalizing
+this data, and provides a set of analysis functions.  stats also provides a cache
+mechanism to keep this data in memory for fast access.
 
-games are stored in this manner:
+games are persisted in this manner on the file system:
 
 `nba/1920/20200128/away.home.json`
 
-`1920` represents the 2019-2020 season, `20200128` is Jan 28, 2020, `away` will be replaced with
-the away team name e.g. rockets, `home` represents the home team name.
+`1920` represents the 2019-2020 season, `20200128` is Jan 28, 2020, `away` will be
+replaced with the away team name e.g. rockets, `home` represents the home team name.
 
 json file will be of the following format:
 

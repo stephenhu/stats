@@ -16,7 +16,7 @@ func fileExists(f string) bool {
 	_, err := os.Stat(f)
 
 	if err != nil {
-		
+
 		//logf("fileExists", err.Error())
 
 		if os.IsNotExist(err) {
@@ -32,7 +32,7 @@ func fileExists(f string) bool {
 } // fileExists
 
 
-func initStorage(dir string) string {	
+func initStorage(dir string) string {
 
 	var f string
 
@@ -41,13 +41,13 @@ func initStorage(dir string) string {
 	} else {
 		f = filepath.Join(APP_STORAGE, dir)
 	}
-	
+
 	if !fileExists(f) {
-		os.MkdirAll(f, 0755)	
+		os.MkdirAll(f, 0755)
 	}
 
 	return f
-	
+
 } // initStorage
 
 
@@ -56,7 +56,49 @@ func checkStorage() bool {
 } // checkStorage
 
 
-func loadFile(f string) []byte {	
+func getDirs(d string) []os.FileInfo {
+
+	if d == "" {
+		d = APP_STORAGE
+	} else {
+		d = filepath.Join(APP_STORAGE, d)
+	}
+
+	files, err := ioutil.ReadDir(d)
+
+	if err != nil {
+		logf("getDirs", err.Error())
+		return nil
+	} else {
+		return files
+	}
+
+} // getDirs
+
+
+func getFiles(s string, d os.FileInfo) []os.FileInfo {
+
+	if d.IsDir() && d.Name() != PLAYERS_DIR {
+
+		p := filepath.Join(APP_STORAGE, s, d.Name())
+
+		files, err := ioutil.ReadDir(p)
+
+		if err != nil {
+			logf("getFiles", err.Error())
+			return nil
+		} else {
+			return files
+		}
+
+	} else {
+		return nil
+	}
+
+} // getFiles
+
+
+func loadFile(f string) []byte {
 
 	buf, err := ioutil.ReadFile(f)
 
@@ -71,7 +113,7 @@ func loadFile(f string) []byte {
 
 
 func put(f string, buf []byte) {
-	
+
 	lf := strings.ToLower(f)
 
 	fh, err := os.Create(lf)
@@ -107,7 +149,7 @@ func putGame(g *Game) {
 	if err != nil {
 		logf("putGame", err.Error())
 	} else {
-		put(f, j)	
+		put(f, j)
 	}
 
 } // putGame
@@ -118,7 +160,7 @@ func putPlayers(all *AllPlayers) {
 	if all != nil {
 
 		root := initStorage(all.SeasonID)
-		
+
 		f := filepath.Join(root, PLAYERS_FILE)
 
 		j, err := json.MarshalIndent(all, JSON_PREFIX, JSON_INDENT)
@@ -139,8 +181,8 @@ func putPlayers(all *AllPlayers) {
 func putProfile(profile *PlayerCareer) {
 
 	if profile != nil {
-		
-		root := initStorage(filepath.Join(profile.SeasonID, PLAYERS_DIR))		
+
+		root := initStorage(filepath.Join(profile.SeasonID, PLAYERS_DIR))
 
 		f := filepath.Join(root, fmt.Sprintf("%s.%s.json",
 		  profile.First, profile.Last))
@@ -192,7 +234,7 @@ func putTeamRanks(ranks *AllRanks) {
 		} else {
 
 			root := initStorage(ranks.SeasonID)
-			
+
 			f := filepath.Join(root, TEAM_RANKS_FILE)
 
 			j, err := json.MarshalIndent(ranks, JSON_PREFIX, JSON_INDENT)

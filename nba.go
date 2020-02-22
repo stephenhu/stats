@@ -8,7 +8,7 @@ type RankStat struct {
 type Season struct {
 	ID              string          		`json:"id"`
 	Name						string							`json:"name"`
-	Games           map[string]Game     `json:"games"`
+	Schedule        map[string][]Game   `json:"schedule"`
 }
 
 type Play struct {
@@ -20,7 +20,7 @@ type Play struct {
 	Home         			int          		`json:"home"`
 	EventType      		int          		`json:"eventType"`
 	ScoreChanged      bool            `json:"scoreChanged"`
-	Formatted					string					`json:"formatted"`	
+	Formatted					string					`json:"formatted"`
 }
 
 type GameLog struct {
@@ -28,17 +28,6 @@ type GameLog struct {
 	PubDate					string					`json:"pubDate"`
 	GameID          string          `json:"gameId"`
 	Plays           []Play          `json:"plays"`
-}
-
-type Game struct {
-	ID              string          `json:"id"`
-	SeasonID        string          `json:"seasonId"`  // discard?
-	Date            string          `json:"date"`
-	PubDate					string					`json:"pubDate"`
-	Source          string          `json:"source"`
-	Home						Team						`json:"home"`
-	Away						Team						`json:"away"`
-	Plays           []Play					`json:"plays"`
 }
 
 type Stats struct {
@@ -68,7 +57,7 @@ type AdvStats struct {
 	Oreb							int						`json:"oreb"`
 	Dreb							int						`json:"dreb"`
 	Treb							int						`json:"treb"`
-	Assists						int						`json:"assists"`	
+	Assists						int						`json:"assists"`
 	Turnovers					int						`json:"turnovers"`
 	Steals						int						`json:"steals"`
 	Blocks						int						`json:"blocks"`
@@ -96,13 +85,20 @@ type AdvStats struct {
 
 type Player struct {
 	ID              string          `json:"id"`
-	Name						string					`json:"name"`  
+	Opponent        string          `json:"opponent"`
+	Name						string					`json:"name"`
 	Minutes					int							`json:"minutes"`
 	Seconds         int             `json:"seconds"`
 	Starter         bool            `json:"starter"`
 	DnpReason      	string          `json:"dnpReason"`
 	Position        string          `json:"position"`
 	Stats
+}
+
+type Player2 struct {
+	OpponentID      string          `json:"opponentId"`
+	Opponent				string					`json:"opponentName"`
+	Player
 }
 
 type PlayerInfo struct {
@@ -183,6 +179,17 @@ type Team struct {
 	Periods     		[]int           `json:"periods"`
 	Players         []Player				`json:"players"`
 	Stats           `json:"summary"`
+}
+
+type Game struct {
+	ID              string          `json:"id"`
+	SeasonID        string          `json:"seasonId"`  // discard?
+	Date            string          `json:"date"`
+	PubDate					string					`json:"pubDate"`
+	Source          string          `json:"source"`
+	Home						Team						`json:"home"`
+	Away						Team						`json:"away"`
+	Plays           []Play					`json:"plays"`
 }
 
 type AllRanks struct {

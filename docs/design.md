@@ -78,11 +78,8 @@ nba
 
 ## caching
 
-in general, all data should be placed into cache for highest performance.  the caching happens
-by crawling the filesystem.
-
-for transient information like game season stats and averages, data should be
-pulled into memory from the json files during startup.
+in general, all data should be placed into cache for highest performance.  the caching
+happens by crawling the filesystem and loading into memory.
 
 * do teams need to be cached per season or can there be a general teams map for all seasons?
 * same question for players, in general i think there should be a generic players map
@@ -98,7 +95,7 @@ maps | key | value | objects estimated | notes
 --- | --- | --- | --- | ---
 players | steven.adams | PlayerInfo | 450+ | players names that are the same will cause conflict
 teams | 2019.clippers | TeamInfo | 30 |
-games | 20191022.atl.bos | Game | 82 x 30 = 2460/2 + playoffs (8*7 + 4*7 + 2*7 + 7 = 105)
+games | 20191022 | []Game | 82 x 30 = 2460/2 + playoffs (8*7 + 4*7 + 2*7 + 7 = 105)
 team season stats | 2019.atl | Stats | 30 |
 player season stats | 2019.steven.adams | Stats | 450 |
 play logs | 20191022.atl.bos | Playlog |  1230  + 105 = 1335 |

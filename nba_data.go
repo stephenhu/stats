@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	//"log"
 	//"net/http"
+	"strings"
 )
 
 type NbaRankStat struct {
@@ -242,7 +243,7 @@ func convTeamScore(t NbaTeamScore) Team {
 	team := Team{}
 
 	team.ID							= t.ID
-	team.Name   				= t.ShortName
+	team.Name   				= strings.ToLower(t.ShortName)
 	team.Score  				= atoi(t.Score)
 	team.Periods  			= convScores(t.Periods)
 
