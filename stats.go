@@ -134,7 +134,7 @@ const (
 )
 
 const (
-	GAME_FILE                 	= "%s.%s.json"
+	GAME_FILE                 	= "%s%s.json"
 	PLAYERS_DIR                 = "players"
 	PLAYERS_FILE								= "players.json"
 	PLAYS_FILE                  = "%s.%s.plays.json"
