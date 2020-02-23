@@ -122,37 +122,9 @@ func seasonKey(t time.Time, current bool) string {
 } // seasonKey
 
 
-func seasonKeyByDate(d string) string {
-
-	if d == "" {
-		return SEASON_CURRENT
-	}
-
-	t, err := time.Parse(DATE_FORMAT, d)
-
-	if err != nil {
-		logf("seasonKeyByDate", err.Error())
-		return SEASON_CURRENT
-	} else {
-
-		cm := t.Month()
-
-		if cm >= time.October && cm <= time.December {
-			return seasonKey(t, true)
-		} else if cm >= time.January && cm <= time.June {
-			return seasonKey(t, false)
-		} else {
-			return SEASON_CURRENT
-		}
-
-	}
-
-} // seasonKeyByDate
-
-
 func generatePath(d string) string {
 
-	if d == "" || !seasonCheck(d) {
+	if d == "" || !SeasonCheck(d) {
 		return filepath.Join(SEASON_DEFAULT, d)
 	}
 
@@ -179,79 +151,9 @@ func generatePath(d string) string {
 } // generatePath
 
 
-func getSeason(t time.Time) []string {
-
-	now := time.Now()
-
-	if t.After(now) {
-		logf("getSeason", fmt.Sprintf("Date unsupported: %s", t.String()))
-		return official_seasons[SEASON_CURRENT]
-	}
-
-	cm := t.Month()
-
-	if cm >= time.October && cm <= time.December {
-		return official_seasons[seasonKey(t, true)]
-	} else if cm >= time.January && cm <= time.June {
-		return official_seasons[seasonKey(t, false)]
-	} else {
-		return official_seasons[SEASON_CURRENT]
-	}
-
-} // getSeason
-
-
-func seasonCheck(d string) bool {
-
-	if d == "" {
-		return false
-	}
-
-	t, err := time.Parse(DATE_FORMAT, d)
-
-	if err != nil {
-		logf("seasonCheck", err.Error())
-		return false
-	} else {
-
-		season := getSeason(t)
-
-		begin, err := time.Parse(DATE_FORMAT,
-			season[SEASON_INDEX_BEGIN])
-
-		if err != nil {
-			logf("seasonCheck", err.Error())
-			return false
-		} else {
-
-			end, err 	:= time.Parse(DATE_FORMAT,
-				season[SEASON_INDEX_PLAYOFFS_END])
-
-			if err != nil {
-
-				logf("seasonCheck", err.Error())
-
-				end = time.Now()
-
-			}
-
-			if (t.After(begin) || t.Equal(begin)) &&
-			  (t.Equal(end) || t.Before(end)) {
-				return true
-			} else {
-				return false
-			}
-
-		}
-
-	}
-
-} // seasonCheck
-
-
 func dateCheck(d string) bool {
 
-	if d == "" || !seasonCheck(d) {
+	if d == "" || !SeasonCheck(d) {
 		return false
 	} else {
 		return true
@@ -264,40 +166,44 @@ func getDays(d string) []string {
 
 	days := []string{}
 
-	if !seasonCheck(d) {
+	if !SeasonCheck(d) {
 		logf("getDays", "Invalid date, out of season schedule.")
-		return days
 	} else {
 
-		t, err := time.Parse(DATE_FORMAT, d)
+		fromDate := ParseEstTime(d)
 
-		if err != nil {
-			logf("getDays", err.Error())
-			return days
-		} else {
+		if fromDate != nil {
 
-			season := getSeason(t)
+			season := GetSeason(*fromDate)
 
-			end, err := time.Parse(DATE_FORMAT, season[SEASON_INDEX_PLAYOFFS_END])
+			end := ParseEstTime(season[SEASON_INDEX_PLAYOFFS_END])
 
-			if err != nil {
-				logf("getDays", err.Error())
-				return days
-			} else {
+			if end != nil {
 
-				now := time.Now()
+				now := DayStartTime()
 
-				tn := t
+				tmp := fromDate.AddDate(0, 0, 1)
+
+				tn := &tmp
 
 				for {
 
-					if tn.After(end) || tn.After(now) {
+					if tn.After(*end) || tn.Equal(*end) || tn.After(*now) ||
+					  tn.Equal(*now) {
 						break
 					} else {
-						days = append(days, tn.Format(DATE_FORMAT))
+
+						if tn.Month() == now.Month() && tn.Day() == now.Day() {
+							break
+						} else {
+							days = append(days, tn.Format(DATE_FORMAT))
+						}
+
 					}
 
-					tn = tn.AddDate(0, 0, 1)
+					next := tn.AddDate(0, 0, 1)
+
+					tn = &next
 
 				}
 
@@ -308,6 +214,8 @@ func getDays(d string) []string {
 		}
 
 	}
+
+	return days
 
 } // getDays
 
@@ -388,6 +296,27 @@ func StringUrlJoin(base string, p string) (string, error) {
 } // StringUrlJoin
 
 
+func DayStartTime() *time.Time {
+
+	now := GetEstNow()
+
+	day := now.Weekday()
+
+	var t time.Time
+
+	if day == time.Saturday || day == time.Sunday {
+		// 3pm est
+		t = time.Date(now.Year(), now.Month(), now.Day(), 15, 0, 0, 0, now.Location())
+	} else {
+		// 5pm est
+		t = time.Date(now.Year(), now.Month(), now.Day(), 17, 0, 0, 0, now.Location())
+	}
+
+	return &t
+
+} // DayStartTime
+
+
 func GetEstNow() *time.Time {
 
 	est, err := time.LoadLocation(EST)
@@ -404,6 +333,32 @@ func GetEstNow() *time.Time {
 	}
 
 } // GetEstNow
+
+
+func ParseEstTime(d string) *time.Time {
+
+	if d == "" || len(d) != 8 {
+		return nil
+	}
+
+	year := atoi(d[0:4])
+	mon  := atoi(d[4:6])
+	day  := atoi(d[6:8])
+
+	est, err := time.LoadLocation(EST)
+
+	if err != nil {
+		logf("ParseEstTime", err.Error())
+		return nil
+	} else {
+
+		t := time.Date(year, time.Month(mon), day, 0, 0, 0, 0, est)
+
+		return &t
+
+	}
+
+} // ParseEstTime
 
 
 func GetEstDate(now *time.Time) *time.Time {
@@ -430,6 +385,104 @@ func GetEstDate(now *time.Time) *time.Time {
 	}
 
 } // GetEstDate
+
+
+func SeasonKeyByDate(d string) string {
+
+	if d == "" {
+		return SEASON_CURRENT
+	}
+
+	t, err := time.Parse(DATE_FORMAT, d)
+
+	if err != nil {
+		logf("SeasonKeyByDate", err.Error())
+		return SEASON_CURRENT
+	} else {
+
+		cm := t.Month()
+
+		if cm >= time.October && cm <= time.December {
+			return seasonKey(t, true)
+		} else if cm >= time.January && cm <= time.June {
+			return seasonKey(t, false)
+		} else {
+			return SEASON_CURRENT
+		}
+
+	}
+
+} // SeasonKeyByDate
+
+
+func SeasonCheck(d string) bool {
+
+	if d == "" {
+		return false
+	}
+
+	t, err := time.Parse(DATE_FORMAT, d)
+
+	if err != nil {
+		logf("SeasonCheck", err.Error())
+		return false
+	} else {
+
+		season := GetSeason(t)
+
+		begin, err := time.Parse(DATE_FORMAT,
+			season[SEASON_INDEX_BEGIN])
+
+		if err != nil {
+			logf("SeasonCheck", err.Error())
+			return false
+		} else {
+
+			end, err 	:= time.Parse(DATE_FORMAT,
+				season[SEASON_INDEX_PLAYOFFS_END])
+
+			if err != nil {
+
+				logf("SeasonCheck", err.Error())
+
+				end = time.Now()
+
+			}
+
+			if (t.After(begin) || t.Equal(begin)) &&
+			  (t.Equal(end) || t.Before(end)) {
+				return true
+			} else {
+				return false
+			}
+
+		}
+
+	}
+
+} // SeasonCheck
+
+
+func GetSeason(t time.Time) []string {
+
+	now := time.Now()
+
+	if t.After(now) {
+		logf("GetSeason", fmt.Sprintf("Date unsupported: %s", t.String()))
+		return official_seasons[SEASON_CURRENT]
+	}
+
+	cm := t.Month()
+
+	if cm >= time.October && cm <= time.December {
+		return official_seasons[seasonKey(t, true)]
+	} else if cm >= time.January && cm <= time.June {
+		return official_seasons[seasonKey(t, false)]
+	} else {
+		return official_seasons[SEASON_CURRENT]
+	}
+
+} // GetSeason
 
 
 func LatestScoreboardDate() string {
@@ -460,10 +513,29 @@ func LatestScoreboardDate() string {
 
 func LastDownload() string {
 
-  /*seasons := loadSeasons()
+	now := time.Now()
 
-	last := seasons[len(seasons)-1]*/
+	year := SeasonKeyByDate(now.Format(DATE_FORMAT))
 
-	return ""
+	dirs := getDirs(year)
+
+	rindex := 1
+
+	for {
+
+		if rindex >= len(dirs) {
+			break
+		}
+
+		if dirs[len(dirs)-rindex].IsDir() &&
+		  dirs[len(dirs)-rindex].Name() != PLAYERS_DIR {
+			return dirs[len(dirs)-rindex].Name()
+		}
+
+		rindex += 1
+
+	}
+
+	return dirs[0].Name()
 
 } // LastDownload

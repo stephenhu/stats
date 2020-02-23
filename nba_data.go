@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	//"log"
+	"log"
 	//"net/http"
 	"strings"
 )
@@ -490,6 +490,7 @@ func NbaStoreFromDay(d string) {
 
 	days := getDays(d)
 
+	log.Println(days)
 	for _, day := range days {
 		NbaStoreDay(day)
 	}

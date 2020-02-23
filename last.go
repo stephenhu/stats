@@ -12,7 +12,7 @@ func LastPlayedGames(n int, p string) []Player {
 
 	now := GetEstNow()
 
-	s := getSeason(*now)
+	s := GetSeason(*now)
 
 	d := *now
 
@@ -45,7 +45,7 @@ func LastTeamGames(n int, t string) []Team {
 
 	now := GetEstNow()
 
-	s := getSeason(*now)
+	s := GetSeason(*now)
 
 	d := *now
 
@@ -70,3 +70,34 @@ func LastTeamGames(n int, t string) []Team {
 	return last
 
 } // LastTeamGames
+
+
+func LastScores() []Game {
+
+	now := GetEstNow()
+
+	s := GetSeason(*now)
+
+	d := *now
+
+	for {
+
+		date := d.Format(DATE_FORMAT)
+
+		if s[SEASON_INDEX_BEGIN] > date {
+			break
+		}
+
+		games, ok := GamesMap[date]
+
+		if ok {
+			return games
+		}
+
+		d = d.AddDate(0, 0, -1)
+
+  }
+
+	return GamesMap[s[SEASON_INDEX_BEGIN]]
+
+} // LastScores

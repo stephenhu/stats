@@ -76,6 +76,12 @@ nba
     teams.json
 ```
 
+## redis
+
+data should be stored to redis for caching and another level of persistence
+in addition to the file system.  this allows data to be persisted in cache even
+if the app is restarted and allows for quick start up times.
+
 ## caching
 
 in general, all data should be placed into cache for highest performance.  the caching

@@ -6,7 +6,7 @@ import (
 	//"log"
 	"os"
 	"path/filepath"
-	//"strings"
+	"strings"
 )
 
 var GamesMap					= map[string] []Game{}
@@ -107,16 +107,16 @@ func parseSeason(s string) {
 
 func loadTeams(game Game) {
 
-	if TeamsMap[game.Away.Name] == nil {
-		TeamsMap[game.Away.Name] = map[string]Team{}
+	if TeamsMap[strings.ToLower(game.Away.Name)] == nil {
+		TeamsMap[strings.ToLower(game.Away.Name)] = map[string]Team{}
 	}
 
-	if TeamsMap[game.Home.Name] == nil {
-		TeamsMap[game.Home.Name] = map[string]Team{}
+	if TeamsMap[strings.ToLower(game.Home.Name)] == nil {
+		TeamsMap[strings.ToLower(game.Home.Name)] = map[string]Team{}
 	}
 
-	TeamsMap[game.Away.Name][game.Date] = game.Away
-	TeamsMap[game.Home.Name][game.Date] = game.Home
+	TeamsMap[strings.ToLower(game.Away.Name)][game.Date] = game.Away
+	TeamsMap[strings.ToLower(game.Home.Name)][game.Date] = game.Home
 
 } // LoadTeams
 
@@ -127,7 +127,7 @@ func LoadCache() {
 
 		now := GetEstNow()
 
-		sk := seasonKeyByDate(now.Format(DATE_FORMAT))
+		sk := SeasonKeyByDate(now.Format(DATE_FORMAT))
 
 		parseSeason(sk)
 
