@@ -114,7 +114,7 @@ const (
 	EST_FORMAT									= "20060102 3:04 PM MST"
 	DATE_FORMAT                 = "20060102"
 	YEAR_FORMAT                 = "2006"
-	EST													= "EST"			// Eastern Standard Time
+	EST													= "America/New_York"			// Eastern Standard Time
 )
 
 const (

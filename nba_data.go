@@ -457,19 +457,23 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 } // NbaGetBoxscores
 
 
-func NbaStoreDay(d string) {
+func NbaStoreDay(d string) []Game {
 
 	s := NbaGetScoreboard(d)
 
 	if s == nil {
 		logf("NbaStoreDay", fmt.Sprintf("No scores found for %s", d))
+		return nil
 	} else {
 
 		scores := NbaGetBoxscores(s)
 
 		if len(scores) == 0 {
 			logf("NbaStoreDay", fmt.Sprintf("No scores found for %s", d))
+			return nil
 		} else {
+
+			games := []Game{}
 
 			for _, b := range scores {
 
@@ -477,7 +481,11 @@ func NbaStoreDay(d string) {
 
 				putGame(game)
 
+				games = append(games, *game)
+
 			}
+
+			return games
 
 		}
 
@@ -491,7 +499,11 @@ func NbaStoreFromDay(d string) {
 	days := getDays(d)
 
 	for _, day := range days {
-		NbaStoreDay(day)
+
+		games := NbaStoreDay(day)
+
+		GamesMap[day] = games
+
 	}
 
 } // NbaStoreFromDay
