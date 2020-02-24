@@ -150,3 +150,29 @@ func TestGetDays(t *testing.T) {
 	}
 
 } // TestGetDays
+
+
+func TestGetDays2(t *testing.T) {
+
+	days := getDays("20191120")
+
+	t.Log(days)
+
+	if len(days) == 0 {
+		t.Error("Days should not be empty.")
+	}
+
+} // TestGetDays2
+
+
+func TestGetDays3(t *testing.T) {
+
+	days := getDays("20181120")
+
+	t.Log(days)
+
+	if len(days) == 0 {
+		t.Error("Days should not be empty.")
+	}
+
+} // TestGetDays3

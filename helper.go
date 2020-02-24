@@ -193,7 +193,7 @@ func getDays(d string) []string {
 						break
 					} else {
 
-						if tn.Month() == now.Month() && tn.Day() == now.Day() {
+						if tn.Year() == now.Year() && tn.Month() == now.Month() && tn.Day() == now.Day() {
 							break
 						} else {
 							days = append(days, tn.Format(DATE_FORMAT))
