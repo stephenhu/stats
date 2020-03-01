@@ -9,7 +9,7 @@ import (
 )
 
 type NbaTeamRanks struct {
-	ID								string						`json:"teamId"`	
+	ID								string						`json:"teamId"`
 	Fgp								NbaRankStat				`json:"fgp"`
 	Fg3p							NbaRankStat				`json:"tpp"`
 	Ftp								NbaRankStat				`json:"ftp"`
@@ -67,18 +67,18 @@ type NbaTeams struct {
 }
 
 
-func convTeamRanks(ranks *NbaRanks) *AllRanks { 
+func convTeamRanks(ranks *NbaRanks) *AllRanks {
 
-	all := AllRanks{}	
+	all := AllRanks{}
 
 	if ranks != nil {
 
 		all.SeasonID = ranks.SeasonID
-		all.PubDate  = ranks.PubDate		
+		all.PubDate  = ranks.PubDate
 
 		for _, rank := range ranks.Teams {
 
-			_, ok := official_teams[rank.ID]
+			_, ok := OfficialTeams[rank.ID]
 
 			if ok {
 
@@ -135,7 +135,7 @@ func convTeamInfo(teams *NbaTeams) *AllTeams {
 			ti.Code     		= t.Code
 			ti.Conference		= t.Conference
 			ti.Division			= t.Division
-	
+
 			at.Teams = append(at.Teams, ti)
 
 		}
@@ -156,12 +156,12 @@ func TeamRanksApi(s string) string {
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
 		fmt.Sprintf(NBA_API_TEAM_RANKS, s))
-		
+
 } // TeamRanksApi
 
 
 func TeamsApi(s string) string {
-	
+
 	if s == "" {
 		return ""
 	}
@@ -200,14 +200,14 @@ func NbaGetTeams(d string) *NbaTeams {
 			if err != nil {
 				logf("NbaGetTeams", err.Error())
 				return nil
-			} else {				
+			} else {
 				return &teams
 			}
 
 		}
-				
+
 	}
-	
+
 } // NbaGetTeams
 
 
@@ -238,12 +238,12 @@ func NbaGetTeamRanks(s string) *NbaRanks {
 			if err != nil {
 				logf("NbaGetTeamRanks", err.Error())
 				return nil
-			} else {				
+			} else {
 				return &ranks
 			}
 
 		}
-				
+
 	}
 
 } // NbaGetTeamRanks
@@ -252,7 +252,7 @@ func NbaGetTeamRanks(s string) *NbaRanks {
 func NbaStoreTeams(t *NbaTeams) {
 
 	if t != nil {
-		
+
 		all := convTeamInfo(t)
 
 		putTeams(all)
@@ -265,7 +265,7 @@ func NbaStoreTeams(t *NbaTeams) {
 func NbaStoreTeamRanks(r *NbaRanks) {
 
 	if r != nil {
-		
+
 		all := convTeamRanks(r)
 
 		putTeamRanks(all)

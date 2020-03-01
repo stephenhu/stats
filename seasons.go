@@ -5,6 +5,7 @@ const (
 	SEASON_INDEX_END							= 1
 	SEASON_INDEX_PLAYOFFS_BEGIN		= 2
 	SEASON_INDEX_PLAYOFFS_END		  = 3
+	SEASON_ALL_STAR_GAME		  		= 4
 )
 
 const (
@@ -55,5 +56,5 @@ var official_seasons = map[string][]string {
 		"2016": {"20161025", "20170412", "20170415", "20170612"},
 		"2017": {"20171017", "20180411", "20180414", "20180608"},
 		"2018": {"20181016", "20190410", "20190413", "20190613"},
-		"2019": {"20191022", "20200415", "20200415", "20200630"},  // tenative fake dates
+		"2019": {"20191022", "20200415", "20200415", "20200630", "20200216"},  // tenative fake dates
 }

@@ -186,6 +186,8 @@ type Game struct {
 	SeasonID        string          `json:"seasonId"`  // discard?
 	Date            string          `json:"date"`
 	PubDate					string					`json:"pubDate"`
+	StartUtc        string          `json:"startUtc"`
+	EndUtc          string          `json:"endUtc"`
 	Source          string          `json:"source"`
 	Home						Team						`json:"home"`
 	Away						Team						`json:"away"`

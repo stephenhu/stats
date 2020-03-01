@@ -128,6 +128,8 @@ type NbaGameData struct {
 	ID						string            `json:"gameId"`
 	SeasonID      string            `json:"seasonYear"`
 	Date          string            `json:"homeStartDate"`
+	StartUtc      string        		`json:"startTimeUTC"`
+	EndUtc    		string        		`json:"endTimeUTC"`
 	AwayScore			NbaTeamScore			`json:"vTeam"`
 	HomeScore			NbaTeamScore			`json:"hTeam"`
 	Plays         []NbaPlay					`json:"plays"`
@@ -143,14 +145,15 @@ type NbaGame struct {
 	ID        		string        `json:"gameId"`
 	SeasonID			string				`json:"seasonYear"`
 	Date          string        `json:"startDateEastern"`
-	EndDateUTC    string        `json:"endTimeUTC"`
-	Away          NbaTeamScore  `json:"away"`
-	Home          NbaTeamScore  `json:"home"`
+	StartUtc      string        `json:"startTimeUTC"`
+	EndUtc    		string        `json:"endTimeUTC"`
+	Away          NbaTeamScore  `json:"vTeam"`
+	Home          NbaTeamScore  `json:"hTeam"`
 }
 
 type NbaScoreboard struct {
-	Games					[]NbaGame			`json:"games"`
 	NbaInternal   `json:"_internal"`
+	Games					[]NbaGame			`json:"games"`
 	Date					string				`json:"date"`
 }
 
@@ -252,7 +255,7 @@ func convTeamScore(t NbaTeamScore) Team {
 } // convTeamScore
 
 
-func convBoxscore(b *NbaBoxscore) *Game {
+func ConvBoxscore(b *NbaBoxscore) *Game {
 
 	game := Game{}
 
@@ -263,6 +266,8 @@ func convBoxscore(b *NbaBoxscore) *Game {
 	game.ID					= b.ID
 	game.SeasonID   = b.SeasonID
 	game.Date   		= b.Date
+	game.StartUtc   = b.StartUtc
+	game.EndUtc   	= b.EndUtc
 	game.PubDate   	= b.PubDate
 	game.Away   		= convTeamScore(b.AwayScore)
 	game.Home   		= convTeamScore(b.HomeScore)
@@ -275,7 +280,7 @@ func convBoxscore(b *NbaBoxscore) *Game {
 
 	return &game
 
-} // convBoxscore
+} // ConvBoxscore
 
 
 func ScoreboardApi(d string) string {
@@ -324,7 +329,7 @@ func NbaGetLatestScoreboard() *NbaScoreboard {
 			s := NbaGetScoreboard(dn)
 
 			if s == nil || len(s.Games) == 0 || count == SCOREBOARD_MAX_RETRY {
-				dn = moveDay(dn, -1)
+				dn = MoveDay(dn, -1)
 				count = count + 1
 			} else {
 				res = s
@@ -411,43 +416,10 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 
 	for _, g := range s.Games {
 
-		res, err := client.Get(BoxscoreApi(g.Date, g.ID))
+		score := NbaGetBoxscore(g.Date, g.ID)
 
-		if err != nil {
-			logf("NbaGetBoxscores", err.Error())
-		} else {
-
-			defer res.Body.Close()
-
-			buf, err := ioutil.ReadAll(res.Body)
-
-			if err != nil {
-				logf("NbaGetBoxscores", err.Error())
-			} else {
-
-				box := NbaBoxscore{}
-
-				err := json.Unmarshal(buf, &box)
-
-				if err != nil {
-					logf("NbaGetBoxscores", err.Error())
-				} else {
-
-					box.Date = s.Date
-
-					plays := NbaGetGamePlays(box.Date, box.ID,
-						len(box.AwayScore.Periods))
-
-					if plays != nil {
-						box.Plays = plays
-					}
-
-					scores = append(scores, box)
-
-				}
-
-			}
-
+		if score != nil {
+			scores = append(scores, *score)
 		}
 
 	}
@@ -455,6 +427,51 @@ func NbaGetBoxscores(s *NbaScoreboard) []NbaBoxscore {
 	return scores
 
 } // NbaGetBoxscores
+
+
+func NbaGetBoxscore(d string, g string) *NbaBoxscore {
+
+	res, err := client.Get(BoxscoreApi(d, g))
+
+	if err != nil {
+		logf("NbaGetBoxscores", err.Error())
+		return nil
+	} else {
+
+		defer res.Body.Close()
+
+		buf, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			logf("NbaGetBoxscores", err.Error())
+			return nil
+		} else {
+
+			box := NbaBoxscore{}
+
+			err := json.Unmarshal(buf, &box)
+
+			if err != nil {
+				logf("NbaGetBoxscores", err.Error())
+				return nil
+			} else {
+
+				plays := NbaGetGamePlays(box.Date, box.ID,
+					len(box.AwayScore.Periods))
+
+				if plays != nil {
+					box.Plays = plays
+				}
+
+				return &box
+
+			}
+
+		}
+
+	}
+
+} // NbaGetBoxscore
 
 
 func NbaStoreDay(d string) []Game {
@@ -477,7 +494,7 @@ func NbaStoreDay(d string) []Game {
 
 			for _, b := range scores {
 
-				game := convBoxscore(&b)
+				game := ConvBoxscore(&b)
 
 				putGame(game)
 
@@ -520,3 +537,16 @@ func NbaStoreSeason(s string) {
 	}
 
 } // NbaStoreSeason
+
+
+func NbaStoreGame(d string, g string) {
+
+	box := NbaGetBoxscore(d, g)
+
+	game := ConvBoxscore(box)
+
+	putGame(game)
+
+	GamesMap[d] = append(GamesMap[d], *game)
+
+} // NbaStoreGame

@@ -2,7 +2,7 @@ package stats
 
 // data.nba.com
 
-var official_teams = map[string]string {
+var OfficialTeams = map[string]string {
 	"1610612737": "ATL",
 	"1610612738": "BOS",
 	"1610612739": "CLE",

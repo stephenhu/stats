@@ -34,7 +34,7 @@ type NbaSeasonStats struct {
 }
 
 type NbaRegularSeason struct {
-	SeasonInfo 		[]NbaSeasonStats 		`json:"season"`	
+	SeasonInfo 		[]NbaSeasonStats 		`json:"season"`
 }
 
 type NbaPlayerStats struct {
@@ -53,7 +53,7 @@ type NbaLeague2 struct {
 }
 
 type NbaLeague struct {
-	Players 	[]NbaPlayerInfo			`json:"standard"`	
+	Players 	[]NbaPlayerInfo			`json:"standard"`
 }
 
 type NbaLeaguePlayers struct {
@@ -112,9 +112,9 @@ func copyAdvStats(src *NbaAdvStats, dst *AdvStats) {
 func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 
 	if lp != nil {
-		
+
 		all := AllPlayers{}
-		
+
 		all.SeasonID  = lp.SeasonID
 		all.PubDate   = lp.PubDate
 
@@ -122,7 +122,7 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 
 			tid := filterId(p.TeamID)
 
-			_, ok := official_teams[tid]
+			_, ok := OfficialTeams[tid]
 
 			if ok {
 
@@ -155,7 +155,7 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 
 	} else {
 		return nil
-	}	
+	}
 
 } // convLeaguePlayers
 
@@ -180,7 +180,7 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 	for _, player := range pp.SeasonInfo {
 
 		ss := SeasonStats{}
-		
+
 		ss.SeasonID	= fmt.Sprintf("%d", player.SeasonID)
 
 		copyAdvStats(&player.Total, &ss.Summary)
@@ -260,7 +260,7 @@ func NbaGetPlayers(s string) *NbaLeaguePlayers {
 				logf("NbaGetPlayers", err.Error())
 				return nil
 			} else {
-				
+
 				lp.SeasonID	= s
 
 				return &lp
@@ -268,7 +268,7 @@ func NbaGetPlayers(s string) *NbaLeaguePlayers {
 			}
 
 		}
-				
+
 	}
 
 } // NbaGetPlayers
@@ -285,43 +285,43 @@ func NbaGetProfiles(s string, lp *NbaLeaguePlayers) []NbaPlayerProfile {
 		for _, p := range lp.Players {
 
 			if p.Active {
-	
+
 				res, err := client.Get(PlayerProfileApi(s, p.ID))
-	
+
 				if err != nil {
 					logf("NbaGetProfiles", err.Error())
 				} else {
-	
+
 					buf, err := ioutil.ReadAll(res.Body)
-	
+
 					if err != nil {
 						logf("NbaGetProfiles", err.Error())
 						return nil
 					} else {
-	
+
 						player := NbaPlayerProfile{}
-	
+
 						player.SeasonID		= lp.SeasonID
 
 						err := json.Unmarshal(buf, &player)
-	
+
 						if err != nil {
 							logf("NbaGetProfiles", err.Error())
 							return nil
 						} else {
-	
-							player.ID     		= p.ID							
+
+							player.ID     		= p.ID
 							player.First 			= p.First
 							player.Last 			= p.Last
 
-							all = append(all, player)						
-	
+							all = append(all, player)
+
 						}
-	
+
 					}
-	
+
 				}
-	
+
 			}
 
 		}
@@ -351,7 +351,7 @@ func NbaStoreProfiles(profiles []NbaPlayerProfile) {
 	for _, profile := range profiles {
 
 		career := convPlayerProfile(&profile)
-		
+
 		putProfile(career)
 
 	}

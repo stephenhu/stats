@@ -27,7 +27,11 @@ func LastPlayedGames(n int, p string) []Player {
 		g, ok := PlayersMap[p][date]
 
 		if ok {
-			last = append(last, g)
+
+			if date != s[SEASON_ALL_STAR_GAME] && g.DnpReason == "" {
+				last = append(last, g)
+			}
+
 		}
 
 		d = d.AddDate(0, 0, -1)

@@ -257,12 +257,12 @@ func filterId(id string) string {
 } // filterId
 
 
-func moveDay(d string, n int) string {
+func MoveDay(d string, n int) string {
 
 	t, err := time.Parse(DATE_FORMAT, d)
 
 	if err != nil {
-		logf("moveDay", err.Error())
+		logf("MoveDay", err.Error())
 		return d
 	} else {
 
@@ -272,7 +272,7 @@ func moveDay(d string, n int) string {
 
 	}
 
-} // moveDay
+} // MoveDay
 
 
 func StringUrlJoin(base string, p string) (string, error) {
