@@ -30,7 +30,7 @@ func fieldGoals(p *Player, fn string, s string) {
 
 		made     := atoi(tokens[INDEX_MADE])
 		attempts := atoi(tokens[INDEX_ATTEMPTS])
-		
+
 		switch fn {
 		case FIELD_FG:
 			p.Stats.Fga = attempts
@@ -43,7 +43,7 @@ func fieldGoals(p *Player, fn string, s string) {
 		case FIELD_FT:
 			p.Stats.Fta = attempts
 			p.Stats.Ftm = made
-		
+
 		default:
 			logf("fieldGoals", "Unrecognized field name.")
 		}
@@ -66,7 +66,7 @@ func parsePosition(n *goquery.Selection) string {
 	})
 
 	return pos
-	
+
 } // parsePosition
 
 
@@ -83,15 +83,15 @@ func parseName(n *goquery.Selection) string {
 	})
 
 	return name
-	
+
 } // parseName
 
 
 func parsePlayer(index int, value string, p *Player) {
 
 	switch index {
-		case 1:	
-			p.Minutes = atoi(value)			
+		case 1:
+			p.Minutes = atoi(value)
 		case 2:
 			fieldGoals(p, FIELD_FG, value)
 		case 3:
@@ -130,7 +130,7 @@ func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 
 	players := []Player{}
 
-	tbody.Find(HTML_TR).Each(func(itr int, tr *goquery.Selection) {		
+	tbody.Find(HTML_TR).Each(func(itr int, tr *goquery.Selection) {
 
 		if !tr.HasClass(HIGHLIGHT) {
 
@@ -140,31 +140,31 @@ func parsePlayers(tbody *goquery.Selection, starting bool) []Player {
 				p.Starter = true
 			}
 
-			tr.Find(HTML_TD).Each(func(itd int, td *goquery.Selection) {								
-		
+			tr.Find(HTML_TD).Each(func(itd int, td *goquery.Selection) {
+
 				value := td.Text()
 
 				if value != STRING_EMPTY {
-	
-					if td.HasClass(DNP) {						
+
+					if td.HasClass(DNP) {
 						p.DnpReason = value
 					} else {
 
 						if itd == INDEX_FIELD_NAME {
-							
+
 							p.Name 			= parseName(td)
 							p.Position 	= parsePosition(td)
 
 						} else {
 							parsePlayer(itd, value, &p)
-						}						
+						}
 
-					}												
-	
+					}
+
 				}
-	
+
 			})
-	
+
 			players = append(players, p)
 
 		} else {
@@ -184,14 +184,14 @@ func parseBoxScore(d *goquery.Document) *Game {
 	game := Game{}
 
 	d.Find(HTML_DIV).Each(func(index int, div *goquery.Selection) {
-		
+
 		id, _ := div.Attr("id")
 
 		if id == ESPN_BOXSCORE_ID {
 
 			div.Find(HTML_TBODY).Each(func(itb int, tbody *goquery.Selection) {
-				
-				players := parsePlayers(tbody, true)				
+
+				players := parsePlayers(tbody, true)
 
 				if itb == INDEX_AWAY_STARTERS || itb == INDEX_AWAY_BENCH {
 					game.Away.Players = append(game.Away.Players, players...)
@@ -215,7 +215,7 @@ func parseBoxScore(d *goquery.Document) *Game {
 					} else {
 						game.Home.Name = name
 					}
-					
+
 				}
 
 			})
@@ -262,13 +262,13 @@ func GetGameIDs(d string) map[string] string {
 	if err != nil {
 		logf("GetGameIDs", err.Error())
 	} else {
-		
+
 		for _, n := range nodes {
 
 			u := n.AttributeValue(HTML_ATTR_HREF)
 
 			if strings.Contains(u, MATCH_BOXSCORE) {
-				
+
 				x := strings.Split(u, STRING_EQUAL)
 				ids[strings.TrimSpace(x[len(x)-1])] = d
 
@@ -287,7 +287,7 @@ func GetGameIDsFrom(d string) map[string]string {
 
 	all := map[string]string{}
 
-	days := getDays(d)
+	days := GetDays(d)
 
 	for _, day := range days {
 
@@ -296,7 +296,7 @@ func GetGameIDsFrom(d string) map[string]string {
 		for k, _ := range ids {
 			all[k] = day
 		}
-		
+
 	}
 
 	return all
@@ -308,11 +308,11 @@ func GetGameIDsBySeason(d string) map[string]string {
 
 	all := map[string]string{}
 
-	season, ok := official_seasons[d]
+	season, ok := OfficialSeasons[d]
 
 	if ok {
 
-		days := getDays(season[SEASON_INDEX_BEGIN])
+		days := GetDays(season[SEASON_BEGIN])
 
 		for _, d := range days {
 
@@ -321,11 +321,11 @@ func GetGameIDsBySeason(d string) map[string]string {
 			for k, _ := range ids {
 				all[k] = d
 			}
-			
+
 		}
 
 	}
-	
+
 	return all
 
 } // GetGameIDsBySeason
@@ -346,29 +346,29 @@ func GetGames(gameIDs map[string] string) []Game {
 		if err != nil {
 			logf("GetGames", err.Error())
 		} else {
-	
+
 			defer res.Body.Close()
-	
+
 			doc, err := goquery.NewDocumentFromReader(res.Body)
-	
+
 			if err != nil {
 				logf("GetGames", err.Error())
 			} else {
 
 				game := parseBoxScore(doc)
-				
+
 				game.ID 		= id
 				game.Date   = gameDate
-				
+
 				all = append(all, *game)
 
 			}
-	
+
 		}
-	
+
 	}
 
-	//log.Printf("%+v", all)	
+	//log.Printf("%+v", all)
 
 	return all
 
@@ -404,13 +404,13 @@ func StoreFromDay(d string) {
 	games := GetGames(ids)
 
 	StoreGames(games)
-	
+
 } // StoreFromDay
 
 
 func StoreGames(games []Game) {
 
-	for _, g := range games {	
+	for _, g := range games {
 		putGame(&g)
 	}
 

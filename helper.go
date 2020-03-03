@@ -83,7 +83,7 @@ func getYearsFrom(s string) []string {
 
 					current := tn.Format(YEAR_FORMAT)
 
-					_, ok := official_seasons[current]
+					_, ok := OfficialSeasons[current]
 
 					if ok {
 						years = append(years, current)
@@ -162,12 +162,76 @@ func dateCheck(d string) bool {
 } // dateCheck
 
 
-func getDays(d string) []string {
+func mtoi(s string) (int, int) {
+
+	toks := strings.Split(s, STRING_COLON)
+
+	tokenLen := len(toks)
+
+	if tokenLen == 2 {
+		return atoi(toks[0]), atoi(toks[1])
+	} else if tokenLen == 1 {
+		return atoi(toks[0]), 0
+	} else {
+		logf("mtoi", fmt.Sprintf("Unknown minutes format: %s", s))
+		return 0, 0
+	}
+
+} // mtoi
+
+
+func filterId(id string) string {
+
+	if id == STRING_EMPTY {
+		return STRING_EMPTY
+	}
+
+	if strings.Contains(id, STRING_SPACE) {
+
+		toks := strings.Split(id, STRING_SPACE)
+
+		return strings.TrimSpace(toks[0])
+
+	} else {
+		return id
+	}
+
+} // filterId
+
+
+func GetGameType(d string) string {
+
+	t, err := time.Parse(DATE_FORMAT, d)
+
+	if err != nil {
+		logf("GetGameType", err.Error())
+		return SEASON_UNKNOWN
+	} else {
+
+		s := GetSeason(t)
+
+		if d >= s[SEASON_BEGIN] && d <= s[SEASON_END] {
+			return SEASON_REGULAR
+		} else if d >= s[SEASON_PLAYOFFS_BEGIN] && d <= s[SEASON_PLAYOFFS_END] {
+			return SEASON_PLAYOFF
+		} else if d == s[SEASON_ALL_STAR_GAME] || d == s[SEASON_ALL_STAR_EMPTY] ||
+		  d == s[SEASON_WORLD_GAME] {
+			return SEASON_ALLSTAR
+		} else {
+			return SEASON_UNKNOWN
+		}
+
+	}
+
+} // GetGameType
+
+
+func GetDays(d string) []string {
 
 	days := []string{}
 
 	if !SeasonCheck(d) {
-		logf("getDays", "Invalid date, out of season schedule.")
+		logf("GetDays", "Invalid date, out of season schedule.")
 	} else {
 
 		fromDate := ParseEstTime(d)
@@ -176,7 +240,7 @@ func getDays(d string) []string {
 
 			season := GetSeason(*fromDate)
 
-			end := ParseEstTime(season[SEASON_INDEX_PLAYOFFS_END])
+			end := ParseEstTime(season[SEASON_PLAYOFFS_END])
 
 			if end != nil {
 
@@ -217,44 +281,7 @@ func getDays(d string) []string {
 
 	return days
 
-} // getDays
-
-
-func mtoi(s string) (int, int) {
-
-	toks := strings.Split(s, STRING_COLON)
-
-	tokenLen := len(toks)
-
-	if tokenLen == 2 {
-		return atoi(toks[0]), atoi(toks[1])
-	} else if tokenLen == 1 {
-		return atoi(toks[0]), 0
-	} else {
-		logf("mtoi", fmt.Sprintf("Unknown minutes format: %s", s))
-		return 0, 0
-	}
-
-} // mtoi
-
-
-func filterId(id string) string {
-
-	if id == STRING_EMPTY {
-		return STRING_EMPTY
-	}
-
-	if strings.Contains(id, STRING_SPACE) {
-
-		toks := strings.Split(id, STRING_SPACE)
-
-		return strings.TrimSpace(toks[0])
-
-	} else {
-		return id
-	}
-
-} // filterId
+} // GetDays
 
 
 func MoveDay(d string, n int) string {
@@ -431,7 +458,7 @@ func SeasonCheck(d string) bool {
 		season := GetSeason(t)
 
 		begin, err := time.Parse(DATE_FORMAT,
-			season[SEASON_INDEX_BEGIN])
+			season[SEASON_BEGIN])
 
 		if err != nil {
 			logf("SeasonCheck", err.Error())
@@ -439,7 +466,7 @@ func SeasonCheck(d string) bool {
 		} else {
 
 			end, err 	:= time.Parse(DATE_FORMAT,
-				season[SEASON_INDEX_PLAYOFFS_END])
+				season[SEASON_PLAYOFFS_END])
 
 			if err != nil {
 
@@ -469,17 +496,17 @@ func GetSeason(t time.Time) []string {
 
 	if t.After(now) {
 		logf("GetSeason", fmt.Sprintf("Date unsupported: %s", t.String()))
-		return official_seasons[SEASON_CURRENT]
+		return OfficialSeasons[SEASON_CURRENT]
 	}
 
 	cm := t.Month()
 
 	if cm >= time.October && cm <= time.December {
-		return official_seasons[seasonKey(t, true)]
+		return OfficialSeasons[seasonKey(t, true)]
 	} else if cm >= time.January && cm <= time.June {
-		return official_seasons[seasonKey(t, false)]
+		return OfficialSeasons[seasonKey(t, false)]
 	} else {
-		return official_seasons[SEASON_CURRENT]
+		return OfficialSeasons[SEASON_CURRENT]
 	}
 
 } // GetSeason

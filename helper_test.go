@@ -21,7 +21,7 @@ func TestGetSeason(t *testing.T) {
 
 func TestGetDaysOldSeason(t *testing.T) {
 
-	days := getDays("20151030")
+	days := GetDays("20151030")
 
 	t.Log(days)
 
@@ -38,7 +38,7 @@ func TestGetDaysNow(t *testing.T) {
 
 	d := now.Format(DATE_FORMAT)
 
-	days := getDays(d)
+	days := GetDays(d)
 
 	t.Log(days)
 
@@ -51,7 +51,7 @@ func TestGetDaysNow(t *testing.T) {
 
 func TestGetDaysCurrentSeason(t *testing.T) {
 
-	days := getDays("20191022")
+	days := GetDays("20191022")
 
 	t.Log(days)
 
@@ -70,7 +70,7 @@ func TestGetDaysFuture(t *testing.T) {
 
 	d := future.Format(DATE_FORMAT)
 
-	days := getDays(d)
+	days := GetDays(d)
 
 	t.Log(days)
 
@@ -91,7 +91,7 @@ func TestGetYearsFrom(t *testing.T) {
 
 		for _, y := range years {
 
-			_, ok := official_seasons[y]
+			_, ok := OfficialSeasons[y]
 
 			if !ok {
 				t.Errorf("%s non-official season", y)
@@ -141,7 +141,7 @@ func TestLastDownload(t *testing.T) {
 
 func TestGetDays(t *testing.T) {
 
-	days := getDays("20200220")
+	days := GetDays("20200220")
 
 	t.Log(days)
 
@@ -154,7 +154,7 @@ func TestGetDays(t *testing.T) {
 
 func TestGetDays2(t *testing.T) {
 
-	days := getDays("20191120")
+	days := GetDays("20191120")
 
 	t.Log(days)
 
@@ -167,7 +167,7 @@ func TestGetDays2(t *testing.T) {
 
 func TestGetDays3(t *testing.T) {
 
-	days := getDays("20181120")
+	days := GetDays("20181120")
 
 	t.Log(days)
 

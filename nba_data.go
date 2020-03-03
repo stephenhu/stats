@@ -389,7 +389,7 @@ func NbaGetScoreboardFrom(d string) []NbaScoreboard {
 
 	all := []NbaScoreboard{}
 
-	days := getDays(d)
+	days := GetDays(d)
 
 	for _, day := range days {
 
@@ -513,7 +513,7 @@ func NbaStoreDay(d string) []Game {
 
 func NbaStoreFromDay(d string) {
 
-	days := getDays(d)
+	days := GetDays(d)
 
 	for _, day := range days {
 
@@ -528,10 +528,10 @@ func NbaStoreFromDay(d string) {
 
 func NbaStoreSeason(s string) {
 
-	season, ok := official_seasons[s]
+	season, ok := OfficialSeasons[s]
 
 	if ok {
-		NbaStoreFromDay(season[SEASON_INDEX_BEGIN])
+		NbaStoreFromDay(season[SEASON_BEGIN])
 	} else {
 		logf("NbaStoreSeason", fmt.Sprintf("Season not found %s", s))
 	}

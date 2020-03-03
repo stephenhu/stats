@@ -20,7 +20,7 @@ func LastPlayedGames(n int, p string) []Player {
 
 		date := d.Format(DATE_FORMAT)
 
-		if len(last) == n || s[SEASON_INDEX_BEGIN] > date {
+		if len(last) == n || s[SEASON_BEGIN] > date {
 			break
 		}
 
@@ -57,7 +57,7 @@ func LastTeamGames(n int, t string) []Team {
 
 		date := d.Format(DATE_FORMAT)
 
-		if len(last) == n || s[SEASON_INDEX_BEGIN] > date {
+		if len(last) == n || s[SEASON_BEGIN] > date {
 			break
 		}
 
@@ -88,7 +88,7 @@ func LastScores() []Game {
 
 		date := d.Format(DATE_FORMAT)
 
-		if s[SEASON_INDEX_BEGIN] > date {
+		if s[SEASON_BEGIN] > date {
 			break
 		}
 
@@ -102,6 +102,6 @@ func LastScores() []Game {
 
   }
 
-	return GamesMap[s[SEASON_INDEX_BEGIN]]
+	return GamesMap[s[SEASON_BEGIN]]
 
 } // LastScores

@@ -1,19 +1,25 @@
 package stats
 
 const (
-	SEASON_INDEX_BEGIN						= 0
-	SEASON_INDEX_END							= 1
-	SEASON_INDEX_PLAYOFFS_BEGIN		= 2
-	SEASON_INDEX_PLAYOFFS_END		  = 3
+	SEASON_BEGIN									= 0
+	SEASON_END										= 1
+	SEASON_PLAYOFFS_BEGIN					= 2
+	SEASON_PLAYOFFS_END		  			= 3
 	SEASON_ALL_STAR_GAME		  		= 4
+	SEASON_ALL_STAR_EMPTY         = 5
+	SEASON_WORLD_GAME             = 6
 )
 
 const (
 	SEASON_DEFAULT								= "unknown"
 	SEASON_CURRENT                = "2019" 		// maintaining this is not scalable
+	SEASON_REGULAR                = "regular"
+	SEASON_PLAYOFF                = "playoff" // use an integer instead
+	SEASON_ALLSTAR                = "allstar"
+	SEASON_UNKNOWN								= "unknown"
 )
 
-var official_seasons = map[string][]string {
+var OfficialSeasons = map[string][]string {
 		"1977": {"19771018", "19780409", "19780411", "19780607"},
 		"1978": {"19781013", "19790408", "19790410", "19790601"},  // larry bird
 		"1979": {"19791012", "19800415", "19800418", "19800516"},  // 3pt introduced
@@ -56,5 +62,5 @@ var official_seasons = map[string][]string {
 		"2016": {"20161025", "20170412", "20170415", "20170612"},
 		"2017": {"20171017", "20180411", "20180414", "20180608"},
 		"2018": {"20181016", "20190410", "20190413", "20190613"},
-		"2019": {"20191022", "20200415", "20200415", "20200630", "20200216"},  // tenative fake dates
+		"2019": {"20191022", "20200415", "20200415", "20200630", "20200216", "20200214", "20200215"},  // tenative fake dates
 }
