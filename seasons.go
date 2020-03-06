@@ -12,7 +12,6 @@ const (
 
 const (
 	SEASON_DEFAULT								= "unknown"
-	SEASON_CURRENT                = "2019" 		// maintaining this is not scalable
 	SEASON_REGULAR                = "regular"
 	SEASON_PLAYOFF                = "playoff" // use an integer instead
 	SEASON_ALLSTAR                = "allstar"

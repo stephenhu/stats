@@ -2,7 +2,9 @@ data.nba.net
 
 https://github.com/kashav/nba.js/blob/master/docs/api/DATA.md
 
-* 
+http://data.nba.net/data/10s/prod/v1/current/standings_all.json
+
+*
 * only supports data since the 2015 season, will need to use espn for older games
 * players from different leagues are interspersed with nba players such
 as cba, turkish league, etc, filtering out these players requires a flag

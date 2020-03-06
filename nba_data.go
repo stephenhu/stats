@@ -206,8 +206,10 @@ func convPlayers(players []NbaPlayerData, g *Game) {
 		player.Position     = p.Position
 
 		if p.TeamID == g.Away.ID {
+			player.Opponent = g.Home.Name
 			awayPlayers = append(awayPlayers, player)
 		} else {
+			player.Opponent = g.Away.Name
 			homePlayers = append(homePlayers, player)
 		}
 

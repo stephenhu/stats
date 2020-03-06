@@ -199,6 +199,26 @@ func filterId(id string) string {
 } // filterId
 
 
+func CurrentSeason() string {
+
+	now := GetEstNow()
+
+	m := now.Month()
+
+	if m >= time.October && m <= time.December {
+		return fmt.Sprintf("%d", now.Year())
+	} else {
+
+		tn := *now
+		tn = tn.AddDate(-1, 0, 0)
+
+		return fmt.Sprintf("%d", tn.Year())
+
+	}
+
+} // CurrentSeason
+
+
 func GetGameType(d string) string {
 
 	t, err := time.Parse(DATE_FORMAT, d)
@@ -417,14 +437,14 @@ func GetEstDate(now *time.Time) *time.Time {
 func SeasonKeyByDate(d string) string {
 
 	if d == "" {
-		return SEASON_CURRENT
+		return CurrentSeason()
 	}
 
 	t, err := time.Parse(DATE_FORMAT, d)
 
 	if err != nil {
 		logf("SeasonKeyByDate", err.Error())
-		return SEASON_CURRENT
+		return CurrentSeason()
 	} else {
 
 		cm := t.Month()
@@ -434,7 +454,7 @@ func SeasonKeyByDate(d string) string {
 		} else if cm >= time.January && cm <= time.June {
 			return seasonKey(t, false)
 		} else {
-			return SEASON_CURRENT
+			return CurrentSeason()
 		}
 
 	}
@@ -496,7 +516,7 @@ func GetSeason(t time.Time) []string {
 
 	if t.After(now) {
 		logf("GetSeason", fmt.Sprintf("Date unsupported: %s", t.String()))
-		return OfficialSeasons[SEASON_CURRENT]
+		return OfficialSeasons[CurrentSeason()]
 	}
 
 	cm := t.Month()
@@ -506,7 +526,7 @@ func GetSeason(t time.Time) []string {
 	} else if cm >= time.January && cm <= time.June {
 		return OfficialSeasons[seasonKey(t, false)]
 	} else {
-		return OfficialSeasons[SEASON_CURRENT]
+		return OfficialSeasons[CurrentSeason()]
 	}
 
 } // GetSeason

@@ -183,7 +183,7 @@ type Team struct {
 
 type Game struct {
 	ID              string          `json:"id"`
-	SeasonID        string          `json:"seasonId"`  // discard?
+	SeasonID        string          `json:"seasonId"`
 	Date            string          `json:"date"`
 	PubDate					string					`json:"pubDate"`
 	StartUtc        string          `json:"startUtc"`
