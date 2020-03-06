@@ -3,6 +3,10 @@ data.nba.net
 https://github.com/kashav/nba.js/blob/master/docs/api/DATA.md
 
 http://data.nba.net/data/10s/prod/v1/current/standings_all.json
+http://data.nba.net/data/10s/prod/v1/2019/players/200746_profile.json
+http://data.nba.net/data/10s/prod/v1/2019/players.json
+https://data.nba.net/data/10s/prod/v1/2019/team_stats_rankings.json
+
 
 *
 * only supports data since the 2015 season, will need to use espn for older games

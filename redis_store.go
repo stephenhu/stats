@@ -80,7 +80,7 @@ func RedisStorePlayers(s string) {
 
 		for _, p := range all.Players {
 
-			j, err := json.Marshal(p)
+			j, err := json.MarshalIndent(p, JSON_PREFIX, JSON_INDENT)
 
 			if err != nil {
 				logf("RedisStorePlayers", err.Error())
@@ -122,7 +122,7 @@ func RedisStoreTeams(s string) {
 
 		for _, t := range all.Teams {
 
-			j, err := json.Marshal(t)
+			j, err := json.MarshalIndent(t, JSON_PREFIX, JSON_INDENT)
 
 			if err != nil {
 				logf("RedisStoreTeams", err.Error())
@@ -154,7 +154,7 @@ func RedisStoreTeams(s string) {
 
 func RedisStorePlayer(s string, d string, gname string, player Player) {
 
-	j, err := json.Marshal(player)
+	j, err := json.MarshalIndent(player, JSON_PREFIX, JSON_INDENT)
 
 	if err != nil {
 		logf("RedisStorePlayer", err.Error())
@@ -235,7 +235,7 @@ func RedisStoreIndex(game Game, d string) {
 
 func RedisStoreGame(d string, gid string, game *Game) {
 
-	j, err := json.Marshal(game)
+	j, err := json.MarshalIndent(game, JSON_PREFIX, JSON_INDENT)
 
 	if err != nil {
 		logf("RedisStoreGame", err.Error())
@@ -334,6 +334,118 @@ func RedisStoreSeason(s string) int {
 	}
 
 } // RedisStoreSeason
+
+
+func RedisStorePlayerInfo(s string) {
+
+	players := NbaGetPlayers(s)
+
+	all := convLeaguePlayers(players)
+
+	rp := RP.Get()
+
+	for _, player := range all.Players {
+
+		j, err := json.MarshalIndent(player, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("RedisStorePlayerInfo", err.Error())
+		} else {
+
+			rp.Do(HSET, fmt.Sprintf("%s:players"), KeyName(fmt.Sprintf("%s%s",
+				player.First, player.Last)), j)
+
+		}
+
+	}
+
+	rp.Close()
+
+} // RedisStorePlayerInfo
+
+
+func RedisStoreProfiles(s string) {
+
+	players := NbaGetPlayers(s)
+
+	all := NbaGetProfiles(s, players)
+
+	rp := RP.Get()
+
+	for _, player := range all {
+
+		profile := convPlayerProfile(&player)
+
+		j, err := json.MarshalIndent(profile, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("RedisStoreProfiles", err.Error())
+		} else {
+
+			rp.Do(HSET, fmt.Sprintf("%s:players:stats", s), KeyName(fmt.Sprintf(
+				"%s%s", profile.First, profile.Last)), j)
+
+		}
+
+	}
+
+	rp.Close()
+
+} // RedisStoreProfiles
+
+
+func RedisStoreTeamInfo(s string) {
+
+	teams := NbaGetTeams(s)
+
+	all := convTeamInfo(teams)
+
+	rp := RP.Get()
+
+	for _, team := range all.Teams {
+
+		j, err := json.MarshalIndent(team, JSON_PREFIX, JSON_INDENT)
+
+		if err != nil {
+			logf("RedisStoreTeamInfo", err.Error())
+		} else {
+
+			rp.Do(HSET, fmt.Sprintf("%s:teams", s), KeyName(team.Code), j)
+
+		}
+
+	}
+
+	rp.Close()
+
+} // RedisStoreTeamInfo
+
+
+func RedisStoreTeamRanks(s string) {
+
+	all := NbaGetTeamRanks(s)
+
+	ranks := convTeamRanks(all)
+
+	rp := RP.Get()
+
+	for _, rank := range ranks.Teams {
+
+		j, err := json.Marshal(rank)
+
+		if err != nil {
+			logf("RedisStoreTeamRanks", err.Error())
+		} else {
+
+			rp.Do(HSET, fmt.Sprintf("%s:teams:stats", s), KeyName(rank.Name), j)
+
+		}
+
+	}
+
+	rp.Close()
+
+} // RedisStoreTeamRanks
 
 
 func RedisGetDay(d string) []Game {

@@ -148,6 +148,7 @@ type TeamRanks struct {
 	Points						float32						`json:"points"`
 	OpponentPoints		float32						`json:"opponentPoints"`
 	Efficiency				float32						`json:"efficiency"`
+	Name      				string            `json:"name"`
 }
 
 type PlayerCareer struct {

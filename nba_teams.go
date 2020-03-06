@@ -98,6 +98,7 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 				tr.Points						= atof(rank.Points.Average)
 				tr.OpponentPoints		= atof(rank.OpponentPoints.Average)
 				tr.Efficiency       = atof(rank.Efficiency.Average)
+				tr.Name     				= rank.Abbreviation
 
 				all.Teams = append(all.Teams, tr)
 
