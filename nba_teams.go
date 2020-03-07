@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	//"log"
 	//"net/http"
-	"strings"
+	//"strings"
 )
 
 type NbaTeamRanks struct {
@@ -171,6 +171,25 @@ func convTeamInfo(teams *NbaTeams) *AllTeams {
 } // convTeamInfo
 
 
+func convRoster(roster *NbaTeamRoster) *Roster {
+
+	if roster == nil {
+		return nil
+	}
+
+	r := Roster{}
+
+	r.TeamID = roster.TeamID
+
+	for _, player := range roster.Players {
+		r.Players = append(r.Players, player.ID)
+	}
+
+	return &r
+
+} // convRoster
+
+
 func TeamRanksApi(s string) string {
 
 	if s == "" {
@@ -190,16 +209,9 @@ func TeamRosterApi(s string, n string) string {
 		return ""
 	}
 
-	mascot, ok := RosterTeams[strings.ToLower(n)]
-
-	if ok {
-		return fmt.Sprintf("%s%s",
-		  NBA_BASE_URL,
-			fmt.Sprintf(NBA_API_ROSTER, s, mascot))
-	} else {
-		return ""
-	}
-
+	return fmt.Sprintf("%s%s",
+	  NBA_BASE_URL,
+		fmt.Sprintf(NBA_API_ROSTER, s, n))
 
 } // TeamRosterApi
 
@@ -217,13 +229,13 @@ func TeamsApi(s string) string {
 } // TeamsApi
 
 
-func NbaGetTeams(d string) *NbaTeams {
+func NbaGetTeams(s string) *NbaTeams {
 
 	teams := NbaTeams{}
 
-	teams.SeasonID = d
+	teams.SeasonID = s
 
-	res, err := client.Get(TeamsApi(d))
+	res, err := client.Get(TeamsApi(s))
 
 	if err != nil {
 		logf("NbaGetTeams", err.Error())
@@ -295,11 +307,13 @@ func NbaGetTeamRanks(s string) *NbaRanks {
 
 func NbaGetTeamRoster(s string, n string) *NbaTeamRoster {
 
-	if s == "" {
+	if s == "" || n == "" {
 		return nil
 	}
 
-	res, err := client.Get(TeamRosterApi(s, n))
+	tr := TeamRosterApi(s, n)
+
+	res, err := client.Get(tr)
 
 	if err != nil {
 		logf("NbaGetTeamRoster", err.Error())

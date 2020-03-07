@@ -418,15 +418,17 @@ func RedisStoreTeamRosters(s string) {
 
 				roster := NbaGetTeamRoster(s, mascot)
 
-				if roster != nil {
+				ros := convRoster(roster)
 
-					j, err := json.MarshalIndent(roster, JSON_PREFIX, JSON_INDENT)
+				if ros != nil {
+
+					j, err := json.MarshalIndent(ros, JSON_PREFIX, JSON_INDENT)
 
 					if err != nil {
 						logf("RedisStoreTeamRosters", err.Error())
 					} else {
 
-						_, err := rp.Do(HSET, fmt.Sprintf("%s:teams:rosters", s), team.Code, j)
+						_, err := rp.Do(HSET, fmt.Sprintf("%s:teams:rosters", s), strings.ToLower(team.Code), j)
 
 						if err != nil {
 							logf("RedisStoreTeamRosters", err.Error())
@@ -438,6 +440,8 @@ func RedisStoreTeamRosters(s string) {
 					logf("RedisStoreTeamRosters", "empty roster")
 				}
 
+			} else {
+				logf("RedisStoreTeamRosters", fmt.Sprintf("Team %s not found.", team.Code))
 			}
 
 		}

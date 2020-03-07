@@ -214,5 +214,6 @@ type AllPlayers struct {
 }
 
 type Roster struct {
+	TeamID          string          `json:"teamId"`
 	Players					[]string				`json:"players"`
 }

@@ -57,7 +57,7 @@ var RosterTeams = map[string]string {
 	"ind": "pacers",
 	"phi": "sixers",
 	"phx": "suns",
-	"por": "trailblazers",
+	"por": "blazers",
 	"sac": "kings",
 	"sas": "spurs",
 	"okc": "thunder",
