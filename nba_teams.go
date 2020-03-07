@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	//"log"
 	//"net/http"
+	"strings"
 )
 
 type NbaTeamRanks struct {
@@ -42,16 +43,33 @@ type NbaRegularSeason2 struct {
 	Teams				[]NbaTeamRanks		`json:"teams"`
 }
 
+type NbaLeague3 struct {
+	Teams 		[]NbaTeamStandard			`json:"standard"`
+}
+
 type NbaLeague4 struct {
 	NbaRegularSeason2 `json:"regularSeason"`
+}
+
+type NbaLeague5 struct {
+	NbaRegularSeason2 `json:"regularSeason"`
+}
+
+type NbaTeamPlayer struct {
+	ID						string							`json:"personId"`
+}
+
+type NbaTeam2 struct {
+	Players			[]NbaTeamPlayer				`json:"players"`
+	TeamID      string                `json:"teamId"`
 }
 
 type NbaStandard2 struct {
 	NbaLeague4 `json:"standard"`
 }
 
-type NbaLeague3 struct {
-	Teams 		[]NbaTeamStandard			`json:"standard"`
+type NbaStandard3 struct {
+	NbaTeam2		`json:"standard"`
 }
 
 type NbaRanks struct {
@@ -64,6 +82,11 @@ type NbaTeams struct {
 	NbaInternal			`json:"_internal"`
 	NbaLeague3			`json:"league"`
 	SeasonID				string				`json:"seasonId"`
+}
+
+type NbaTeamRoster struct {
+	NbaInternal			`json:"_internal"`
+	NbaStandard3 		`json:"league"`
 }
 
 
@@ -161,6 +184,26 @@ func TeamRanksApi(s string) string {
 } // TeamRanksApi
 
 
+func TeamRosterApi(s string, n string) string {
+
+	if s == "" || n == "" {
+		return ""
+	}
+
+	mascot, ok := RosterTeams[strings.ToLower(n)]
+
+	if ok {
+		return fmt.Sprintf("%s%s",
+		  NBA_BASE_URL,
+			fmt.Sprintf(NBA_API_ROSTER, s, mascot))
+	} else {
+		return ""
+	}
+
+
+} // TeamRosterApi
+
+
 func TeamsApi(s string) string {
 
 	if s == "" {
@@ -248,6 +291,46 @@ func NbaGetTeamRanks(s string) *NbaRanks {
 	}
 
 } // NbaGetTeamRanks
+
+
+func NbaGetTeamRoster(s string, n string) *NbaTeamRoster {
+
+	if s == "" {
+		return nil
+	}
+
+	res, err := client.Get(TeamRosterApi(s, n))
+
+	if err != nil {
+		logf("NbaGetTeamRoster", err.Error())
+		return nil
+	} else {
+
+		defer res.Body.Close()
+
+		buf, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			logf("NbaGetTeamRoster", err.Error())
+			return nil
+		} else {
+
+			roster := NbaTeamRoster{}
+
+			err := json.Unmarshal(buf, &roster)
+
+			if err != nil {
+				logf("NbaGetTeamRoster", err.Error())
+				return nil
+			} else {
+				return &roster
+			}
+
+		}
+
+	}
+
+} // NbaGetTeamRoster
 
 
 func NbaStoreTeams(t *NbaTeams) {

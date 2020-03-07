@@ -212,3 +212,7 @@ type AllPlayers struct {
 	PubDate					string					`json:"pubDate"`
 	Players					[]PlayerInfo		`json:"players"`
 }
+
+type Roster struct {
+	Players					[]string				`json:"players"`
+}

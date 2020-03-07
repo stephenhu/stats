@@ -352,8 +352,12 @@ func RedisStorePlayerInfo(s string) {
 			logf("RedisStorePlayerInfo", err.Error())
 		} else {
 
-			rp.Do(HSET, fmt.Sprintf("%s:players"), KeyName(fmt.Sprintf("%s%s",
+			_, err := rp.Do(HSET, fmt.Sprintf("%s:players"), KeyName(fmt.Sprintf("%s%s",
 				player.First, player.Last)), j)
+
+			if err != nil {
+				logf("RedisStorePlayerInfo", err.Error())
+			}
 
 		}
 
@@ -382,8 +386,12 @@ func RedisStoreProfiles(s string) {
 			logf("RedisStoreProfiles", err.Error())
 		} else {
 
-			rp.Do(HSET, fmt.Sprintf("%s:players:stats", s), KeyName(fmt.Sprintf(
+			_, err := rp.Do(HSET, fmt.Sprintf("%s:players:stats", s), KeyName(fmt.Sprintf(
 				"%s%s", profile.First, profile.Last)), j)
+
+			if err != nil {
+				logf("RedisStoreProfiles", err.Error())
+			}
 
 		}
 
@@ -392,6 +400,53 @@ func RedisStoreProfiles(s string) {
 	rp.Close()
 
 } // RedisStoreProfiles
+
+
+func RedisStoreTeamRosters(s string) {
+
+	teams := NbaGetTeams(s)
+
+	if teams != nil {
+
+		rp := RP.Get()
+
+		for _, team := range teams.Teams {
+
+			mascot, ok := RosterTeams[strings.ToLower(team.Code)]
+
+			if ok {
+
+				roster := NbaGetTeamRoster(s, mascot)
+
+				if roster != nil {
+
+					j, err := json.MarshalIndent(roster, JSON_PREFIX, JSON_INDENT)
+
+					if err != nil {
+						logf("RedisStoreTeamRosters", err.Error())
+					} else {
+
+						_, err := rp.Do(HSET, fmt.Sprintf("%s:teams:rosters", s), team.Code, j)
+
+						if err != nil {
+							logf("RedisStoreTeamRosters", err.Error())
+						}
+
+					}
+
+				} else {
+					logf("RedisStoreTeamRosters", "empty roster")
+				}
+
+			}
+
+		}
+
+		rp.Close()
+
+	}
+
+} // RedisStoreTeamRosters
 
 
 func RedisStoreTeamInfo(s string) {
@@ -533,7 +588,7 @@ func RedisGetPlayer(s string, name string) *PlayerCareer {
 	rp.Close()
 
 	if err != nil {
-		logf("RedisGetPlayers", err.Error())
+		logf("RedisGetPlayer", err.Error())
 		return nil
 	} else {
 
@@ -542,7 +597,7 @@ func RedisGetPlayer(s string, name string) *PlayerCareer {
 		err := json.Unmarshal([]byte(j), &p)
 
 		if err != nil {
-			logf("RedisGetPlayers", err.Error())
+			logf("RedisGetPlayer", err.Error())
 			return nil
 		} else {
 			return &p
@@ -551,6 +606,73 @@ func RedisGetPlayer(s string, name string) *PlayerCareer {
 	}
 
 } // RedisGetPlayer
+
+
+func RedisGetTeamRanks(s string, name string) *TeamRanks {
+
+	if name == "" {
+		return nil
+	}
+
+	rp := RP.Get()
+
+	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:teams:stats", s), name))
+
+	rp.Close()
+
+	if err != nil {
+		logf("RedisGetTeamRanks", err.Error())
+		return nil
+	} else {
+
+		tr := TeamRanks{}
+
+		err := json.Unmarshal([]byte(j), &tr)
+
+		if err != nil {
+			logf("RedisGetTeamRanks", err.Error())
+			return nil
+		} else {
+			return &tr
+		}
+
+	}
+
+} // RedisGetTeamRanks
+
+
+func RedisGetTeamRoster(s string, name string) *Roster {
+
+	if name == "" {
+		return nil
+	}
+
+	rp := RP.Get()
+
+	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:teams:roster", s), name))
+
+	rp.Close()
+
+	if err != nil {
+		logf("RedisGetTeamRoster", err.Error())
+		return nil
+	} else {
+
+		r := Roster{}
+
+		err := json.Unmarshal([]byte(j), &r)
+
+		if err != nil {
+			logf("RedisGetTeamRoster", err.Error())
+			return nil
+		} else {
+			return &r
+		}
+
+	}
+
+} // RedisGetTeamRoster
+
 
 
 func RedisGameDays(s string) []string {
