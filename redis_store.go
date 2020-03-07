@@ -520,6 +520,39 @@ func RedisGetGame(d string, id string) *Game {
 } // RedisGetGame
 
 
+func RedisGetPlayer(s string, name string) *PlayerCareer {
+
+	if name == "" {
+		return nil
+	}
+
+	rp := RP.Get()
+
+	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:players:stats", s), name))
+
+	rp.Close()
+
+	if err != nil {
+		logf("RedisGetPlayers", err.Error())
+		return nil
+	} else {
+
+		p := PlayerCareer{}
+
+		err := json.Unmarshal([]byte(j), &p)
+
+		if err != nil {
+			logf("RedisGetPlayers", err.Error())
+			return nil
+		} else {
+			return &p
+		}
+
+	}
+
+} // RedisGetPlayer
+
+
 func RedisGameDays(s string) []string {
 
 	_, ok := OfficialSeasons[s]

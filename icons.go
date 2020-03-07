@@ -1,5 +1,7 @@
 package stats
 
+// courtesy of espn
+
 var Icons = map[string]string{
 	"Kawhi Leonard": "6450",
 	"Paul George": "4251",
