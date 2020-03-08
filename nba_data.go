@@ -44,7 +44,7 @@ type NbaAdvStats struct {
 	Rpg								string				`json:"rpg"`			// rebounds per game
 	Apg								string				`json:"apg"`			// assists per game
 	Mpg								string				`json:"mpg"`			// minutes per game
-	Topg							string				`json:"topg"`			// turnovers per game
+	Tpg								string				`json:"topg"`			// turnovers per game
 	Spg								string				`json:"spg"`			// steals per game
 	Bpg								string				`json:"bpg"`			// blocks per game
 	Fgp								string				`json:"fgp"`			// fg %

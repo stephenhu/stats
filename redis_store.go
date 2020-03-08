@@ -352,7 +352,7 @@ func RedisStorePlayerInfo(s string) {
 			logf("RedisStorePlayerInfo", err.Error())
 		} else {
 
-			_, err := rp.Do(HSET, fmt.Sprintf("%s:players"), KeyName(fmt.Sprintf("%s%s",
+			_, err := rp.Do(HSET, fmt.Sprintf("%s:players", s), KeyName(fmt.Sprintf("%s%s",
 				player.First, player.Last)), j)
 
 			if err != nil {
@@ -612,6 +612,74 @@ func RedisGetPlayer(s string, name string) *PlayerCareer {
 } // RedisGetPlayer
 
 
+func RedisGetPlayerInfo(s string, name string) *PlayerInfo {
+
+	if name == "" {
+		return nil
+	}
+
+	rp := RP.Get()
+
+	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:players", s), KeyName(name)))
+
+	rp.Close()
+
+	if err != nil {
+		logf("RedisGetPlayer", err.Error())
+		return nil
+	} else {
+
+		p := PlayerInfo{}
+
+		err := json.Unmarshal([]byte(j), &p)
+
+		if err != nil {
+			logf("RedisGetPlayer", err.Error())
+			return nil
+		} else {
+			return &p
+		}
+
+	}
+
+} // RedisGetPlayerInfo
+
+
+func RedisGetAllPlayerInfo(s string) map[string]PlayerInfo {
+
+	mpi := map[string] PlayerInfo{}
+
+	rp := RP.Get()
+
+	all, err := redis.StringMap(rp.Do(HGETALL, fmt.Sprintf("%s:players", s)))
+
+	if err != nil {
+		logf("RedisGetAllPlayerInfo", err.Error())
+	} else {
+
+		for _, v := range all {
+
+			pi := PlayerInfo{}
+
+			err := json.Unmarshal([]byte(v), &pi)
+
+			if err != nil {
+				logf("RedisGetAllPlayerInfo", err.Error())
+			} else {
+				mpi[pi.ID] = pi
+			}
+
+		}
+
+	}
+
+	rp.Close()
+
+	return mpi
+
+} // RedisGetAllPlayerInfo
+
+
 func RedisGetTeamRanks(s string, name string) *TeamRanks {
 
 	if name == "" {
@@ -647,13 +715,13 @@ func RedisGetTeamRanks(s string, name string) *TeamRanks {
 
 func RedisGetTeamRoster(s string, name string) *Roster {
 
-	if name == "" {
+	if s == "" || name == "" {
 		return nil
 	}
 
 	rp := RP.Get()
 
-	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:teams:roster", s), name))
+	j, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:teams:rosters", s), name))
 
 	rp.Close()
 
@@ -677,6 +745,82 @@ func RedisGetTeamRoster(s string, name string) *Roster {
 
 } // RedisGetTeamRoster
 
+
+func RedisGetTeamRosterStats(s string, name string) []PlayerSeason {
+
+	all := []PlayerSeason{}
+
+	roster := RedisGetTeamRoster(s, name)
+
+	if roster != nil {
+
+		mpi := RedisGetAllPlayerInfo(s)
+
+		rp := RP.Get()
+
+		for _, player := range roster.Players {
+
+			pi, ok := mpi[player]
+
+			if ok {
+
+				val, err := redis.String(rp.Do(HGET, fmt.Sprintf("%s:players:stats", s), KeyName(fmt.Sprintf(
+					"%s%s", pi.First, pi.Last))))
+
+					if err != nil {
+						logf("RedisGetTeamRosterStats", err.Error())
+					} else {
+
+						pc := PlayerCareer{}
+
+						err := json.Unmarshal([]byte(val), &pc)
+
+						if err != nil {
+							logf("RedisGetTeamRosterStats", err.Error())
+						} else {
+
+							ps := convCareerSeason(&pc)
+
+							ps.ID 			= pi.ID
+							ps.First		= pi.First
+							ps.Last			= pi.Last
+
+							all = append(all, *ps)
+
+						}
+
+					}
+
+			} else {
+				logf("RedisGetTeamRosterStats", fmt.Sprintf("player id %s not found", player))
+			}
+
+		}
+
+		rp.Close()
+
+	}
+
+	return all
+
+} // RedisGetTeamRosterStats
+
+
+func RedisGetTeamData(s string, n string) *TeamData {
+
+	td := TeamData{}
+
+	ranks 	:= RedisGetTeamRanks(s, n)
+	players := RedisGetTeamRosterStats(s, n)
+
+	td.SeasonID   = s
+	td.Name				= n
+	td.Ranks 			= *ranks
+	td.Players		= players
+
+	return &td
+
+} // RedisGetTeamDta
 
 
 func RedisGameDays(s string) []string {

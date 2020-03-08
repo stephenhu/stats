@@ -99,7 +99,7 @@ func copyAdvStats(src *NbaAdvStats, dst *AdvStats) {
 	dst.Rpg     			= atof(src.Rpg)
 	dst.Apg     			= atof(src.Apg)
 	dst.Mpg     			= atof(src.Mpg)
-	dst.Topg     			= atof(src.Topg)
+	dst.Tpg     			= atof(src.Tpg)
 	dst.Spg     			= atof(src.Spg)
 	dst.Bpg     			= atof(src.Bpg)
 	dst.Fgp     			= atof(src.Fgp)
@@ -202,6 +202,52 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 	return &career
 
 } // convPlayerProfile
+
+
+func convCareerSeason(pc *PlayerCareer) *PlayerSeason {
+
+	if pc != nil {
+
+		ps := PlayerSeason{}
+
+		ps.Mpg 					= pc.Latest.Mpg
+		ps.Ppg 					= pc.Latest.Ppg
+		ps.Rpg 					= pc.Latest.Rpg
+		ps.Apg 					= pc.Latest.Apg
+		ps.Spg 					= pc.Latest.Spg
+		ps.Bpg 					= pc.Latest.Bpg
+		ps.Tpg          = pc.Latest.Tpg
+		ps.Fgp 					= pc.Latest.Fgp
+		ps.Fg3p 				= pc.Latest.Fg3p
+		ps.Ftp 					= pc.Latest.Ftp
+		ps.Mpg 					= pc.Latest.Mpg
+		ps.Points				= pc.Latest.Points
+		ps.Minutes			= pc.Latest.Minutes
+		ps.Oreb 				= pc.Latest.Oreb
+		ps.Dreb 				= pc.Latest.Dreb
+		ps.Treb 				= pc.Latest.Treb
+		ps.Fgm 					= pc.Latest.Fgm
+		ps.Fga 					= pc.Latest.Fga
+		ps.Fg3m 				= pc.Latest.Fg3m
+		ps.Fg3a 				= pc.Latest.Fg3a
+		ps.Fta 					= pc.Latest.Ftm
+		ps.Ftm 					= pc.Latest.Fta
+		ps.Fouls 				= pc.Latest.Fouls
+		ps.Assists 			= pc.Latest.Assists
+		ps.Steals 			= pc.Latest.Steals
+		ps.Blocks 			= pc.Latest.Blocks
+		ps.Turnovers 		= pc.Latest.Turnovers
+		ps.Played       = pc.Latest.Played
+		ps.Started      = pc.Latest.Started
+		ps.PlusMinus    = pc.Latest.PlusMinus
+
+		return &ps
+
+	} else {
+		return nil
+	}
+
+} // convCareerSeason
 
 
 func PlayersApi(s string) string {

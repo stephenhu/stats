@@ -75,7 +75,7 @@ type AdvStats struct {
 	Rpg								float32				`json:"rpg"`			// rebounds per game
 	Apg								float32				`json:"apg"`			// assists per game
 	Mpg								float32				`json:"mpg"`			// minutes per game
-	Topg							float32				`json:"tpg"`			// turnovers per game
+	Tpg								float32				`json:"tpg"`			// turnovers per game
 	Spg								float32				`json:"spg"`			// steals per game
 	Bpg								float32				`json:"bpg"`			// blocks per game
 	Fgp								float32				`json:"fgp"`			// fg %
@@ -138,17 +138,34 @@ type TeamRanks struct {
 	Fgp								float32						`json:"fgp"`
 	Fg3p							float32						`json:"fg3p"`
 	Ftp								float32						`json:"ftp"`
-	Oreb							float32						`json:"oreb"`
-	Dreb							float32						`json:"dreb"`
-	Treb							float32						`json:"treb"`
-	Assists						float32						`json:"assists"`
-	Turnovers					float32						`json:"turnovers"`
-	Steals						float32						`json:"steals"`
-	Blocks						float32						`json:"blocks"`
-	Points						float32						`json:"points"`
-	OpponentPoints		float32						`json:"opponentPoints"`
+	Oreb							float32						`json:"orpg"`
+	Dreb							float32						`json:"drpg"`
+	Treb							float32						`json:"trpg"`
+	Assists						float32						`json:"apg"`
+	Turnovers					float32						`json:"tpg"`
+	Steals						float32						`json:"spg"`
+	Blocks						float32						`json:"bpg"`
+	Fouls             float32           `json:"fpg"`
+	Points						float32						`json:"ppg"`
+	OpponentPoints		float32						`json:"oppg"`
 	Efficiency				float32						`json:"efficiency"`
 	Name      				string            `json:"name"`
+}
+
+type TeamData struct {
+	Name          string    						`json:"name"`
+	SeasonID      string                `json:"seasonId"`
+	Ranks					TeamRanks							`json:"ranks"`
+	Players				[]PlayerSeason				`json:"players"`
+}
+
+type PlayerSeason struct {
+	ID 						string				`json:"id"`				// player id
+	PubDate				string				`json:"pubDate"`
+	SeasonID      string        `json:"seasonId"`
+	First         string        `json:"first"`
+	Last         	string        `json:"last"`
+	AdvStats
 }
 
 type PlayerCareer struct {

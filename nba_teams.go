@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	//"log"
 	//"net/http"
-	//"strings"
+	"strings"
 )
 
 type NbaTeamRanks struct {
@@ -21,6 +21,7 @@ type NbaTeamRanks struct {
 	Turnovers					NbaRankStat				`json:"tpg"`
 	Steals						NbaRankStat				`json:"spg"`
 	Blocks						NbaRankStat				`json:"bpg"`
+	Fouls							NbaRankStat				`json:"pfpg"`
 	Points						NbaRankStat				`json:"ppg"`
 	OpponentPoints		NbaRankStat				`json:"oppg"`
 	Efficiency				NbaRankStat				`json:"eff"`
@@ -118,10 +119,11 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 				tr.Turnovers				= atof(rank.Turnovers.Average)
 				tr.Steals						= atof(rank.Steals.Average)
 				tr.Blocks						= atof(rank.Blocks.Average)
+				tr.Fouls						= atof(rank.Fouls.Average)
 				tr.Points						= atof(rank.Points.Average)
 				tr.OpponentPoints		= atof(rank.OpponentPoints.Average)
 				tr.Efficiency       = atof(rank.Efficiency.Average)
-				tr.Name     				= rank.Abbreviation
+				tr.Name     				= strings.ToLower(rank.Abbreviation)
 
 				all.Teams = append(all.Teams, tr)
 

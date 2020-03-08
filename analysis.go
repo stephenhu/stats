@@ -82,7 +82,7 @@ func PlayerAverages(games []Player) AdvStats {
 		as.Rpg 	= float32(as.Treb)/count
 		as.Apg 	= float32(as.Assists)/count
 		as.Mpg 	= float32(as.Minutes)/count
-		as.Topg = float32(as.Turnovers)/count
+		as.Tpg = float32(as.Turnovers)/count
 		as.Spg 	= float32(as.Steals)/count
 		as.Bpg 	= float32(as.Blocks)/count
 
@@ -138,7 +138,7 @@ func TeamAverages(games []Team) AdvStats {
 		as.Rpg 	= float32(as.Treb)/count
 		as.Apg 	= float32(as.Assists)/count
 		as.Mpg 	= float32(as.Minutes)/count
-		as.Topg = float32(as.Turnovers)/count
+		as.Tpg = float32(as.Turnovers)/count
 		as.Spg 	= float32(as.Steals)/count
 		as.Bpg 	= float32(as.Blocks)/count
 

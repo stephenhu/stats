@@ -76,3 +76,12 @@ func TestRedisSeasons(t *testing.T) {
 	t.Log(len(keys))
 
 } // TestRedisSeasons
+
+
+func TestRedisGetTeamData(t *testing.T) {
+
+	td := stats.RedisGetTeamData(stats.CurrentSeason(), "hou")
+
+	t.Log(td)
+
+} // TestRedisGetTeamData

@@ -20,9 +20,11 @@ func TestFindSeasons(t *testing.T) {
 
 func TestLoadCache(t *testing.T) {
 
-	LoadCache()
+	t.Skip("no more file system storage")
 
-	LastPlayedGames(5, "Kawhi Leonard")
+	//LoadCache()
+
+	//LastPlayedGames(5, "Kawhi Leonard")
 	//t.Log(SeasonsMap)
 
 } // TestLoadCache
