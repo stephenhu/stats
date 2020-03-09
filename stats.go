@@ -34,6 +34,7 @@ const (
 	NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
 	NBA_API_ROSTER            		= "/%s/teams/%s/roster.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
+	NBA_API_STANDINGS             = "/current/standings_all.json"
 	NBA_API_TEAMS                 = "/%s/teams.json"
 	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"
 )

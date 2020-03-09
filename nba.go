@@ -1,7 +1,7 @@
 package stats
 
 type RankStat struct {
-	Average				string					`json:"avg"`
+	Val						float32					`json:"val"`
 	Rank					int							`json:"rank"`
 }
 
@@ -78,6 +78,7 @@ type AdvStats struct {
 	Tpg								float32				`json:"tpg"`			// turnovers per game
 	Spg								float32				`json:"spg"`			// steals per game
 	Bpg								float32				`json:"bpg"`			// blocks per game
+	Fpg               float32				`json:"fpg"`			// fouls per game
 	Fgp								float32				`json:"fgp"`			// fg %
 	Fg3p							float32				`json:"fg3p"`			// three point %
 	Ftp								float32				`json:"ftp"`			// free throw %
@@ -135,20 +136,20 @@ type TeamSeasonStats struct {
 
 type TeamRanks struct {
 	ID								string						`json:"id"`
-	Fgp								float32						`json:"fgp"`
-	Fg3p							float32						`json:"fg3p"`
-	Ftp								float32						`json:"ftp"`
-	Oreb							float32						`json:"orpg"`
-	Dreb							float32						`json:"drpg"`
-	Treb							float32						`json:"trpg"`
-	Assists						float32						`json:"apg"`
-	Turnovers					float32						`json:"tpg"`
-	Steals						float32						`json:"spg"`
-	Blocks						float32						`json:"bpg"`
-	Fouls             float32           `json:"fpg"`
-	Points						float32						`json:"ppg"`
-	OpponentPoints		float32						`json:"oppg"`
-	Efficiency				float32						`json:"efficiency"`
+	Fgp								RankStat					`json:"fgp"`
+	Fg3p							RankStat					`json:"fg3p"`
+	Ftp								RankStat					`json:"ftp"`
+	Oreb							RankStat					`json:"orpg"`
+	Dreb							RankStat					`json:"drpg"`
+	Treb							RankStat					`json:"trpg"`
+	Assists						RankStat					`json:"apg"`
+	Turnovers					RankStat					`json:"tpg"`
+	Steals						RankStat					`json:"spg"`
+	Blocks						RankStat					`json:"bpg"`
+	Fouls             RankStat          `json:"fpg"`
+	Points						RankStat					`json:"ppg"`
+	OpponentPoints		RankStat					`json:"oppg"`
+	Efficiency				RankStat					`json:"efficiency"`
 	Name      				string            `json:"name"`
 }
 
@@ -157,6 +158,8 @@ type TeamData struct {
 	SeasonID      string                `json:"seasonId"`
 	Ranks					TeamRanks							`json:"ranks"`
 	Players				[]PlayerSeason				`json:"players"`
+	Standings     `json:"standings"`
+	Games         []Team               	`json:"games"`
 }
 
 type PlayerSeason struct {
@@ -193,6 +196,7 @@ type Team struct {
 	ID              string          `json:"id"`
 	SeasonID        string          `json:"seasonId"`   // discard
 	Name						string					`json:"name"`
+	Opponent        string          `json:"opponent"`
 	Score           int             `json:"score"`
 	Periods     		[]int           `json:"periods"`
 	Players         []Player				`json:"players"`
@@ -233,4 +237,34 @@ type AllPlayers struct {
 type Roster struct {
 	TeamID          string          `json:"teamId"`
 	Players					[]string				`json:"players"`
+}
+
+type TeamRecord struct {
+	TeamID					string				`json:"teamId"`
+	Name           	string        `json:"name"`
+	Mascot          string        `json:"mascot"`
+	Rank            int           `json:"rank"`
+	W								int						`json:"w"`
+	L								int						`json:"l"`
+	Pct							float32				`json:"pct"`
+	Gb							float32				`json:"gb"`
+	Cw							int						`json:"cw"`
+	Cl							int						`json:"cl"`
+	Dw							int						`json:"dw"`
+	Dl							int						`json:"dl"`
+	Hw							int						`json:"hw"`
+	Hl							int						`json:"hl"`
+	Aw							int						`json:"aw"`
+	Al							int						`json:"al"`
+	L10w						int						`json:"l10w"`
+	L10l						int						`json:"l10l"`
+	Streak					int						`json:"streak"`
+	WinStreak				bool					`json:"isWinStreak"`
+	StreakText      string        `json:"streakText"`
+}
+
+type Standings struct {
+	SeasonID				string										`json:"seasonId"`
+	PubDate         string        						`json:"pubDate"`
+	Records					map[string]TeamRecord			`json:"records"`
 }

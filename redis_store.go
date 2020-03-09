@@ -507,6 +507,43 @@ func RedisStoreTeamRanks(s string) {
 } // RedisStoreTeamRanks
 
 
+func RedisStoreTeamStandings(s string) {
+
+	standings := NbaGetTeamStandings(s)
+
+	if standings == nil {
+		logf("RedisStoreTeamStandings", "Unable to retrieve standings.")
+	} else {
+
+		ns := convStandings(standings)
+
+		rp := RP.Get()
+
+		for _, record := range ns.Records {
+
+			j, err := json.Marshal(record)
+
+			if err != nil {
+				logf("RedisStoreTeamStandings", err.Error())
+			} else {
+
+				_, err := rp.Do(HSET, fmt.Sprintf("%s:standings", s), record.Name, j)
+
+				if err != nil {
+					logf("RedisStoreTeamStandings", err.Error())
+				}
+
+			}
+
+		}
+
+		rp.Close()
+
+	}
+
+} // RedisStoreTeamStandings
+
+
 func RedisGetDay(d string) []Game {
 
 	games := []Game{}
@@ -806,17 +843,64 @@ func RedisGetTeamRosterStats(s string, name string) []PlayerSeason {
 } // RedisGetTeamRosterStats
 
 
+func RedisGetTeamStandings(s string, name string) *Standings {
+
+	if s == "" || name == "" {
+		return nil
+	}
+
+	rp := RP.Get()
+
+	m, err := redis.StringMap(rp.Do(HGETALL, fmt.Sprintf("%s:standings", s)))
+
+	rp.Close()
+
+	if err != nil {
+		logf("RedisGetTeamStandings", err.Error())
+		return nil
+	} else {
+
+		ns := Standings{
+			Records: make(map[string]TeamRecord),
+		}
+
+		for key, val := range m {
+
+			tr := TeamRecord{}
+
+			err := json.Unmarshal([]byte(val), &tr)
+
+			if err != nil {
+				logf("RedisGetTeamStandings", err.Error())
+			} else {
+				ns.Records[key] = tr
+			}
+
+		}
+
+		return &ns
+
+	}
+
+} // RedisGetTeamStandings
+
+
 func RedisGetTeamData(s string, n string) *TeamData {
 
 	td := TeamData{}
 
-	ranks 	:= RedisGetTeamRanks(s, n)
-	players := RedisGetTeamRosterStats(s, n)
+	ranks 			:= RedisGetTeamRanks(s, n)
+	players 		:= RedisGetTeamRosterStats(s, n)
+	standings 	:= RedisGetTeamStandings(s, n)
+	last        := LastGamesTeam(10, s, n)
+
 
 	td.SeasonID   = s
 	td.Name				= n
 	td.Ranks 			= *ranks
 	td.Players		= players
+	td.Standings  = *standings
+	td.Games      = last
 
 	return &td
 

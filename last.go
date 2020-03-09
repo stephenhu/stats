@@ -99,12 +99,18 @@ func LastGamesTeam(n int, y string, t string) []Team {
 				} else {
 
 					if g.Home.Name == t {
+
+						g.Home.Opponent = g.Away.Name
 						last = append(last, g.Home)
+
 					} else {
+
+						g.Away.Opponent = g.Home.Name
 						last = append(last, g.Away)
+
 					}
 
-					if len(last) == n {
+					if n != -1 && len(last) == n {
 						break
 					}
 

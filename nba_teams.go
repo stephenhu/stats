@@ -90,6 +90,49 @@ type NbaTeamRoster struct {
 	NbaStandard3 		`json:"league"`
 }
 
+type TeamSites struct {
+	Short						string				`json:"teamTricode"`
+	Mascot					string				`json:"teamCode"`
+	StreakText			string				`json:"streakText"`
+}
+
+type NbaTeam3 struct {
+	TeamID					string				`json:"teamId"`
+	W								string				`json:"win"`
+	L								string				`json:"loss"`
+	Pct							string				`json:"winPct"`
+	Gb							string				`json:"gamesBehind"`
+	Rank            string        `json:"confRank"`
+	Cw							string				`json:"confWin"`
+	Cl							string				`json:"confLoss"`
+	Dw							string				`json:"divWin"`
+	Dl							string				`json:"divLoss"`
+	Hw							string				`json:"homeWin"`
+	Hl							string				`json:"homeLoss"`
+	Aw							string				`json:"awayWin"`
+	Al							string				`json:"awayLoss"`
+	L10w						string				`json:"lastTenWin"`
+	L10l						string				`json:"lastTenLoss"`
+	Streak					string				`json:"streak"`
+	WinStreak				bool					`json:"isWinStreak"`
+
+	TeamSites				`json:"teamSitesOnly"`
+}
+
+type NbaStandard4 struct {
+	SeasonID				int						`json:"seasonYear"`
+	Teams           []NbaTeam3		`json:"teams"`
+}
+
+type NbaLeague6 struct {
+	NbaStandard4    `json:"standard"`
+}
+
+type NbaTeamStandings struct {
+	NbaInternal     `json:"_internal"`
+	NbaLeague6      `json:"league"`
+}
+
 
 func convTeamRanks(ranks *NbaRanks) *AllRanks {
 
@@ -108,22 +151,36 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 
 				tr := TeamRanks{}
 
-				tr.ID								= rank.ID
-				tr.Fgp							= atof(rank.Fgp.Average)
-				tr.Fg3p							= atof(rank.Fg3p.Average)
-				tr.Ftp							= atof(rank.Ftp.Average)
-				tr.Oreb							= atof(rank.Oreb.Average)
-				tr.Dreb							= atof(rank.Dreb.Average)
-				tr.Treb							= atof(rank.Treb.Average)
-				tr.Assists					= atof(rank.Assists.Average)
-				tr.Turnovers				= atof(rank.Turnovers.Average)
-				tr.Steals						= atof(rank.Steals.Average)
-				tr.Blocks						= atof(rank.Blocks.Average)
-				tr.Fouls						= atof(rank.Fouls.Average)
-				tr.Points						= atof(rank.Points.Average)
-				tr.OpponentPoints		= atof(rank.OpponentPoints.Average)
-				tr.Efficiency       = atof(rank.Efficiency.Average)
-				tr.Name     				= strings.ToLower(rank.Abbreviation)
+				tr.ID										= rank.ID
+				tr.Fgp.Val							= atof(rank.Fgp.Average)
+				tr.Fgp.Rank							= atoi(rank.Fgp.Rank)
+				tr.Fg3p.Val							= atof(rank.Fg3p.Average)
+				tr.Fg3p.Rank						= atoi(rank.Fg3p.Rank)
+				tr.Ftp.Val							= atof(rank.Ftp.Average)
+				tr.Ftp.Rank							= atoi(rank.Ftp.Rank)
+				tr.Oreb.Val							= atof(rank.Oreb.Average)
+				tr.Oreb.Rank						= atoi(rank.Oreb.Rank)
+				tr.Dreb.Val							= atof(rank.Dreb.Average)
+				tr.Dreb.Rank						= atoi(rank.Dreb.Rank)
+				tr.Treb.Val							= atof(rank.Treb.Average)
+				tr.Treb.Rank						= atoi(rank.Treb.Rank)
+				tr.Assists.Val					= atof(rank.Assists.Average)
+				tr.Assists.Rank					= atoi(rank.Assists.Rank)
+				tr.Turnovers.Val				= atof(rank.Turnovers.Average)
+				tr.Turnovers.Rank				= atoi(rank.Turnovers.Rank)
+				tr.Steals.Val						= atof(rank.Steals.Average)
+				tr.Steals.Rank					= atoi(rank.Steals.Rank)
+				tr.Blocks.Val						= atof(rank.Blocks.Average)
+				tr.Blocks.Rank					= atoi(rank.Blocks.Rank)
+				tr.Fouls.Val						= atof(rank.Fouls.Average)
+				tr.Fouls.Rank						= atoi(rank.Fouls.Rank)
+				tr.Points.Val						= atof(rank.Points.Average)
+				tr.Points.Rank					= atoi(rank.Points.Rank)
+				tr.OpponentPoints.Val		= atof(rank.OpponentPoints.Average)
+				tr.OpponentPoints.Rank	= atoi(rank.OpponentPoints.Rank)
+				tr.Efficiency.Val       = atof(rank.Efficiency.Average)
+				tr.Efficiency.Rank			= atoi(rank.Efficiency.Rank)
+				tr.Name     						= strings.ToLower(rank.Abbreviation)
 
 				all.Teams = append(all.Teams, tr)
 
@@ -192,6 +249,54 @@ func convRoster(roster *NbaTeamRoster) *Roster {
 } // convRoster
 
 
+func convStandings(standings *NbaTeamStandings) *Standings {
+
+	if standings == nil {
+		return nil
+	}
+
+	s := Standings{
+		Records: make(map[string]TeamRecord),
+	}
+
+	s.PubDate 	= standings.PubDate
+	s.SeasonID	= fmt.Sprintf("%d", standings.SeasonID)
+
+	for _, team := range standings.Teams {
+
+		tr := TeamRecord{}
+
+		tr.TeamID				= team.TeamID
+		tr.Name					= strings.ToLower(team.Short)
+		tr.Mascot				= strings.ToLower(team.Mascot)
+		tr.Rank       	= atoi(team.Rank)
+		tr.W						= atoi(team.W)
+		tr.L						= atoi(team.L)
+		tr.Pct					= atof(team.Pct)
+		tr.Gb						= atof(team.Gb)
+		tr.Cw						= atoi(team.Cw)
+		tr.Cl						= atoi(team.Cl)
+		tr.Dw						= atoi(team.Dw)
+		tr.Dl						= atoi(team.Dl)
+		tr.Hw						= atoi(team.Hw)
+		tr.Hl						= atoi(team.Hl)
+		tr.Aw						= atoi(team.Aw)
+		tr.Al						= atoi(team.Al)
+		tr.L10w					= atoi(team.L10w)
+		tr.L10l					= atoi(team.L10l)
+		tr.Streak				= atoi(team.Streak)
+		tr.WinStreak		= team.WinStreak
+		tr.StreakText 	= team.StreakText
+
+		s.Records[tr.Name] = tr
+
+	}
+
+	return &s
+
+} // convStandings
+
+
 func TeamRanksApi(s string) string {
 
 	if s == "" {
@@ -229,6 +334,15 @@ func TeamsApi(s string) string {
 		fmt.Sprintf(NBA_API_TEAMS, s))
 
 } // TeamsApi
+
+
+func TeamStandingsApi(s string) string {
+
+	return fmt.Sprintf("%s%s",
+		NBA_BASE_URL,
+		NBA_API_STANDINGS)
+
+} // TeamStandingsApi
 
 
 func NbaGetTeams(s string) *NbaTeams {
@@ -347,6 +461,42 @@ func NbaGetTeamRoster(s string, n string) *NbaTeamRoster {
 	}
 
 } // NbaGetTeamRoster
+
+
+func NbaGetTeamStandings(s string) *NbaTeamStandings {
+
+	standings := NbaTeamStandings{}
+
+	res, err := client.Get(TeamStandingsApi(s))
+
+	if err != nil {
+		logf("NbaGetTeamStandings", err.Error())
+		return nil
+	} else {
+
+		defer res.Body.Close()
+
+		buf, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			logf("NbaGetTeamStandings", err.Error())
+			return nil
+		} else {
+
+			err := json.Unmarshal(buf, &standings)
+
+			if err != nil {
+				logf("NbaGetTeamStandings", err.Error())
+				return nil
+			} else {
+				return &standings
+			}
+
+		}
+
+	}
+
+} // NbaGetTeamStandings
 
 
 func NbaStoreTeams(t *NbaTeams) {
