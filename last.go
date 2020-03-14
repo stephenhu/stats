@@ -100,12 +100,28 @@ func LastGamesTeam(n int, y string, t string) []Team {
 
 					if g.Home.Name == t {
 
+						if g.Home.Score > g.Away.Score {
+							g.Home.Win = true
+						} else {
+							g.Home.Win = false
+						}
+
 						g.Home.Opponent = g.Away.Name
+						g.Home.OpponentScore = g.Away.Score
+
 						last = append(last, g.Home)
 
 					} else {
 
+						if g.Home.Score > g.Away.Score {
+							g.Away.Win = false
+						} else {
+							g.Away.Win = true
+						}
+
 						g.Away.Opponent = g.Home.Name
+						g.Away.OpponentScore = g.Home.Score
+
 						last = append(last, g.Away)
 
 					}

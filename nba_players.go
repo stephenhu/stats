@@ -72,6 +72,52 @@ type NbaPlayerProfile struct {
 }
 
 
+func sumAdvStats(teams []NbaAdvStats) *AdvStats {
+
+	ret := AdvStats{}
+
+	for _, t := range teams {
+
+		ret.SeasonID			= fmt.Sprintf("%d", t.SeasonID)
+		ret.TeamID				= t.TeamID
+		ret.Minutes     	+= atoi(t.Minutes)
+		ret.Points     		+= atoi(t.Points)
+		ret.Oreb     			+= atoi(t.Oreb)
+		ret.Dreb     			+= atoi(t.Dreb)
+		ret.Treb     			+= atoi(t.Treb)
+		ret.Assists     	+= atoi(t.Assists)
+		ret.Turnovers   	+= atoi(t.Turnovers)
+		ret.Steals     		+= atoi(t.Steals)
+		ret.Blocks     		+= atoi(t.Blocks)
+		ret.Fouls     		+= atoi(t.Fouls)
+		ret.Fgm     			+= atoi(t.Fgm)
+		ret.Fga     			+= atoi(t.Fga)
+		ret.Fg3m     			+= atoi(t.Fg3m)
+		ret.Fg3a     			+= atoi(t.Fg3a)
+		ret.Ftm     			+= atoi(t.Ftm)
+		ret.Fta     			+= atoi(t.Fta)
+		ret.Played     		+= atoi(t.Played)
+		ret.Started     	+= atoi(t.Started)
+		ret.PlusMinus   	+= atoi(t.PlusMinus)
+
+	}
+
+	ret.Ppg     			= float32(ret.Points)/float32(ret.Played)
+	ret.Rpg     			= float32(ret.Treb)/float32(ret.Played)
+	ret.Apg     			= float32(ret.Assists)/float32(ret.Played)
+	ret.Mpg     			= float32(ret.Minutes)/float32(ret.Played)
+	ret.Tpg     			= float32(ret.Turnovers)/float32(ret.Played)
+	ret.Spg     			= float32(ret.Steals)/float32(ret.Played)
+	ret.Bpg     			= float32(ret.Blocks)/float32(ret.Played)
+	ret.Fgp     			= float32(ret.Fgm)/float32(ret.Fga)*FLOAT_TO_PERCENT
+	ret.Fg3p     			= float32(ret.Fg3m)/float32(ret.Fg3a)*FLOAT_TO_PERCENT
+	ret.Ftp     			= float32(ret.Ftm)/float32(ret.Fta)*FLOAT_TO_PERCENT
+
+	return &ret
+
+} // sumAdvStats
+
+
 func copyAdvStats(src *NbaAdvStats, dst *AdvStats) {
 
 	dst.SeasonID			= fmt.Sprintf("%d", src.SeasonID)
@@ -173,17 +219,20 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 	career.SeasonID   = pp.SeasonID
 	career.First			= pp.First
 	career.Last				= pp.Last
+	career.TeamName   = OfficialTeams[pp.Latest.TeamID]
 
 	copyAdvStats(&pp.Latest, &career.Latest)
 	copyAdvStats(&pp.Career, &career.Career)
+
+	if career.Career.Played != 0 {
+		career.Career.Tpg = float32(career.Career.Turnovers)/float32(career.Career.Played)
+	}
 
 	for _, player := range pp.SeasonInfo {
 
 		ss := SeasonStats{}
 
 		ss.SeasonID	= fmt.Sprintf("%d", player.SeasonID)
-
-		copyAdvStats(&player.Total, &ss.Summary)
 
 		for _, team := range player.Teams {
 
@@ -193,6 +242,16 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 
 			ss.Teams = append(ss.Teams, as)
 
+		}
+
+		if len(player.Teams) > 1 {
+
+			total := sumAdvStats(player.Teams)
+
+			ss.Summary = *total
+
+		} else {
+			copyAdvStats(&player.Total, &ss.Summary)
 		}
 
 		career.Seasons = append(career.Seasons, ss)
@@ -347,7 +406,7 @@ func NbaGetProfiles(s string, lp *NbaLeaguePlayers) []NbaPlayerProfile {
 
 						player := NbaPlayerProfile{}
 
-						player.SeasonID		= lp.SeasonID
+						player.SeasonID	= lp.SeasonID
 
 						err := json.Unmarshal(buf, &player)
 

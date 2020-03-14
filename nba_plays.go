@@ -15,10 +15,11 @@ type NbaPlay struct {
 	Description				string					`json:"description"`
 	PersonID					string					`json:"personId"`
 	TeamID						string					`json:"teamId"`
+	Period            int             `json:"period"`
 	AwayScore         string          `json:"vTeamScore"`
 	HomeScore         string          `json:"hTeamScore"`
 	EventMsgType      string          `json:"eventMsgType"`
-	ScoreChange       bool            `json:"isScoreChange"`	
+	ScoreChange       bool            `json:"isScoreChange"`
 	FmtDesc    				NbaFormatted		`json:"formatted"`
 }
 
@@ -34,7 +35,7 @@ func convPlays(plays []NbaPlay) []Play {
 
 	if plays == nil {
 		return nil
-	}	
+	}
 
 	out := []Play{}
 
@@ -47,10 +48,17 @@ func convPlays(plays []NbaPlay) []Play {
 		play.Formatted			= p.FmtDesc.Description
 		play.PersonID				= p.PersonID
 		play.TeamID					= p.TeamID
+		play.Period         = p.Period
 		play.Away						= atoi(p.AwayScore)
 		play.Home						= atoi(p.HomeScore)
 		play.EventType			= atoi(p.EventMsgType)
 		play.ScoreChanged		= p.ScoreChange
+
+		n, ok := OfficialTeams[p.TeamID]
+
+		if ok {
+			play.TeamName = n
+		}
 
 		out = append(out, play)
 
@@ -62,7 +70,7 @@ func convPlays(plays []NbaPlay) []Play {
 
 
 func PlaysApi(d string, gid string, period int) string {
-	
+
 	if d == "" || gid == "" || period < 1 {
 		return ""
 	}
@@ -80,14 +88,14 @@ func NbaGetPeriodPlays(d string, gid string, period int) []NbaPlay {
 		return nil
 	}
 
-	res, err := client.Get(PlaysApi(d, gid, period))		
+	res, err := client.Get(PlaysApi(d, gid, period))
 
 	if err != nil {
 		logf("NbaGetPeriodPlays", err.Error())
 		return nil
 	} else {
 
-		defer res.Body.Close()		
+		defer res.Body.Close()
 
 		buf, err := ioutil.ReadAll(res.Body)
 
@@ -103,8 +111,14 @@ func NbaGetPeriodPlays(d string, gid string, period int) []NbaPlay {
 			if err != nil {
 				logf("NbaGetPeriodPlays", err.Error())
 				return nil
-			} else {					
+			} else {
+
+				for i, _ := range gl.Plays {
+					gl.Plays[i].Period = period
+				}
+
 				return gl.Plays
+
 			}
 
 		}
@@ -123,9 +137,9 @@ func NbaGetGamePlays(d string, gid string, periods int) []NbaPlay {
 	all := []NbaPlay{}
 
 	for p := 1; p <= periods; p++ {
-		
+
 		period := NbaGetPeriodPlays(d, gid, p)
-		
+
 		if period != nil {
 			all = append(all, period...)
 		}

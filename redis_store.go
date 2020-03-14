@@ -637,6 +637,10 @@ func RedisGetPlayer(s string, name string) *PlayerCareer {
 
 		err := json.Unmarshal([]byte(j), &p)
 
+		games := LastGamesPlayer(10, s, name)
+
+		p.LastGames = games
+
 		if err != nil {
 			logf("RedisGetPlayer", err.Error())
 			return nil
@@ -843,9 +847,9 @@ func RedisGetTeamRosterStats(s string, name string) []PlayerSeason {
 } // RedisGetTeamRosterStats
 
 
-func RedisGetTeamStandings(s string, name string) *Standings {
+func RedisGetTeamStandings(s string) *Standings {
 
-	if s == "" || name == "" {
+	if s == "" {
 		return nil
 	}
 
@@ -891,7 +895,7 @@ func RedisGetTeamData(s string, n string) *TeamData {
 
 	ranks 			:= RedisGetTeamRanks(s, n)
 	players 		:= RedisGetTeamRosterStats(s, n)
-	standings 	:= RedisGetTeamStandings(s, n)
+	standings 	:= RedisGetTeamStandings(s)
 	last        := LastGamesTeam(10, s, n)
 
 
