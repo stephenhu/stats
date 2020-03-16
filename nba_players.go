@@ -436,29 +436,3 @@ func NbaGetProfiles(s string, lp *NbaLeaguePlayers) []NbaPlayerProfile {
 	}
 
 } // NbaGetProfiles
-
-
-func NbaStorePlayers(lp *NbaLeaguePlayers) {
-
-	if lp != nil {
-
-		all := convLeaguePlayers(lp)
-
-		putPlayers(all)
-
-	}
-
-} // NbaStorePlayers
-
-
-func NbaStoreProfiles(profiles []NbaPlayerProfile) {
-
-	for _, profile := range profiles {
-
-		career := convPlayerProfile(&profile)
-
-		putProfile(career)
-
-	}
-
-} // NbaStoreProfiles

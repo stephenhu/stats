@@ -497,29 +497,3 @@ func NbaGetTeamStandings(s string) *NbaTeamStandings {
 	}
 
 } // NbaGetTeamStandings
-
-
-func NbaStoreTeams(t *NbaTeams) {
-
-	if t != nil {
-
-		all := convTeamInfo(t)
-
-		putTeams(all)
-
-	}
-
-} // NbaStoreTeams
-
-
-func NbaStoreTeamRanks(r *NbaRanks) {
-
-	if r != nil {
-
-		all := convTeamRanks(r)
-
-		putTeamRanks(all)
-
-	}
-
-} // NbaStoreTeamRanks

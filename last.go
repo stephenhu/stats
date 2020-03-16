@@ -143,34 +143,3 @@ func LastGamesTeam(n int, y string, t string) []Team {
 	return last
 
 } // LastGamesTeam
-
-
-func LastScores() []Game {
-
-	now := GetEstNow()
-
-	s := GetSeason(*now)
-
-	d := *now
-
-	for {
-
-		date := d.Format(DATE_FORMAT)
-
-		if s[SEASON_BEGIN] > date {
-			break
-		}
-
-		games, ok := GamesMap[date]
-
-		if ok {
-			return games
-		}
-
-		d = d.AddDate(0, 0, -1)
-
-  }
-
-	return GamesMap[s[SEASON_BEGIN]]
-
-} // LastScores

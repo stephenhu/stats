@@ -5,31 +5,30 @@ import (
 )
 
 
-func TestNbaStorePlayers(t *testing.T) {
+func TestNbaGetPlayers(t *testing.T) {
 
 	lp := NbaGetPlayers("2016")
 
 	if lp == nil {
 		t.Error("No players returned")
-	} else {
-		NbaStorePlayers(lp)
 	}
 
-} // TestNbaStorePlayers
+} // TestNbaGetPlayers
 
 
-func TestNbaStoreProfiles(t *testing.T) {
+func TestNbaGetProfiles(t *testing.T) {
 
 	lp := NbaGetPlayers("2019")
 
 	if lp == nil {
 		t.Error("No players returned")
 	} else {
-		
+
 		profiles := NbaGetProfiles("2019", lp)
 
-		NbaStoreProfiles(profiles)
-
+		if len(profiles) == 0 {
+			t.Error("No profiles returned")
+		}
 	}
 
-} // TestNbaStoreProfiles
+} // TestNbaGetProfiles

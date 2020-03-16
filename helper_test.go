@@ -117,28 +117,6 @@ func TestGetEstNow(t *testing.T) {
 } // TestGetEstNow
 
 
-func TestLatestScoreboardDate(t *testing.T) {
-
-  d := LatestScoreboardDate()
-
-	if d == "" {
-		t.Error("Empty date returned")
-	}
-
-	t.Log(d)
-
-} // TestLatestScoreboardDate
-
-
-func TestLastDownload(t *testing.T) {
-
-	d := LastDownload()
-
-	t.Log(d)
-
-} // TestLastDownload
-
-
 func TestGetDays(t *testing.T) {
 
 	days := GetDays("20200220")

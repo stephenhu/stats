@@ -5,27 +5,23 @@ import (
 )
 
 
-func TestNbaStoreTeams(t *testing.T) {
+func TestNbaGetTeams(t *testing.T) {
 
 	teams := NbaGetTeams("2019")
 
 	if teams == nil {
 		t.Error("No teams returned")
-	} else {
-		NbaStoreTeams(teams)
 	}
 
-} // TestNbaStoreTeams
+} // TestNbaGetTeams
 
 
-func TestNbaStoreTeamRanks(t *testing.T) {
+func TestNbaGetTeamRanks(t *testing.T) {
 
 	ranks := NbaGetTeamRanks("2019")
 
 	if ranks == nil {
 		t.Error("No teams returned")
-	} else {
-		NbaStoreTeamRanks(ranks)
 	}
 
-} // TestNbaStoreTeamRanks
+} // TestNbaGetTeamRanks
