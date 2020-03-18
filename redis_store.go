@@ -486,6 +486,10 @@ func RedisStoreTeamRanks(s string) {
 
 	ranks := convTeamRanks(all)
 
+	if ranks == nil {
+		return
+	}
+
 	rp := RP.Get()
 
 	for _, rank := range ranks.Teams {
