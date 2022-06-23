@@ -155,6 +155,11 @@ const (
 )
 
 const (
+	BIRD_ERA_YEAR               = "1978"
+	MODERN_ERA_YEAR             = "1979"
+)
+
+const (
 	HTTP_TIMEOUT                = 45			// seconds
 )
 
