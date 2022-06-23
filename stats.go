@@ -155,8 +155,8 @@ const (
 )
 
 const (
-	BIRD_ERA_YEAR               = "1978"
-	MODERN_ERA_YEAR             = "1979"
+	YEAR_BIRD_ERA               = "1978"
+	YEAR_MODERN_ERA             = "1979"
 )
 
 const (
