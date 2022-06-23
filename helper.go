@@ -476,7 +476,7 @@ func SeasonCheck(d string) bool {
 	} else {
 
 		season := GetSeason(t)
-
+log.Println(season)
 		begin, err := time.Parse(DATE_FORMAT,
 			season[SEASON_BEGIN])
 
