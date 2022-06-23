@@ -304,6 +304,25 @@ func GetDays(d string) []string {
 } // GetDays
 
 
+func GetDaysByYear(y string) []string {
+
+	days := []string{}
+
+	if len(y) == 0 {
+		logf("GetDaysByYear", "Invalid date, out of season schedule.")
+	} else {
+
+		s := OfficialSeasons[y]
+
+		days = GetDays(s[SEASON_BEGIN])
+		
+	}
+
+	return days
+
+} // GetDaysByYear
+
+
 func MoveDay(d string, n int) string {
 
 	t, err := time.Parse(DATE_FORMAT, d)
@@ -476,7 +495,7 @@ func SeasonCheck(d string) bool {
 	} else {
 
 		season := GetSeason(t)
-log.Println(season)
+
 		begin, err := time.Parse(DATE_FORMAT,
 			season[SEASON_BEGIN])
 
