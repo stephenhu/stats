@@ -304,12 +304,12 @@ func GetDays(d string) []string {
 } // GetDays
 
 
-func GetDaysByYear(y string) []string {
+func GetDaysBySeason(y string) []string {
 
 	days := []string{}
 
 	if len(y) == 0 {
-		logf("GetDaysByYear", "Invalid date, out of season schedule.")
+		logf("GetDaysBySeason", "Invalid season provided " + y)
 	} else {
 
 		s := OfficialSeasons[y]
@@ -320,7 +320,7 @@ func GetDaysByYear(y string) []string {
 
 	return days
 
-} // GetDaysByYear
+} // GetDaysBySeason
 
 
 func MoveDay(d string, n int) string {
