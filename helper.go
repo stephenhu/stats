@@ -54,7 +54,7 @@ func atof(s string) float32 {
 } // atof
 
 
-func getYearsFrom(s string) []int {
+func GetYearsFrom(s string) []int {
 
 	years := []int{}
 
@@ -63,7 +63,7 @@ func getYearsFrom(s string) []int {
 		t, err := time.Parse(YEAR_FORMAT, s)
 
 		if err != nil {
-			logf("getYearsFrom", err.Error())
+			logf("GetYearsFrom", err.Error())
 			return nil
 		} else {
 
@@ -98,11 +98,11 @@ func getYearsFrom(s string) []int {
 		}
 
 	} else {
-		logf("getYearsFrom", "Cannot process empty string")
+		logf("GetYearsFrom", "Cannot process empty string")
 		return nil
 	}
 
-} // getYearsFrom
+} // GetYearsFrom
 
 
 func seasonKey(t time.Time, current bool) int {

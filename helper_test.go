@@ -83,7 +83,7 @@ func TestGetDaysFuture(t *testing.T) {
 
 func TestGetYearsFrom(t *testing.T) {
 
-	years := getYearsFrom("2015")
+	years := GetYearsFrom("2015")
 
 	if years == nil {
 		t.Error("Years are nil")
