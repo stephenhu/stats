@@ -54,53 +54,39 @@ func atof(s string) float32 {
 } // atof
 
 
-func GetYearsFrom(s string) []int {
+func GetYearsFrom(y int) []int {
 
 	years := []int{}
 
-	if s != "" {
+	t := time.Date(y, 0, 0, 0, 0, 0, 0, nil)
 
-		t, err := time.Parse(YEAR_FORMAT, s)
+	now  := time.Now()
 
-		if err != nil {
-			logf("GetYearsFrom", err.Error())
-			return nil
+	endYear := now.Year()
+
+	tn := t
+
+	for {
+
+		year := tn.Year()
+
+		if year > endYear {
+			break
 		} else {
 
-			now  := time.Now()
+			_, ok := OfficialSeasons[year]
 
-			endYear := now.Year()
-
-			tn := t
-
-			for {
-
-				year := tn.Year()
-
-				if year > endYear {
-					break
-				} else {
-
-					_, ok := OfficialSeasons[year]
-
-					if ok {
-						years = append(years, year)
-					}
-
-				}
-
-				tn = tn.AddDate(1, 0, 0)
-
+			if ok {
+				years = append(years, year)
 			}
-
-			return years
 
 		}
 
-	} else {
-		logf("GetYearsFrom", "Cannot process empty string")
-		return nil
+		tn = tn.AddDate(1, 0, 0)
+
 	}
+
+	return years
 
 } // GetYearsFrom
 
