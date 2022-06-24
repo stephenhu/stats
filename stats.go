@@ -68,7 +68,8 @@ const (
 	STRING_PERIOD               = "."
 	STRING_SINGLE_QUOTE         = "'"
 	STRING_SPACE                = " "
-	STRING_TWO_SPACE            = "  "
+	STRING_TWO_SPACES           = "  "
+	STRING_TAB                  = "\t"
 	STRING_ZERO                 = "0"
 	STRING_ZERO_FLOAT           = "0.0"
 )
