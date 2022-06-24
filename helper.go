@@ -58,7 +58,7 @@ func GetYearsFrom(y int) []int {
 
 	years := []int{}
 
-	t := time.Date(y, time.January, 1, 1, 0, 0, 0, nil)
+	t := time.Date(y, time.January, 1, 0, 0, 0, 0, time.UTC)
 
 	now  := time.Now()
 
