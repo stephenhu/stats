@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	//"log"
+  "log"
 	//"net/http"
 	"strings"
 )
@@ -16,6 +16,7 @@ type NbaRankStat struct {
 
 type NbaInternal struct {
 	PubDate				string						`json:"pubDateTime"`
+	NumGames      int               `json:"numGames"`
 }
 
 type NbaAdvStats struct {
@@ -315,6 +316,11 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 
 	scoreboard := NbaScoreboard{}
 
+	log.Println(ScoreboardApi(d))
+  if len(d) == 0 {
+		return nil
+	}
+
 	res, err := client.Get(ScoreboardApi(d))
 
 	if err != nil {
@@ -339,6 +345,10 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 			} else {
 
 				scoreboard.Date	= d
+
+				if len(scoreboard.Games) == 0 {
+					return nil
+				}
 
 				return &scoreboard
 

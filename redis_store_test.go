@@ -1,41 +1,47 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
-
-	"github.com/stephenhu/stats"
 )
 
 
 func init() {
-	stats.ConnectRedis("tcp", ":6379")
+	ConnectRedis("tcp", ":6379")
 } // init
 
 
 func TestRedisStorePlayers(t *testing.T) {
 
-	stats.RedisStorePlayers("2019")
+	t.Skip("removing redis")
+
+	RedisStorePlayers("2019")
 
 } // TestRedisStorePlayers
 
 
 func TestRedisStoreTeams(t *testing.T) {
 
-	stats.RedisStoreTeams("2019")
+	t.Skip("removing redis")
+
+	RedisStoreTeams("2019")
 
 } // TestRedisStoreTeams
 
 
 func TestRedisStoreSeason(t *testing.T) {
 
-	stats.RedisStoreSeason("2019")
+	t.Skip("removing redis")
+	RedisStoreSeason(2019)
 
 } // TestRedisStoreSeason
 
 
 func TestRedisLastGame(t *testing.T) {
 
-	d := stats.RedisLastGame()
+	t.Skip("removing redis")
+
+	d := RedisLastGame()
 
 	t.Log(d)
 
@@ -44,7 +50,9 @@ func TestRedisLastGame(t *testing.T) {
 
 func TestRedisGameDays(t *testing.T) {
 
-	dates := stats.RedisGameDays("2019")
+	t.Skip("removing redis")
+
+	dates := RedisGameDays(2019)
 
 	t.Log(dates)
 
@@ -53,14 +61,17 @@ func TestRedisGameDays(t *testing.T) {
 
 func TestRedisStoreGamesFrom(t *testing.T) {
 
-	stats.RedisStoreGamesFrom("20200201")
+	t.Skip("removing redis")
+	RedisStoreGamesFrom("20200201")
 
 } // TestRedisStoreGamesFrom
 
 
 func TestRedisGames(t *testing.T) {
 
-	keys := stats.RedisGames("2019")
+	t.Skip("removing redis")
+
+	keys := RedisGames(2019)
 
 	t.Log(keys)
 	t.Log(len(keys))
@@ -70,7 +81,9 @@ func TestRedisGames(t *testing.T) {
 
 func TestRedisSeasons(t *testing.T) {
 
-	keys := stats.RedisSeasons()
+	t.Skip("removing redis")
+
+	keys := RedisSeasons()
 
 	t.Log(keys)
 	t.Log(len(keys))
@@ -80,7 +93,8 @@ func TestRedisSeasons(t *testing.T) {
 
 func TestRedisGetTeamData(t *testing.T) {
 
-	td := stats.RedisGetTeamData(stats.CurrentSeason(), "hou")
+	t.Skip("removing redis")
+	td := RedisGetTeamData(fmt.Sprintf("%d", CurrentSeason()), "hou")
 
 	t.Log(td)
 

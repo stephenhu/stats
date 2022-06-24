@@ -2,13 +2,11 @@ package stats
 
 import (
 	"testing"
-
-	"github.com/stephenhu/stats"
 )
 
 
 func init() {
-	stats.ConnectRedis("tcp", ":6379")
+	ConnectRedis("tcp", ":6379")
 }
 
 func TestLastGames(t *testing.T) {

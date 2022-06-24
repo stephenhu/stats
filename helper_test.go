@@ -32,34 +32,30 @@ func TestGetDaysOldSeason(t *testing.T) {
 } // TestGetDaysOldSeason
 
 
-func TestGetDaysNow(t *testing.T) {
+func TestGetDaysPastSeason(t *testing.T) {
 
-	now := time.Now()
-
-	d := now.Format(DATE_FORMAT)
-
-	days := GetDays(d)
+	days := GetDays("20170701")
 
 	t.Log(days)
 
-	if len(days) == 0 {
-		t.Error("Days should not be empty.")
+	if len(days) > 0 {
+		t.Error("Days should be empty.")
 	}
 
-} // TestGetDaysNow
+} // TestGetDaysPastSeason
 
 
-func TestGetDaysCurrentSeason(t *testing.T) {
+func TestGetDaysBeforeSeason(t *testing.T) {
 
 	days := GetDays("20191022")
 
 	t.Log(days)
 
-	if len(days) == 0 {
+	if len(days) > 0 {
 		t.Error("Days should not be empty.")
 	}
 
-} // TestGetDaysCurrentSeason
+} // TestGetDaysBeforeSeason
 
 
 func TestGetDaysFuture(t *testing.T) {
@@ -94,7 +90,7 @@ func TestGetYearsFrom(t *testing.T) {
 			_, ok := OfficialSeasons[y]
 
 			if !ok {
-				t.Errorf("%s non-official season", y)
+				t.Errorf("%d non-official season", y)
 			}
 
 		}

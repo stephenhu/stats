@@ -5,20 +5,19 @@ import (
 )
 
 
-func TestNbaGetScoreboard(t *testing.T) {
+func TestNbaGetScoreboardInvalidDate(t *testing.T) {
 
-	s := NbaGetScoreboard("20200201")
+	s := NbaGetScoreboard("20190620")
 
-	if s == nil {
-		t.Error("No scoreboard")
-	} else {
-		t.Log(*s)
+	t.Log(s)
+	if s != nil {
+		t.Error("Invalid date, this day should have no games")
 	}
 
-} // TestNbaGetScoreboard
+} // TestNbaGetScoreboardInvalidDate
 
 
-func TestNbaGetScoreboardInvalidDate(t *testing.T) {
+func TestNbaGetScoreboardEmptyDate(t *testing.T) {
 
 	s := NbaGetScoreboard("")
 
@@ -26,15 +25,15 @@ func TestNbaGetScoreboardInvalidDate(t *testing.T) {
 		t.Error("Invalid date should not return valid json.")
 	}
 
-} // TestNbaGetScoreboardInvalidDate
+} // TestNbaGetScoreboardEmptyDate
 
 
 func TestNbaGetBoxscores(t *testing.T) {
 
-	s := NbaGetScoreboard("20200201")
+	s := NbaGetScoreboard("20191024")
 
 	if s == nil {
-		t.Error("Invalid date should not return valid json.")
+		t.Error("This date has game data.")
 	}
 
 	scores := NbaGetBoxscores(s)

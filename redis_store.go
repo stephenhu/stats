@@ -329,7 +329,7 @@ func RedisStoreSeason(s int) int {
 
 
 	} else {
-		logf("RedisStoreSeason", fmt.Sprintf("Unknown season: %s", s))
+		logf("RedisStoreSeason", fmt.Sprintf("Unknown season: %d", s))
 		return 0
 	}
 
