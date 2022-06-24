@@ -308,7 +308,7 @@ func RedisStoreGamesFrom(d string) int {
 } // RedisStoreGamesFrom
 
 
-func RedisStoreSeason(s string) int {
+func RedisStoreSeason(s int) int {
 
 	season, ok := OfficialSeasons[s]
 
@@ -915,15 +915,15 @@ func RedisGetTeamData(s string, n string) *TeamData {
 } // RedisGetTeamDta
 
 
-func RedisGameDays(s string) []string {
+func RedisGameDays(y int) []string {
 
-	_, ok := OfficialSeasons[s]
+	_, ok := OfficialSeasons[y]
 
 	if ok {
 
 		rp := RP.Get()
 
-		keys, err := redis.Strings(rp.Do(HKEYS, s))
+		keys, err := redis.Strings(rp.Do(HKEYS, fmt.Sprintf("%d", y)))
 
 		rp.Close()
 
@@ -937,7 +937,7 @@ func RedisGameDays(s string) []string {
 
 
 	} else {
-		logf("RedisGameDays", fmt.Sprintf("Unknown season: %s", s))
+		logf("RedisGameDays", fmt.Sprintf("Unknown season: %d", y))
 		return []string{}
 	}
 
@@ -947,10 +947,6 @@ func RedisGameDays(s string) []string {
 func RedisLastGame() string {
 
 	current := RedisCurrentSeason()
-
-	if current == "" {
-		return ""
-	}
 
 	keys := RedisGameDays(current)
 
@@ -965,11 +961,11 @@ func RedisLastGame() string {
 } // RedisLastGame
 
 
-func RedisGames(s string) []string {
+func RedisGames(y int) []string {
 
 	games := []string{}
 
-	days := RedisGameDays(s)
+	days := RedisGameDays(y)
 
 	rp := RP.Get()
 
@@ -996,13 +992,13 @@ func RedisGames(s string) []string {
 } // RedisGames
 
 
-func RedisSeasons() []string {
+func RedisSeasons() []int {
 
-	ret := []string{}
+	ret := []int{}
 
 	rp := RP.Get()
 
-	seasons, err := redis.Strings(rp.Do(HKEYS, "seasons"))
+	seasons, err := redis.Ints(rp.Do(HKEYS, "seasons"))
 
 	rp.Close()
 
@@ -1016,12 +1012,12 @@ func RedisSeasons() []string {
 } // RedisSeasons
 
 
-func RedisCurrentSeason() string {
+func RedisCurrentSeason() int {
 
 	seasons := RedisSeasons()
 
 	if len(seasons) > 0 {
-		sort.Strings(seasons)
+		sort.Ints(seasons)
 		return seasons[len(seasons)-1]
 	} else {
 		return CurrentSeason()
@@ -1062,11 +1058,11 @@ func RedisGameDayExists(d string) bool {
 } // RedisGameDayExists
 
 
-func RedisSeasonCheck(s string) []string {
+func RedisSeasonCheck(y int) []string {
 
 	download := []string{}
 
-	season, ok := OfficialSeasons[s]
+	season, ok := OfficialSeasons[y]
 
 	if ok {
 
@@ -1087,11 +1083,11 @@ func RedisSeasonCheck(s string) []string {
 } // RedisSeasonCheck
 
 
-func RedisSeasonSync(s string) int {
+func RedisSeasonSync(y int) int {
 
 	count := 0
 
-	season, ok := OfficialSeasons[s]
+	season, ok := OfficialSeasons[y]
 
 	if ok {
 

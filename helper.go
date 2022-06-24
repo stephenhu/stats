@@ -54,9 +54,9 @@ func atof(s string) float32 {
 } // atof
 
 
-func getYearsFrom(s string) []string {
+func getYearsFrom(s string) []int {
 
-	years := []string{}
+	years := []int{}
 
 	if s != "" {
 
@@ -81,12 +81,10 @@ func getYearsFrom(s string) []string {
 					break
 				} else {
 
-					current := tn.Format(YEAR_FORMAT)
-
-					_, ok := OfficialSeasons[current]
+					_, ok := OfficialSeasons[year]
 
 					if ok {
-						years = append(years, current)
+						years = append(years, year)
 					}
 
 				}
@@ -107,15 +105,15 @@ func getYearsFrom(s string) []string {
 } // getYearsFrom
 
 
-func seasonKey(t time.Time, current bool) string {
+func seasonKey(t time.Time, current bool) int {
 
 	if current {
-		return t.Format(YEAR_FORMAT)
+		return t.Year()
 	} else {
 
 		tp := t.AddDate(-1, 0, 0)
 
-		return tp.Format(YEAR_FORMAT)
+		return tp.Year()
 
 	}
 
@@ -138,9 +136,9 @@ func generatePath(d string) string {
 		cm := t.Month()
 
 		if cm >= time.October && cm <= time.December {
-			return filepath.Join(seasonKey(t, true), d)
+			return filepath.Join(fmt.Sprintf("%d", seasonKey(t, true)), d)
 		} else if cm >= time.January && cm <= time.June {
-			return filepath.Join(seasonKey(t, false), d)
+			return filepath.Join(fmt.Sprintf("%d", seasonKey(t, false)), d)
 		} else {
 			return filepath.Join(SEASON_DEFAULT, d)
 		}
@@ -199,20 +197,20 @@ func filterId(id string) string {
 } // filterId
 
 
-func CurrentSeason() string {
+func CurrentSeason() int {
 
 	now := GetEstNow()
 
 	m := now.Month()
 
 	if m >= time.October && m <= time.December {
-		return fmt.Sprintf("%d", now.Year())
+		return now.Year()
 	} else {
 
 		tn := *now
 		tn = tn.AddDate(-1, 0, 0)
 
-		return fmt.Sprintf("%d", tn.Year())
+		return tn.Year()
 
 	}
 
@@ -304,20 +302,14 @@ func GetDays(d string) []string {
 } // GetDays
 
 
-func GetDaysBySeason(y string) []string {
+func GetDaysBySeason(y int) []string {
 
 	days := []string{}
 
-	if len(y) == 0 {
-		logf("GetDaysBySeason", "Invalid season provided " + y)
-	} else {
+	s := OfficialSeasons[y]
 
-		s := OfficialSeasons[y]
-
-		days = GetDays(s[SEASON_BEGIN])
-		
-	}
-
+	days = GetDays(s[SEASON_BEGIN])
+	
 	return days
 
 } // GetDaysBySeason
@@ -456,24 +448,24 @@ func GetEstDate(now *time.Time) *time.Time {
 func SeasonKeyByDate(d string) string {
 
 	if d == "" {
-		return CurrentSeason()
+		return fmt.Sprintf("%d", CurrentSeason())
 	}
 
 	t, err := time.Parse(DATE_FORMAT, d)
 
 	if err != nil {
 		logf("SeasonKeyByDate", err.Error())
-		return CurrentSeason()
+		return fmt.Sprintf("%d", CurrentSeason())
 	} else {
 
 		cm := t.Month()
 
 		if cm >= time.October && cm <= time.December {
-			return seasonKey(t, true)
+			return fmt.Sprintf("%d", seasonKey(t, true))
 		} else if cm >= time.January && cm <= time.June {
-			return seasonKey(t, false)
+			return fmt.Sprintf("%d", seasonKey(t, false))
 		} else {
-			return CurrentSeason()
+			return fmt.Sprintf("%d", CurrentSeason())
 		}
 
 	}
