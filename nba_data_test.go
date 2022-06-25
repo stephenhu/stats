@@ -30,7 +30,7 @@ func TestNbaGetScoreboardEmptyDate(t *testing.T) {
 
 func TestNbaGetBoxscores(t *testing.T) {
 
-	s := NbaGetScoreboard("20191024")
+	s := NbaGetScoreboard("20181017")
 
 	if s == nil {
 		t.Error("This date has game data.")
