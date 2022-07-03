@@ -27,3 +27,14 @@ filter based on team data
 keep incrementing the period until you get a plays array equal to 0, but that
 wastes an http request.
 * uber_stats don't seem to work
+
+## representative data
+
+* https://data.nba.net/data/10s/prod/v1/20211211/scoreboard.json
+* https://data.nba.net/data/10s/prod/v1/20211211/0022100391_boxscore.json
+
+
+## alternatives
+
+* https://www.balldontlie.io/#getting-started
+* https://github.com/ynnadkrap/balldontlie

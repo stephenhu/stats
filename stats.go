@@ -29,14 +29,14 @@ const (
 const (
 	NBA_BASE_URL									= "https://data.nba.net/data/10s/prod/v1"
 	NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
-	NBA_API_PLAYERS								= "/%s/players.json"
-	NBA_API_PLAYER_PROFILE        = "/%s/players/%s_profile.json"
+	NBA_API_PLAYERS								= "/%d/players.json"
+	NBA_API_PLAYER_PROFILE        = "/%d/players/%s_profile.json"
 	NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
 	NBA_API_ROSTER            		= "/%s/teams/%s/roster.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
 	NBA_API_STANDINGS             = "/current/standings_all.json"
-	NBA_API_TEAMS                 = "/%s/teams.json"
-	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"
+	NBA_API_TEAMS                 = "/%d/teams.json"
+	NBA_API_TEAM_RANKS            = "/%d/team_stats_rankings.json"
 )
 
 const (

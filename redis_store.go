@@ -68,9 +68,9 @@ func ConnectRedis(protocol string, addr string) {
 } // ConnectRedis
 
 
-func RedisStorePlayers(s string) {
+func RedisStorePlayers(y int) {
 
-	players := NbaGetPlayers(s)
+	players := NbaGetPlayers(y)
 
 	if players != nil {
 
@@ -86,7 +86,7 @@ func RedisStorePlayers(s string) {
 				logf("RedisStorePlayers", err.Error())
 			} else {
 
-				err := rp.Send(HSET, fmt.Sprintf("%s:players", s),
+				err := rp.Send(HSET, fmt.Sprintf("%s:players", y),
 			    KeyFilter(fmt.Sprintf("%s%s", p.First, p.Last)), j)
 
 				if err != nil {
@@ -110,9 +110,9 @@ func RedisStorePlayers(s string) {
 } // RedisStorePlayers
 
 
-func RedisStoreTeams(s string) {
+func RedisStoreTeams(y int) {
 
-	teams := NbaGetTeams(s)
+	teams := NbaGetTeams(y)
 
 	if teams != nil {
 
@@ -128,7 +128,7 @@ func RedisStoreTeams(s string) {
 				logf("RedisStoreTeams", err.Error())
 			} else {
 
-				err := rp.Send(HSET, fmt.Sprintf("%s:teams", s),
+				err := rp.Send(HSET, fmt.Sprintf("%d:teams", y),
 			    strings.ToLower(t.Short), j)
 
 				if err != nil {
@@ -336,9 +336,9 @@ func RedisStoreSeason(s int) int {
 } // RedisStoreSeason
 
 
-func RedisStorePlayerInfo(s string) {
+func RedisStorePlayerInfo(y int) {
 
-	players := NbaGetPlayers(s)
+	players := NbaGetPlayers(y)
 
 	all := convLeaguePlayers(players)
 
@@ -352,7 +352,7 @@ func RedisStorePlayerInfo(s string) {
 			logf("RedisStorePlayerInfo", err.Error())
 		} else {
 
-			_, err := rp.Do(HSET, fmt.Sprintf("%s:players", s), KeyName(fmt.Sprintf("%s%s",
+			_, err := rp.Do(HSET, fmt.Sprintf("%d:players", y), KeyName(fmt.Sprintf("%s%s",
 				player.First, player.Last)), j)
 
 			if err != nil {
@@ -368,11 +368,11 @@ func RedisStorePlayerInfo(s string) {
 } // RedisStorePlayerInfo
 
 
-func RedisStoreProfiles(s string) {
+func RedisStoreProfiles(y int) {
 
-	players := NbaGetPlayers(s)
+	players := NbaGetPlayers(y)
 
-	all := NbaGetProfiles(s, players)
+	all := NbaGetProfiles(y, players)
 
 	rp := RP.Get()
 
@@ -386,7 +386,7 @@ func RedisStoreProfiles(s string) {
 			logf("RedisStoreProfiles", err.Error())
 		} else {
 
-			_, err := rp.Do(HSET, fmt.Sprintf("%s:players:stats", s), KeyName(fmt.Sprintf(
+			_, err := rp.Do(HSET, fmt.Sprintf("%d:players:stats", y), KeyName(fmt.Sprintf(
 				"%s%s", profile.First, profile.Last)), j)
 
 			if err != nil {
@@ -402,9 +402,9 @@ func RedisStoreProfiles(s string) {
 } // RedisStoreProfiles
 
 
-func RedisStoreTeamRosters(s string) {
+func RedisStoreTeamRosters(y int) {
 
-	teams := NbaGetTeams(s)
+	teams := NbaGetTeams(y)
 
 	if teams != nil {
 
@@ -416,7 +416,7 @@ func RedisStoreTeamRosters(s string) {
 
 			if ok {
 
-				roster := NbaGetTeamRoster(s, mascot)
+				roster := NbaGetTeamRoster(y, mascot)
 
 				ros := convRoster(roster)
 
@@ -428,7 +428,7 @@ func RedisStoreTeamRosters(s string) {
 						logf("RedisStoreTeamRosters", err.Error())
 					} else {
 
-						_, err := rp.Do(HSET, fmt.Sprintf("%s:teams:rosters", s), strings.ToLower(team.Code), j)
+						_, err := rp.Do(HSET, fmt.Sprintf("%d:teams:rosters", y), strings.ToLower(team.Code), j)
 
 						if err != nil {
 							logf("RedisStoreTeamRosters", err.Error())
@@ -453,9 +453,9 @@ func RedisStoreTeamRosters(s string) {
 } // RedisStoreTeamRosters
 
 
-func RedisStoreTeamInfo(s string) {
+func RedisStoreTeamInfo(y int) {
 
-	teams := NbaGetTeams(s)
+	teams := NbaGetTeams(y)
 
 	all := convTeamInfo(teams)
 
@@ -469,7 +469,7 @@ func RedisStoreTeamInfo(s string) {
 			logf("RedisStoreTeamInfo", err.Error())
 		} else {
 
-			rp.Do(HSET, fmt.Sprintf("%s:teams", s), KeyName(team.Code), j)
+			rp.Do(HSET, fmt.Sprintf("%d:teams", y), KeyName(team.Code), j)
 
 		}
 
@@ -480,9 +480,9 @@ func RedisStoreTeamInfo(s string) {
 } // RedisStoreTeamInfo
 
 
-func RedisStoreTeamRanks(s string) {
+func RedisStoreTeamRanks(y int) {
 
-	all := NbaGetTeamRanks(s)
+	all := NbaGetTeamRanks(y)
 
 	ranks := convTeamRanks(all)
 
@@ -500,7 +500,7 @@ func RedisStoreTeamRanks(s string) {
 			logf("RedisStoreTeamRanks", err.Error())
 		} else {
 
-			rp.Do(HSET, fmt.Sprintf("%s:teams:stats", s), KeyName(rank.Name), j)
+			rp.Do(HSET, fmt.Sprintf("%d:teams:stats", y), KeyName(rank.Name), j)
 
 		}
 
@@ -511,9 +511,9 @@ func RedisStoreTeamRanks(s string) {
 } // RedisStoreTeamRanks
 
 
-func RedisStoreTeamStandings(s string) {
+func RedisStoreTeamStandings(y int) {
 
-	standings := NbaGetTeamStandings(s)
+	standings := NbaGetTeamStandings(y)
 
 	if standings == nil {
 		logf("RedisStoreTeamStandings", "Unable to retrieve standings.")
@@ -531,7 +531,7 @@ func RedisStoreTeamStandings(s string) {
 				logf("RedisStoreTeamStandings", err.Error())
 			} else {
 
-				_, err := rp.Do(HSET, fmt.Sprintf("%s:standings", s), record.Name, j)
+				_, err := rp.Do(HSET, fmt.Sprintf("%d:standings", y), record.Name, j)
 
 				if err != nil {
 					logf("RedisStoreTeamStandings", err.Error())

@@ -297,46 +297,38 @@ func convStandings(standings *NbaTeamStandings) *Standings {
 } // convStandings
 
 
-func TeamRanksApi(s string) string {
-
-	if s == "" {
-		return ""
-	}
+func TeamRanksApi(y int) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_TEAM_RANKS, s))
+		fmt.Sprintf(NBA_API_TEAM_RANKS, y))
 
 } // TeamRanksApi
 
 
-func TeamRosterApi(s string, n string) string {
+func TeamRosterApi(y int, n string) string {
 
-	if s == "" || n == "" {
+	if n == "" {
 		return ""
 	}
 
 	return fmt.Sprintf("%s%s",
 	  NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_ROSTER, s, n))
+		fmt.Sprintf(NBA_API_ROSTER, y, n))
 
 } // TeamRosterApi
 
 
-func TeamsApi(s string) string {
-
-	if s == "" {
-		return ""
-	}
+func TeamsApi(y int) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_TEAMS, s))
+		fmt.Sprintf(NBA_API_TEAMS, y))
 
 } // TeamsApi
 
 
-func TeamStandingsApi(s string) string {
+func TeamStandingsApi(y int) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
@@ -345,13 +337,13 @@ func TeamStandingsApi(s string) string {
 } // TeamStandingsApi
 
 
-func NbaGetTeams(s string) *NbaTeams {
+func NbaGetTeams(y int) *NbaTeams {
 
 	teams := NbaTeams{}
 
-	teams.SeasonID = s
+	teams.SeasonID = fmt.Sprintf("%d", y)
 
-	res, err := client.Get(TeamsApi(s))
+	res, err := client.Get(TeamsApi(y))
 
 	if err != nil {
 		logf("NbaGetTeams", err.Error())
@@ -383,13 +375,13 @@ func NbaGetTeams(s string) *NbaTeams {
 } // NbaGetTeams
 
 
-func NbaGetTeamRanks(s string) *NbaRanks {
+func NbaGetTeamRanks(y int) *NbaRanks {
 
 	ranks := NbaRanks{}
 
-	ranks.SeasonID = s
+	ranks.SeasonID = fmt.Sprintf("%d", y)
 
-	res, err := client.Get(TeamRanksApi(s))
+	res, err := client.Get(TeamRanksApi(y))
 
 	if err != nil {
 		logf("NbaGetTeamRanks", err.Error())
@@ -421,13 +413,13 @@ func NbaGetTeamRanks(s string) *NbaRanks {
 } // NbaGetTeamRanks
 
 
-func NbaGetTeamRoster(s string, n string) *NbaTeamRoster {
+func NbaGetTeamRoster(y int, n string) *NbaTeamRoster {
 
-	if s == "" || n == "" {
+	if n == "" {
 		return nil
 	}
 
-	tr := TeamRosterApi(s, n)
+	tr := TeamRosterApi(y, n)
 
 	res, err := client.Get(tr)
 
@@ -463,11 +455,11 @@ func NbaGetTeamRoster(s string, n string) *NbaTeamRoster {
 } // NbaGetTeamRoster
 
 
-func NbaGetTeamStandings(s string) *NbaTeamStandings {
+func NbaGetTeamStandings(y int) *NbaTeamStandings {
 
 	standings := NbaTeamStandings{}
 
-	res, err := client.Get(TeamStandingsApi(s))
+	res, err := client.Get(TeamStandingsApi(y))
 
 	if err != nil {
 		logf("NbaGetTeamStandings", err.Error())
