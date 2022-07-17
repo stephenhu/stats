@@ -534,10 +534,7 @@ func IsValidSeason(s string) bool {
 	y, err := strconv.Atoi(s)
 
 	if err != nil {
-		
-		log.Println(err)
 		return false
-
 	} else {
 
 		_, ok := OfficialSeasons[y]
