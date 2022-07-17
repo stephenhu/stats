@@ -527,3 +527,27 @@ func GetSeason(t time.Time) []string {
 	}
 
 } // GetSeason
+
+
+func IsValidSeason(s string) bool {
+
+	y, err := strconv.Atoi(s)
+
+	if err != nil {
+		
+		log.Println(err)
+		return false
+
+	} else {
+
+		_, ok := OfficialSeasons[y]
+
+		if ok {
+			return true
+		} else {
+			return false
+		}
+	
+	}
+
+} // IsValidSeason

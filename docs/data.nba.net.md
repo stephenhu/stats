@@ -10,10 +10,9 @@ https://data.nba.net/data/10s/prod/v1/2019/team_stats_rankings.json
 http://nbasense.com/nba-api/
 https://github.com/jasonroman/nba-api
 https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation
+http://nbastats.net/
 
-
-*
-* only supports data since the 2015 season, will need to use espn for older games
+* only supports data since the 2014 season, will need to use espn for older games
 * players from different leagues are interspersed with nba players such
 as cba, turkish league, etc, filtering out these players requires a flag
 defined as `isActive` or to check if the `teamId` is an NBA team
