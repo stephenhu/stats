@@ -77,7 +77,7 @@ func PlaysApi(d string, gid string, period int) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_PLAYS, d, gid, period))
+		fmt.Sprintf(NBA_API_PLAYS, gid))
 
 } // PlaysApi
 

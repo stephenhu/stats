@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"path"
 	"path/filepath"
 	"net/url"
@@ -11,6 +12,26 @@ import (
 	"strings"
 	"time"
 )
+
+
+func fileExists(fpath string) bool {
+
+	if len(fpath) != 0 {
+
+		_, err := os.Stat(fpath)
+
+		if err != nil || os.IsNotExist(err) {
+			log.Println(err)
+			return false
+		} else {
+			return true
+		}
+
+	} else {
+		return false
+	}
+	
+} // fileExists
 
 
 func logf(fname string, msg string) {
@@ -461,7 +482,7 @@ func SeasonKeyByDate(d string) string {
 
 func SeasonCheck(d string) bool {
 
-	if d == "" {
+	if d == ""  || len(d) == 0 {
 		return false
 	}
 

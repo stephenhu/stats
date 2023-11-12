@@ -8,7 +8,7 @@ import(
 const (
 	APP_NAME										= "stats"
 	APP_STORAGE                 = "nba"
-	APP_VERSION             		= "1.0"
+	APP_VERSION             		= "1.1"
 )
 
 const (
@@ -27,16 +27,22 @@ const (
 )
 
 const (
-	NBA_BASE_URL									= "https://data.nba.net/data/10s/prod/v1"
-	NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
-	NBA_API_PLAYERS								= "/%d/players.json"
-	NBA_API_PLAYER_PROFILE        = "/%d/players/%s_profile.json"
-	NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
+	//NBA_BASE_URL									= "https://data.nba.net/data/10s/prod/v1"
+	NBA_BASE_URL                  = "https://cdn.nba.com/static/json"
+	NBA_STATIC                    = "/staticData"
+	NBA_SCHEDULE                  = "/scheduleLeagueV2_9.json"
+	NBA_LIVE                      = "/liveData"
+	NBA_API_BOXSCORE							= "/boxscore/boxscore_%s.json"
+	NBA_API_PLAYS                 = "/playbyplay/playbyplay_%s.json"
+	//NBA_API_BOXSCORE							= "/%s/%s_boxscore.json"
+	NBA_API_PLAYERS								= "/%s/players.json"
+	NBA_API_PLAYER_PROFILE        = "/%s/players/%s_profile.json"
+	//NBA_API_PLAYS            			= "/%s/%s_pbp_%d.json"
 	NBA_API_ROSTER            		= "/%s/teams/%s/roster.json"
 	NBA_API_SCOREBOARD            = "/%s/scoreboard.json"
 	NBA_API_STANDINGS             = "/current/standings_all.json"
-	NBA_API_TEAMS                 = "/%d/teams.json"
-	NBA_API_TEAM_RANKS            = "/%d/team_stats_rankings.json"
+	NBA_API_TEAMS                 = "/%s/teams.json"
+	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"
 )
 
 const (
@@ -147,6 +153,7 @@ const (
 	//TEAMS_DIR                   = "teams"
 	TEAMS_FILE                  = "teams.json"
 	TEAM_RANKS_FILE             = "team.ranks.json"
+	NBA_SCHEDULE_FILE           = "schedule.%s.json"
 )
 
 const (

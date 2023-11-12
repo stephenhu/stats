@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-  "log"
-	//"net/http"
 	"strings"
 )
 
@@ -144,6 +142,9 @@ type NbaBoxscore struct {
 
 type NbaGame struct {
 	ID        		string        `json:"gameId"`
+	GameCode      string      	`json:"gameCode"`
+	WeekNumber    int      			`json:"weekNumber"`
+	LeagueId      string      	`json:"leagueId"`
 	SeasonID			string				`json:"seasonYear"`
 	Date          string        `json:"startDateEastern"`
 	StartUtc      string        `json:"startTimeUTC"`
@@ -151,6 +152,7 @@ type NbaGame struct {
 	Away          NbaTeamScore  `json:"vTeam"`
 	Home          NbaTeamScore  `json:"hTeam"`
 }
+
 
 type NbaScoreboard struct {
 	NbaInternal   `json:"_internal"`
@@ -307,7 +309,7 @@ func BoxscoreApi(d string, gid string) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
-		fmt.Sprintf(NBA_API_BOXSCORE, d, gid))
+		fmt.Sprintf(NBA_API_BOXSCORE, gid))
 
 } // BoxscoreApi
 
@@ -316,7 +318,6 @@ func NbaGetScoreboard(d string) *NbaScoreboard {
 
 	scoreboard := NbaScoreboard{}
 
-	log.Println(ScoreboardApi(d))
   if len(d) == 0 {
 		return nil
 	}

@@ -309,7 +309,7 @@ func convCareerSeason(pc *PlayerCareer) *PlayerSeason {
 } // convCareerSeason
 
 
-func PlayersApi(y int) string {
+func PlayersApi(y string) string {
 
 	return fmt.Sprintf("%s%s",
 		NBA_BASE_URL,
@@ -318,7 +318,7 @@ func PlayersApi(y int) string {
 } // PlayersApi
 
 
-func PlayerProfileApi(y int, pid string) string {
+func PlayerProfileApi(y string, pid string) string {
 
 	if pid == "" {
 		return ""
@@ -331,7 +331,7 @@ func PlayerProfileApi(y int, pid string) string {
 } // PlayerProfileApi
 
 
-func NbaGetPlayers(y int) *NbaLeaguePlayers {
+func NbaGetPlayers(y string) *NbaLeaguePlayers {
 
 	lp := NbaLeaguePlayers{}
 
@@ -358,7 +358,7 @@ func NbaGetPlayers(y int) *NbaLeaguePlayers {
 				return nil
 			} else {
 
-				lp.SeasonID	= fmt.Sprintf("%d", y)
+				lp.SeasonID	= fmt.Sprintf("%s", y)
 
 				return &lp
 
@@ -371,7 +371,7 @@ func NbaGetPlayers(y int) *NbaLeaguePlayers {
 } // NbaGetPlayers
 
 
-func NbaGetProfiles(y int, lp *NbaLeaguePlayers) []NbaPlayerProfile {
+func NbaGetProfiles(y string, lp *NbaLeaguePlayers) []NbaPlayerProfile {
 
 	if lp == nil {
 		return nil
