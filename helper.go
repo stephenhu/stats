@@ -1,8 +1,10 @@
 package stats
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -32,6 +34,35 @@ func fileExists(fpath string) bool {
 	}
 	
 } // fileExists
+
+
+func apiInvoke(u string, data interface{}) {
+
+	res, err := client.Get(u)
+
+	if err != nil {
+		logf("NbaGetSchedule", err.Error())
+	} else {
+
+		defer res.Body.Close()
+
+		buf, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			log.Println(err)
+		} else {
+
+			err := json.Unmarshal(buf, &data)
+
+			if err != nil {
+				log.Println(err)
+			}
+
+		}
+
+	}
+
+} // apiInvoke
 
 
 func logf(fname string, msg string) {

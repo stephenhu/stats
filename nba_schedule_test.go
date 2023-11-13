@@ -1,16 +1,13 @@
 package stats
 
 import (
-	"log"
 	"testing"
 )
 
 
 func TestScheduleApi(t *testing.T) {
 
-	api := ScheduleApi("2019")
-
-	log.Println(api)
+	api := ScheduleApi()
 
 	if len(api) == 0 {
 		t.Error("No schedule endpoint returned")
@@ -19,8 +16,15 @@ func TestScheduleApi(t *testing.T) {
 } // TestScheduleApi
 
 
-func TestGetSchedule(t *testing.T) {
+func TestNbaGetSchedule(t *testing.T) {
 
-	NbaGetSchedule("2019")
+	s := NbaGetSchedule()
 
-} // TestGetSchedule
+	t.Log(s)
+
+	if s == nil {
+		t.Error()
+	}
+
+} // TestNbaGetSchedule
+

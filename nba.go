@@ -15,7 +15,7 @@ type Play struct {
 	Clock							string					`json:"clock"`
 	Description				string					`json:"description"`
 	PersonID					string					`json:"personId"`
-	TeamID						string					`json:"teamId"`
+	TeamID						int					    `json:"teamId"`
 	TeamName          string          `json:"teamName"`
 	Period            int             `json:"period"`
 	Away         			int          		`json:"away"`
@@ -53,7 +53,7 @@ type Stats struct {
 
 type AdvStats struct {
 	SeasonID					string				`json:"seasonId"`
-	TeamID						string        `json:"teamId"`
+	TeamID						int           `json:"teamId"`
 	Minutes						int						`json:"minutes"`
 	Points						int						`json:"points"`
 	Oreb							int						`json:"oreb"`
@@ -108,7 +108,7 @@ type PlayerInfo struct {
 	ID						string				`json:"id"`
 	First					string 				`json:"first"`
 	Last					string        `json:"last"`
-	TeamID				string				`json:"teamId"`
+	TeamID				int				    `json:"teamId"`
 	Jersey				string				`json:"jersey"`
 	Position			string				`json:"position"`
 	Feet					int						`json:"feet"`
@@ -137,7 +137,7 @@ type TeamSeasonStats struct {
 }
 
 type TeamRanks struct {
-	ID								string						`json:"id"`
+	ID								int						    `json:"id"`
 	Fgp								RankStat					`json:"fgp"`
 	Fg3p							RankStat					`json:"fg3p"`
 	Ftp								RankStat					`json:"ftp"`
@@ -187,7 +187,7 @@ type PlayerCareer struct {
 }
 
 type TeamInfo struct {
-	ID              string          `json:"id"`
+	ID              int          		`json:"id"`
 	Full            string          `json:"full"`
 	Code       			string          `json:"code"`
 	Short           string          `json:"short"`
@@ -197,7 +197,7 @@ type TeamInfo struct {
 }
 
 type Team struct {
-	ID              string          `json:"id"`
+	ID              int             `json:"id"`
 	SeasonID        string          `json:"seasonId"`   // discard
 	Name						string					`json:"name"`
 	Opponent        string          `json:"opponent"`
@@ -241,12 +241,12 @@ type AllPlayers struct {
 }
 
 type Roster struct {
-	TeamID          string          `json:"teamId"`
+	TeamID          int             `json:"teamId"`
 	Players					[]string				`json:"players"`
 }
 
 type TeamRecord struct {
-	TeamID					string				`json:"teamId"`
+	TeamID					int				    `json:"teamId"`
 	Name           	string        `json:"name"`
 	Mascot          string        `json:"mascot"`
 	Rank            int           `json:"rank"`

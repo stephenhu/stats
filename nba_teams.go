@@ -10,8 +10,8 @@ import (
 )
 
 type NbaTeamRanks struct {
-	ID								string						`json:"teamId"`
-	Fgp								NbaRankStat				`json:"fgp"`
+	ID								int						    `json:"teamId"`
+	Fgp								NbaRankStat			 	`json:"fgp"`
 	Fg3p							NbaRankStat				`json:"tpp"`
 	Ftp								NbaRankStat				`json:"ftp"`
 	Oreb							NbaRankStat				`json:"orpg"`
@@ -30,7 +30,7 @@ type NbaTeamRanks struct {
 }
 
 type NbaTeamStandard struct {
-	ID            string          `json:"teamId"`
+	ID            int             `json:"teamId"`
 	IsNba 				bool						`json:"isNBAFranchise"`
 	City          string          `json:"city"`
 	Code     			string          `json:"tricode"`
@@ -62,7 +62,7 @@ type NbaTeamPlayer struct {
 
 type NbaTeam2 struct {
 	Players			[]NbaTeamPlayer				`json:"players"`
-	TeamID      string                `json:"teamId"`
+	TeamID      int                `json:"teamId"`
 }
 
 type NbaStandard2 struct {
@@ -74,19 +74,16 @@ type NbaStandard3 struct {
 }
 
 type NbaRanks struct {
-	NbaInternal			`json:"_internal"`
 	NbaStandard2		`json:"league"`
 	SeasonID				string				`json:"seasonId"`
 }
 
 type NbaTeams struct {
-	NbaInternal			`json:"_internal"`
 	NbaLeague3			`json:"league"`
 	SeasonID				string				`json:"seasonId"`
 }
 
 type NbaTeamRoster struct {
-	NbaInternal			`json:"_internal"`
 	NbaStandard3 		`json:"league"`
 }
 
@@ -97,7 +94,7 @@ type TeamSites struct {
 }
 
 type NbaTeam3 struct {
-	TeamID					string				`json:"teamId"`
+	TeamID					int			  		`json:"teamId"`
 	W								string				`json:"win"`
 	L								string				`json:"loss"`
 	Pct							string				`json:"winPct"`
@@ -129,7 +126,6 @@ type NbaLeague6 struct {
 }
 
 type NbaTeamStandings struct {
-	NbaInternal     `json:"_internal"`
 	NbaLeague6      `json:"league"`
 }
 
@@ -141,13 +137,12 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 	if ranks != nil {
 
 		all.SeasonID = ranks.SeasonID
-		all.PubDate  = ranks.PubDate
 
 		for _, rank := range ranks.Teams {
 
-			_, ok := OfficialTeams[rank.ID]
+			//_, ok := OfficialTeams[rank.ID]
 
-			if ok {
+			//if ok {
 
 				tr := TeamRanks{}
 
@@ -184,7 +179,7 @@ func convTeamRanks(ranks *NbaRanks) *AllRanks {
 
 				all.Teams = append(all.Teams, tr)
 
-			}
+			//}
 
 		}
 
@@ -202,7 +197,6 @@ func convTeamInfo(teams *NbaTeams) *AllTeams {
 
 	at := AllTeams{}
 
-	at.PubDate  = teams.PubDate
 	at.SeasonID	= teams.SeasonID
 
 	for _, t := range teams.Teams {
@@ -259,7 +253,6 @@ func convStandings(standings *NbaTeamStandings) *Standings {
 		Records: make(map[string]TeamRecord),
 	}
 
-	s.PubDate 	= standings.PubDate
 	s.SeasonID	= fmt.Sprintf("%d", standings.SeasonID)
 
 	for _, team := range standings.Teams {

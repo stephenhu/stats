@@ -2,14 +2,10 @@ package stats
 
 import (
   "fmt"
-	"io/ioutil"
-	"encoding/json"
-	"log"
-	"os"
 )
 
 
-type NbaScheduleMeta struct {
+type NbaMeta struct {
 	Version 					int					`json:"version"`
 	Request 					string			`json:"request"`
 	Time 							string			`json:"time"`
@@ -30,12 +26,12 @@ type NbaLeagueSchedule struct {
 
 
 type NbaSchedule struct {
-	Meta   						NbaScheduleMeta			`json:"meta"`
+	Meta   						NbaMeta							`json:"meta"`
   LeagueSchedule    NbaLeagueSchedule   `json:"leagueSchedule"`
 }
 
 
-func ScheduleApi(d string) string {
+func ScheduleApi() string {
 
 	return fmt.Sprintf("%s%s%s",
     NBA_BASE_URL,
@@ -46,70 +42,12 @@ func ScheduleApi(d string) string {
 } // ScheduleApi
 
 
-func NbaGetSchedule(d string) {
+func NbaGetSchedule() *NbaSchedule {
 
-	if len(d) == 0 {
-		return
-	}
+	schedule := NbaSchedule{}
 
-	s := fmt.Sprintf(NBA_SCHEDULE_FILE, d)
+	apiInvoke(ScheduleApi(), &schedule)
 
-	if !fileExists(s) {
-
-		res, err := client.Get(ScheduleApi(d))
-
-		if err != nil {
-			logf("NbaGetSchedule", err.Error())
-			//return nil
-		} else {
-
-			defer res.Body.Close()
-
-			buf, err := ioutil.ReadAll(res.Body)
-
-			if err != nil {
-				logf("NbaGetSchedule", err.Error())
-				//return nil
-			} else {
-
-				f, err := os.Create(s)
-
-				if err != nil {
-					log.Println(err)
-				} else {
-
-					_, err := f.Write(buf)
-
-					if err != nil {
-						log.Println(err)
-					}
-
-				}
-
-			}
-
-		} 
-		
-	} else {
-
-			buf, err := ioutil.ReadFile(s)
-
-			if err != nil {
-				log.Println(err)
-			} else {
-
-				schedule := NbaSchedule{}
-
-				err := json.Unmarshal(buf, &schedule)
-
-				if err != nil {
-					log.Println(err)
-				} else {
-					log.Println(schedule)
-				}
-
-			}
-
-		}
+	return &schedule
 
 } // NbaGetSchedule

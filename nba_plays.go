@@ -14,7 +14,7 @@ type NbaPlay struct {
 	Clock							string					`json:"clock"`
 	Description				string					`json:"description"`
 	PersonID					string					`json:"personId"`
-	TeamID						string					`json:"teamId"`
+	TeamID						int					`json:"teamId"`
 	Period            int             `json:"period"`
 	AwayScore         string          `json:"vTeamScore"`
 	HomeScore         string          `json:"hTeamScore"`
@@ -24,7 +24,6 @@ type NbaPlay struct {
 }
 
 type NbaGameLog struct {
-	NbaInternal				`json:"_internal"`
 	Plays							[]NbaPlay				`json:"plays"`
 	Date          		string					`json:"date"`
 	GameID          	string					`json:"gameId"`
@@ -54,11 +53,11 @@ func convPlays(plays []NbaPlay) []Play {
 		play.EventType			= atoi(p.EventMsgType)
 		play.ScoreChanged		= p.ScoreChange
 
-		n, ok := OfficialTeams[p.TeamID]
+		//n, ok := OfficialTeams[p.TeamID]
 
-		if ok {
-			play.TeamName = n
-		}
+		//if ok {
+		//	play.TeamName = n
+		//}
 
 		out = append(out, play)
 

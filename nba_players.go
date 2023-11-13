@@ -4,15 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	//"log"
-	//"net/http"
 )
 
 type NbaPlayerInfo struct {
 	ID						string				`json:"personId"`
 	First					string 				`json:"firstName"`
 	Last					string        `json:"lastName"`
-	TeamID				string				`json:"teamId"`
+	TeamID				int						`json:"teamId"`
 	Jersey				string				`json:"jersey"`
 	Position			string				`json:"pos"`
 	Feet					string				`json:"heightFeet"`
@@ -58,13 +56,11 @@ type NbaLeague struct {
 
 type NbaLeaguePlayers struct {
 	NbaLeague				`json:"league"`
-	NbaInternal  		`json:"_internal"`
 	SeasonID        string				`json:"season"`
 }
 
 type NbaPlayerProfile struct {
 	NbaLeague2				`json:"league"`
-	NbaInternal       `json:"_internal"`
 	ID						string        `json:"id"`
 	SeasonID			string        `json:"seasonId"`
 	First         string        `json:"first"`
@@ -162,38 +158,29 @@ func convLeaguePlayers(lp *NbaLeaguePlayers) *AllPlayers {
 		all := AllPlayers{}
 
 		all.SeasonID  = lp.SeasonID
-		all.PubDate   = lp.PubDate
 
 		for _, p := range lp.Players {
 
-			tid := filterId(p.TeamID)
+			pi := PlayerInfo{}
 
-			_, ok := OfficialTeams[tid]
+			pi.ID							= p.ID
+			pi.First					= p.First
+			pi.Last						= p.Last
+			pi.TeamID					= p.TeamID
+			pi.Jersey					= p.Jersey
+			pi.Position				= p.Position
+			pi.Feet						= atoi(p.Feet)
+			pi.Inches					= atoi(p.Inches)
+			pi.Meters					= p.Meters
+			pi.Pounds					= atoi(p.Pounds)
+			pi.Kilograms			= p.Kilograms
+			pi.Dob						= p.Dob
+			pi.Rookie					= p.Rookie
+			pi.Years					= atoi(p.Years)
+			pi.College				= p.College
+			pi.Active					= p.Active
 
-			if ok {
-
-				pi := PlayerInfo{}
-
-				pi.ID							= p.ID
-				pi.First					= p.First
-				pi.Last						= p.Last
-				pi.TeamID					= tid
-				pi.Jersey					= p.Jersey
-				pi.Position				= p.Position
-				pi.Feet						= atoi(p.Feet)
-				pi.Inches					= atoi(p.Inches)
-				pi.Meters					= p.Meters
-				pi.Pounds					= atoi(p.Pounds)
-				pi.Kilograms			= p.Kilograms
-				pi.Dob						= p.Dob
-				pi.Rookie					= p.Rookie
-				pi.Years					= atoi(p.Years)
-				pi.College				= p.College
-				pi.Active					= p.Active
-
-				all.Players = append(all.Players, pi)
-
-			}
+			all.Players = append(all.Players, pi)
 
 		}
 
@@ -215,11 +202,10 @@ func convPlayerProfile(pp *NbaPlayerProfile) *PlayerCareer {
 	career := PlayerCareer{}
 
 	career.ID 				= pp.ID
-	career.PubDate    = pp.PubDate
 	career.SeasonID   = pp.SeasonID
 	career.First			= pp.First
 	career.Last				= pp.Last
-	career.TeamName   = OfficialTeams[pp.Latest.TeamID]
+	//career.TeamName   = pp.Latest.TeamID
 
 	copyAdvStats(&pp.Latest, &career.Latest)
 	copyAdvStats(&pp.Career, &career.Career)
