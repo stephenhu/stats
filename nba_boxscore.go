@@ -109,7 +109,7 @@ type NbaScoreData struct {
 type NbaTeamScore struct {
 	ID            int        				`json:"teamId"`
 	ShortName     string        		`json:"teamTriCode"`
-	Score         string						`json:"score"`
+	Score         int						    `json:"score"`
 	Periods   		[]NbaScoreData    `json:"periods"`
 }
 

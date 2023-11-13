@@ -99,7 +99,7 @@ func convTeamScore(t NbaTeamScore) Team {
 
 	team.ID							= t.ID
 	team.Name   				= strings.ToLower(t.ShortName)
-	team.Score  				= atoi(t.Score)
+	team.Score  				= t.Score
 	team.Periods  			= convScores(t.Periods)
 
 	return team
