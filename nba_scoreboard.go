@@ -2,7 +2,6 @@ package stats
 
 import (
   "fmt"
-	"log"
 )
 
 
@@ -26,8 +25,6 @@ func ScoreboardTodayApi() string {
 func NbaGetScoreboardToday() *NbaScoreboardToday {
 
 	today := NbaScoreboardToday{}
-
-	log.Println(ScoreboardTodayApi())
 	
 	apiInvoke(ScoreboardTodayApi(), &today)
 

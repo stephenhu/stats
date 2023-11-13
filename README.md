@@ -7,4 +7,4 @@ to persist data.
 
 ## dependencies
 
-* `go get github.com/gomodule/redigo/redis`
+* `go build`
