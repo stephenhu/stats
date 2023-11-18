@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 
@@ -136,3 +137,19 @@ func filterId(id string) string {
 	}
 
 } // filterId
+
+
+func getSeasonNow() string {
+
+	current := time.Now()
+
+	month := current.Month()
+	year 	:= current.Year()
+
+	if month >= time.October {
+		return fmt.Sprintf("%d", year)
+	} else {
+		return fmt.Sprintf("%d", year - 1)
+	}
+
+} // getSeasonNow
