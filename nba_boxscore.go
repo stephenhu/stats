@@ -111,6 +111,7 @@ type NbaTeamScore struct {
 	ShortName     string        		`json:"teamTriCode"`
 	Score         int						    `json:"score"`
 	Periods   		[]NbaScoreData    `json:"periods"`
+	Players       []NbaPlayer       `json:"players"`
 }
 
 type NbaStats struct {
@@ -130,10 +131,6 @@ type NbaGameData struct {
 	Plays         []NbaPlay					`json:"plays"`
 }
 
-type NbaBoxscore struct {
-	NbaGameData		`json:"basicGameData"`
-	NbaStats			`json:"stats"`
-}
 
 type NbaGame struct {
 	ID        		string        `json:"gameId"`
@@ -141,6 +138,12 @@ type NbaGame struct {
 	WeekNumber    int      			`json:"weekNumber"`
 	Away          NbaTeamScore  `json:"awayTeam"`
 	Home          NbaTeamScore  `json:"homeTeam"`
+}
+
+
+type NbaBoxscore struct {
+	Meta          NbaMeta						`json:"meta"`
+	Game          NbaGame						`json:"game"`
 }
 
 

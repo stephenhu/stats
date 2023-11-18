@@ -127,6 +127,7 @@ const (
 	EST_FORMAT									= "20060102 3:04 PM MST"
 	DATE_FORMAT                 = "20060102"
 	YEAR_FORMAT                 = "2006"
+	NBA_DATETIME_FORMAT         = "01/02/2006 15:04:05"
 	EST													= "America/New_York"			// Eastern Standard Time
 )
 

@@ -18,11 +18,22 @@ type NbaGameDates struct {
 }
 
 
+type NbaWeek struct {
+  WeekNumber				int					`json:"weekNumber"`
+	StartDate					string			`json:"startDate"`
+	EndDate						string			`json:"endDate"`
+}
+
+
 type NbaLeagueSchedule struct {
   SeasonYear 				string			`json:"seasonYear"`
 	LeagueId          string      `json:"leagueId"`
 	GameDates         []NbaGameDates     `json:"gameDates"`
+	Weeks             []NbaWeek           `json:"weeks"`
 }
+
+
+
 
 
 type NbaSchedule struct {

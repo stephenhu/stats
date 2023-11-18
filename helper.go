@@ -153,3 +153,38 @@ func GetCurrentSeason() string {
 	}
 
 } // GetCurrentSeason
+
+
+func IsFutureGame(d string) bool {
+
+	now 			:= time.Now()
+
+	t, err := time.Parse(NBA_DATETIME_FORMAT, d)
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	if now.After(t) {
+		return false
+	} else {
+		return true
+	}
+	
+} // IsFutureGame
+
+/*
+func IsSeasonGame(d string, s *NbaSchedule) bool {
+
+	t, err := time.Parse(time.RFC3339, d)
+
+	if err != nil {
+		log.Println(err)
+	} else {
+
+		s.leagueSchedule.weeks
+
+	}
+
+} // IsSeasonGame
+*/

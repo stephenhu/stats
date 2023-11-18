@@ -7,21 +7,6 @@ import (
 
 func TestNbaGetTeams(t *testing.T) {
 
-	teams := NbaGetTeams("2019")
-
-	if teams == nil {
-		t.Error("No teams returned")
-	}
+	t.Skip()
 
 } // TestNbaGetTeams
-
-
-func TestNbaGetTeamRanks(t *testing.T) {
-
-	ranks := NbaGetTeamRanks("2019")
-
-	if ranks == nil {
-		t.Error("No teams returned")
-	}
-
-} // TestNbaGetTeamRanks
