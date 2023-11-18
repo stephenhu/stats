@@ -5,9 +5,9 @@ import (
 )
 
 
-func TestGetSeasonNow(t *testing.T) {
+func TestGetCurrentSeason(t *testing.T) {
 
-	y := getSeasonNow()
+	y := GetCurrentSeason()
 	t.Log(y)
 
-} // TestGetSeasonNow
+} // TestGetCurrentSeason

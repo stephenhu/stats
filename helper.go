@@ -139,7 +139,7 @@ func filterId(id string) string {
 } // filterId
 
 
-func getSeasonNow() string {
+func GetCurrentSeason() string {
 
 	current := time.Now()
 
@@ -152,4 +152,4 @@ func getSeasonNow() string {
 		return fmt.Sprintf("%d", year - 1)
 	}
 
-} // getSeasonNow
+} // GetCurrentSeason
