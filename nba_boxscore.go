@@ -136,6 +136,7 @@ type NbaGame struct {
 	ID        		string        `json:"gameId"`
 	GameCode      string      	`json:"gameCode"`
 	WeekNumber    int      			`json:"weekNumber"`
+	GameTime      string        `json:"gameTimeUTC"`
 	Away          NbaTeamScore  `json:"awayTeam"`
 	Home          NbaTeamScore  `json:"homeTeam"`
 }

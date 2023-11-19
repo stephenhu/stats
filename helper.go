@@ -173,18 +173,20 @@ func IsFutureGame(d string) bool {
 	
 } // IsFutureGame
 
-/*
-func IsSeasonGame(d string, s *NbaSchedule) bool {
+
+func UtcToFolder(d string) string {
 
 	t, err := time.Parse(time.RFC3339, d)
 
 	if err != nil {
+		
 		log.Println(err)
+		return UNTAGGED_FOLDER
+
 	} else {
 
-		s.leagueSchedule.weeks
+		return fmt.Sprintf("%d%d%d", t.Year(), t.Month(), t.Day())
 
 	}
 
-} // IsSeasonGame
-*/
+} // UtcToFolder

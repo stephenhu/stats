@@ -156,6 +156,7 @@ const (
 	TEAMS_FILE                  = "teams.json"
 	TEAM_RANKS_FILE             = "team.ranks.json"
 	NBA_SCHEDULE_FILE           = "schedule.%s.json"
+	UNTAGGED_FOLDER             = "untagged"
 )
 
 const (
