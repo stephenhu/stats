@@ -184,9 +184,7 @@ func UtcToFolder(d string) string {
 		return UNTAGGED_FOLDER
 
 	} else {
-
-		return fmt.Sprintf("%d%d%d", t.Year(), t.Month(), t.Day())
-
+		return t.Format(DATE_FORMAT)
 	}
 
 } // UtcToFolder
