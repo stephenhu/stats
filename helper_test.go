@@ -16,7 +16,7 @@ func TestGetCurrentSeason(t *testing.T) {
 
 func TestIsFutureGame(t *testing.T) {
 
-	t.Log(IsFutureGame("10/05/2023 00:00:00"))
+	t.Log(IsFutureGame("2023-11-18T04:00:00Z"))
 
 } // TestIsFutureGame
 

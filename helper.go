@@ -157,9 +157,9 @@ func GetCurrentSeason() string {
 
 func IsFutureGame(d string) bool {
 
-	now 			:= time.Now()
+	now := time.Now()
 
-	t, err := time.Parse(NBA_DATETIME_FORMAT, d)
+	t, err := time.Parse(time.RFC3339, d)
 
 	if err != nil {
 		log.Println(err)
