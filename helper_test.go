@@ -41,3 +41,10 @@ func TestUtcToFolder(t *testing.T) {
 	}
 
 } // TestUtcToFolder
+
+
+func TestInvalidApiInvoke(t *testing.T) {
+
+	apiInvoke(BoxscoreApi("0032300327"), nil)
+
+} // TestInvalidApiInvoke

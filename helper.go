@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -37,33 +38,34 @@ func apiInvoke(u string, data interface{}) {
 	res, err := client.Get(u)
 
 	if err != nil {
-		logf("NbaGetSchedule", err.Error())
+		log.Println(err)
 	} else {
 
 		defer res.Body.Close()
 
-		buf, err := ioutil.ReadAll(res.Body)
+		if res.StatusCode == http.StatusOK {
 
-		if err != nil {
-			log.Println(err)
-		} else {
-
-			err := json.Unmarshal(buf, &data)
+			buf, err := ioutil.ReadAll(res.Body)
 
 			if err != nil {
 				log.Println(err)
+			} else {
+	
+				err := json.Unmarshal(buf, &data)
+	
+				if err != nil {
+					log.Println(err)
+				}
+	
 			}
-
+	
+		} else {
+			log.Printf("GET HTTP %s returned status: %d", u, res.StatusCode)
 		}
 
 	}
 
 } // apiInvoke
-
-
-func logf(fname string, msg string) {
-  log.Printf("%s(): %s", fname, msg)
-} // logf
 
 
 func atoi(s string) int {
@@ -75,7 +77,7 @@ func atoi(s string) int {
 	val, err := strconv.ParseInt(s, BASE10, BITS32)
 
 	if err != nil {
-		logf("atoi", fmt.Sprintf("Field: %s, %s", s, err.Error()))
+		log.Println(err)
 		return 0
 	} else {
 		return int(val)
@@ -93,7 +95,7 @@ func atof(s string) float32 {
 	val, err := strconv.ParseFloat(s, BITS32)
 
 	if err != nil {
-		logf("atof", fmt.Sprintf("Field: %s, %s", s, err.Error()))
+		log.Println(err)
 		return 0.0
 	} else {
 		return float32(val)
@@ -113,7 +115,7 @@ func mtoi(s string) (int, int) {
 	} else if tokenLen == 1 {
 		return atoi(toks[0]), 0
 	} else {
-		logf("mtoi", fmt.Sprintf("Unknown minutes format: %s", s))
+		log.Println("Unknown string")
 		return 0, 0
 	}
 

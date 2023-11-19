@@ -2,6 +2,7 @@ package stats
 
 import (
 	"fmt"
+	"log"
 )
 
 
@@ -33,8 +34,7 @@ func Percentage(p *Player, fn string) string {
 		fmt.Sprintf("%.1f", (float64(p.Stats.Ftm)/float64(p.Stats.Fta)*FLOAT_TO_PERCENT))
 
 	default:
-		logf("percentage", fmt.Sprintf(
-			"Field %s does not allow percentage calculation.", fn))
+		log.Println("Unknown field")
 
 	}
 
