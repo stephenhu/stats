@@ -14,11 +14,22 @@ func TestGetCurrentSeason(t *testing.T) {
 } // TestGetCurrentSeason
 
 
-func TestIsFutureGame(t *testing.T) {
+func TestIsFutureGameTrue(t *testing.T) {
 
-	t.Log(IsFutureGame("2023-11-18T04:00:00Z"))
+	if !IsFutureGame("10/24/2050 00:00:00") {
+		t.Error("10/24/2050 00:00:00 game has not been played")
+	}
 
-} // TestIsFutureGame
+} // TestIsFutureGameTrue
+
+
+func TestIsFutureGameFalse(t *testing.T) {
+
+	if IsFutureGame("10/24/2023 00:00:00") {
+		t.Error("10/24/2023 00:00:00 game has already been played")
+	}
+
+} // TestIsFutureGameFalse
 
 
 func TestUtcToFolder(t *testing.T) {
