@@ -52,7 +52,7 @@ func TestInvalidApiInvoke(t *testing.T) {
 
 func TestBeforeDate(t *testing.T) {
 
-	if !compareDates("20231004", "20231005") {
+	if !CompareDates("20231004", "20231005") {
 		t.Error("20231004 should be before 20231005")
 	}
 
@@ -61,7 +61,7 @@ func TestBeforeDate(t *testing.T) {
 
 func TestSameDate(t *testing.T) {
 
-	if !compareDates("20231004", "20231004") {
+	if !CompareDates("20231004", "20231004") {
 		t.Error("20231004 should be same 20231004")
 	}
 	
@@ -70,7 +70,7 @@ func TestSameDate(t *testing.T) {
 
 func TestAfterDate(t *testing.T) {
 
-	if compareDates("20231005", "20231004") {
+	if CompareDates("20231005", "20231004") {
 		t.Error("20231005 should be before 20231004")
 	}
 	

@@ -192,7 +192,7 @@ func UtcToFolder(d string) string {
 } // UtcToFolder
 
 
-func compareDates(d1 string, d2 string) bool {
+func CompareDates(d1 string, d2 string) bool {
 
 	t1, err := time.Parse(DATE_FORMAT, d1)
 
@@ -217,4 +217,4 @@ func compareDates(d1 string, d2 string) bool {
 
 	return false
 
-} // compareDates
+} // CompareDates
