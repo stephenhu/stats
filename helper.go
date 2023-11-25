@@ -192,7 +192,7 @@ func UtcToFolder(d string) string {
 } // UtcToFolder
 
 
-func CompareDates(d1 string, d2 string) bool {
+func IsAfterDate(d1 string, d2 string) bool {
 
 	t1, err := time.Parse(DATE_FORMAT, d1)
 
@@ -206,7 +206,7 @@ func CompareDates(d1 string, d2 string) bool {
 			log.Println(err)
 		} else {
 
-			if t1.Before(t2) || t1.Equal(t2) {
+			if t2.After(t1) || t2.Equal(t1) {
 				return true
 			} else {
 				return false
@@ -217,4 +217,4 @@ func CompareDates(d1 string, d2 string) bool {
 
 	return false
 
-} // CompareDates
+} // IsAfterDate
