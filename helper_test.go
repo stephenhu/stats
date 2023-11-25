@@ -3,6 +3,7 @@ package stats
 import (
 	"fmt"
   "testing"
+	"time"
 )
 
 
@@ -32,15 +33,26 @@ func TestIsFutureGameFalse(t *testing.T) {
 } // TestIsFutureGameFalse
 
 
-func TestUtcToFolder(t *testing.T) {
+func TestUtcToString(t *testing.T) {
 
-	f := UtcToFolder("2023-10-24T23:30:00Z")
+	f := UtcToString("2023-10-24T23:30:00Z")
 
 	if f != "20231024" {
 		t.Error(fmt.Sprintf("Received %s, should have received '20231024", f))
 	}
 
-} // TestUtcToFolder
+} // TestUtcToString
+
+
+func TestGameDateToString(t *testing.T) {
+
+	f := GameDateToString("10/24/2023 23:30:00")
+
+	if f != "20231024" {
+		t.Error(fmt.Sprintf("Received %s, should have received '20231024", f))
+	}
+
+} // TestGameDateToString
 
 
 func TestInvalidApiInvoke(t *testing.T) {
@@ -75,3 +87,16 @@ func TestBeforeDate(t *testing.T) {
 	}
 	
 } // TestBeforeDate
+
+func TestS(t *testing.T) {
+
+	a, err := time.Parse(DATE_FORMAT, "")
+
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Log(a)
+	}
+	
+} // TestS
+

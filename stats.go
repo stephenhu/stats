@@ -132,12 +132,6 @@ const (
 )
 
 const (
-	START_TIME_WEEKDAY          = 17
-	START_TIME_WEEKEND          = 15
-	SCOREBOARD_MAX_RETRY        = 5
-)
-
-const (
 	MAX_SEASON_END							= "0630"			// add buffer to be safe
 	MAX_PERIODS                 = 10					// 6 overtimes
 )
@@ -156,19 +150,7 @@ const (
 	TEAMS_FILE                  = "teams.json"
 	TEAM_RANKS_FILE             = "team.ranks.json"
 	NBA_SCHEDULE_FILE           = "schedule.%s.json"
-	UNTAGGED_FOLDER             = "untagged"
-)
-
-const (
-	PROFILE_BIRD_ERA         		= "bird.era"					// 1978
-	PROFILE_MODERN_ERA					= "modern.era"				// 1979
-	PROFILE_RELATIVE_ERA     		= "relative.era" 			// 1998
-	PROFILE_SIMPLE_ERA					= "simple.era"				// 2015
-)
-
-const (
-	YEAR_BIRD_ERA               = 1978
-	YEAR_MODERN_ERA             = 1979
+	UNTAGGED             				= "untagged"
 )
 
 const (

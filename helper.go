@@ -176,20 +176,36 @@ func IsFutureGame(d string) bool {
 } // IsFutureGame
 
 
-func UtcToFolder(d string) string {
+func UtcToString(d string) string {
 
 	t, err := time.Parse(time.RFC3339, d)
 
 	if err != nil {
 		
 		log.Println(err)
-		return UNTAGGED_FOLDER
+		return UNTAGGED
 
 	} else {
 		return t.Format(DATE_FORMAT)
 	}
 
-} // UtcToFolder
+} // UtcToString
+
+
+func GameDateToString(d string) string {
+
+	t, err := time.Parse(NBA_DATETIME_FORMAT, d)
+
+	if err != nil {
+		
+		log.Println(err)
+		return STRING_EMPTY
+
+	} else {
+		return t.Format(DATE_FORMAT)
+	}
+
+} // GameDateToString
 
 
 func IsAfterDate(d1 string, d2 string) bool {
