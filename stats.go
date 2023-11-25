@@ -175,6 +175,7 @@ const (
 	HTTP_TIMEOUT                = 45			// seconds
 )
 
+
 var client = http.Client{
 	Timeout: HTTP_TIMEOUT * time.Second,
 }

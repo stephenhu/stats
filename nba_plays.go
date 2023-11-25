@@ -12,7 +12,7 @@ type NbaPlay struct {
 	Clock							string					`json:"clock"`
 	Description				string					`json:"description"`
 	PersonID					string					`json:"personId"`
-	TeamID						int					`json:"teamId"`
+	TeamID						int							`json:"teamId"`
 	Period            int             `json:"period"`
 	AwayScore         string          `json:"vTeamScore"`
 	HomeScore         string          `json:"hTeamScore"`

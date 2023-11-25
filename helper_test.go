@@ -48,3 +48,30 @@ func TestInvalidApiInvoke(t *testing.T) {
 	apiInvoke(BoxscoreApi("0032300327"), nil)
 
 } // TestInvalidApiInvoke
+
+
+func TestBeforeDate(t *testing.T) {
+
+	if !compareDates("20231004", "20231005") {
+		t.Error("20231004 should be before 20231005")
+	}
+
+} // TestBeforeDate
+
+
+func TestSameDate(t *testing.T) {
+
+	if !compareDates("20231004", "20231004") {
+		t.Error("20231004 should be same 20231004")
+	}
+	
+} // TestSameDate
+
+
+func TestAfterDate(t *testing.T) {
+
+	if compareDates("20231005", "20231004") {
+		t.Error("20231005 should be before 20231004")
+	}
+	
+} // TestAfterDate

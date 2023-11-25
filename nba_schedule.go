@@ -13,15 +13,15 @@ type NbaMeta struct {
 
 
 type NbaGameDates struct {
-	GameDate          string      `json:"gameDate"`
+	GameDate          string      `json:"gameDate"`			// 10/05/2023 00:00:00
 	Games          		[]NbaGame   `json:"games"`
 }
 
 
 type NbaWeek struct {
   WeekNumber				int					`json:"weekNumber"`
-	StartDate					string			`json:"startDate"`
-	EndDate						string			`json:"endDate"`
+	StartDate					string			`json:"startDate"`		// UTC
+	EndDate						string			`json:"endDate"`			// UTC
 }
 
 

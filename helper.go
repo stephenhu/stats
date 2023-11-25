@@ -190,3 +190,31 @@ func UtcToFolder(d string) string {
 	}
 
 } // UtcToFolder
+
+
+func compareDates(d1 string, d2 string) bool {
+
+	t1, err := time.Parse(DATE_FORMAT, d1)
+
+	if err != nil {
+		log.Println(err)
+	} else {
+
+		t2, err := time.Parse(DATE_FORMAT, d2)
+
+		if err != nil {
+			log.Println(err)
+		} else {
+
+			if t1.Before(t2) || t1.Equal(t2) {
+				return true
+			} else {
+				return false
+			}
+		}
+
+	}
+
+	return false
+
+} // compareDates
