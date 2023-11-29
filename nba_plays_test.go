@@ -7,6 +7,6 @@ import (
 
 func TestNbaGetPlays(t *testing.T) {
 
-	t.Skip()
+	NbaGetPlays("0022300062")
 
 } // TestNbaGetPlays

@@ -128,7 +128,7 @@ type NbaGameData struct {
 	EndUtc    		string        		`json:"endTimeUTC"`
 	AwayScore			NbaTeamScore			`json:"vTeam"`
 	HomeScore			NbaTeamScore			`json:"hTeam"`
-	Plays         []NbaPlay					`json:"plays"`
+	//Plays         []NbaPlay					`json:"plays"`
 }
 
 
