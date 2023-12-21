@@ -35,10 +35,32 @@ func fileExists(fpath string) bool {
 
 func apiInvoke(u string, data interface{}) {
 
+	buf := apiInvokeJson(u)
+	
+	if len(buf) > 0 {
+
+		err := json.Unmarshal(buf, &data)
+
+		if err != nil {
+			log.Println(err)
+		}
+	
+	}
+
+} // apiInvoke
+
+
+func apiInvokeJson(u string) []byte {
+
+	//ret := []byte{}
+
 	res, err := client.Get(u)
 
 	if err != nil {
+
 		log.Println(err)
+		return nil
+		
 	} else {
 
 		defer res.Body.Close()
@@ -48,24 +70,25 @@ func apiInvoke(u string, data interface{}) {
 			buf, err := ioutil.ReadAll(res.Body)
 
 			if err != nil {
+				
 				log.Println(err)
+
+				return nil
+
 			} else {
-	
-				err := json.Unmarshal(buf, &data)
-	
-				if err != nil {
-					log.Println(err)
-				}
-	
+				return buf
 			}
 	
 		} else {
+
 			log.Printf("GET HTTP %s returned status: %d", u, res.StatusCode)
+			return nil
+
 		}
 
 	}
 
-} // apiInvoke
+} // apiInvokeJson
 
 
 func atoi(s string) int {

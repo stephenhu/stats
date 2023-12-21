@@ -62,3 +62,8 @@ func NbaGetSchedule() *NbaSchedule {
 	return &schedule
 
 } // NbaGetSchedule
+
+
+func NbaGetScheduleJson() []byte {
+	return apiInvokeJson(ScheduleApi())
+} // NbaGetScheduleJson
