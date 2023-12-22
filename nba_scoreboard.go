@@ -31,3 +31,8 @@ func NbaGetScoreboardToday() *NbaScoreboardToday {
 	return &today
 
 } // NbaGetScoreboardToday
+
+
+func NbaGetScoreboardTodayJson() []byte {
+  return apiInvokeJson(ScoreboardTodayApi())
+} // NbaGetScoreboardTodayJson

@@ -91,3 +91,8 @@ func NbaGetPlays(id string) *NbaPlayByPlay {
 	return &plays
 
 } // NbaGetPlays
+
+
+func NbaGetPlaysJson(id string) []byte {
+  return apiInvokeJson(PlaysApi(id))
+} // NbaGetPlaysJson

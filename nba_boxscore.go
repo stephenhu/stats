@@ -171,3 +171,8 @@ func NbaGetBoxscore(id string) *NbaBoxscore {
 	return &box
 
 } // NbaGetBoxscore
+
+
+func NbaGetBoxscoreJson(id string) []byte {
+	return apiInvokeJson(BoxscoreApi(id))
+} // NbaGetBoxscoreJson
