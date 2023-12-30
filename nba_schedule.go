@@ -33,9 +33,6 @@ type NbaLeagueSchedule struct {
 }
 
 
-
-
-
 type NbaSchedule struct {
 	Meta   						NbaMeta							`json:"meta"`
   LeagueSchedule    NbaLeagueSchedule   `json:"leagueSchedule"`
