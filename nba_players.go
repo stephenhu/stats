@@ -47,6 +47,7 @@ type NbaPlayer struct {
 	Jersey				string				`json:"jerseyNum"`
 	Position			string 				`json:"position"`
 	Starter				string        `json:"starter"`
+	Order         int						`json:"order"`
 	Statistics    NbaPlayerStatistics		`json:"statistics"`
 }
 
