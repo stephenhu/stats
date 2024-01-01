@@ -17,7 +17,7 @@ type NbaPlayerStatistics struct {
 	Fta        		int           		`json:"freeThrowsAttempted"`
 	Ftm        		int           		`json:"freeThrowsMade"`
 	Ftp           float64           `json:"freeThrowsPercentage"`
-	Minutes       string        		`json:"minutes"`
+	Minutes       string        		`json:"minutesCalculated"`
 	Plus          float64           `json:"plus"`
 	PlusMinus     float64           `json:"plusMinusPoints"`
 	Points        int   	        	`json:"points"`
