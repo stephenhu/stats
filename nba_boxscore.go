@@ -24,10 +24,10 @@ type NbaAdvStats struct {
 	Steals						string				`json:"steals"`
 	Blocks						string				`json:"blocks"`
 	Fouls							string				`json:"pFouls"`
-	Fgm               string        `json:"fgm"`
-	Fga               string        `json:"fga"`
-	Fg3m              string        `json:"tpm"`
-	Fg3a              string        `json:"tpa"`
+	Fgm               string        `json:"fg2m"`
+	Fga               string        `json:"fg2a"`
+	Fg3m              string        `json:"fg3m"`
+	Fg3a              string        `json:"fg3a"`
 	Ftm               string        `json:"ftm"`
 	Fta               string        `json:"fta"`
 	Played						string				`json:"gamesPlayed"`
@@ -40,7 +40,7 @@ type NbaAdvStats struct {
 	Tpg								string				`json:"topg"`			// turnovers per game
 	Spg								string				`json:"spg"`			// steals per game
 	Bpg								string				`json:"bpg"`			// blocks per game
-	Fgp								string				`json:"fgp"`			// fg %
+	Fg2p								string				`json:"fg2p"`			// fg %
 	Fg3p							string				`json:"tpp"`			// three point %
 	Ftp								string				`json:"ftp"`			// free throw %
 }
@@ -69,26 +69,35 @@ type NbaPlayerData struct {
 	ID						string						`json:"personId"`
 	TeamID        int            		`json:"teamId"`
 	First         string        		`json:"firstName"`
-	Last          string        		`json:"lastName"`
-	Points        string           	`json:"points"`
-	Minutes       string        		`json:"min"`
-	Fgm        		string           	`json:"fgm"`
-	Fga        		string           	`json:"fga"`
-	Ftm        		string           	`json:"ftm"`
-	Fta        		string           	`json:"fta"`
-	Fg3m        	string          	`json:"tpm"`
-	Fg3a        	string          	`json:"tpa"`
-	Oreb        	string           	`json:"offReb"`
-	Dreb        	string           	`json:"defReb"`
-	Treb        	string           	`json:"totReb"`
-	Assists       string           	`json:"assists"`
-	Fouls        	string           	`json:"pFouls"`
-	Steals        string           	`json:"steals"`
-	Turnovers     string           	`json:"turnovers"`
-	Blocks        string           	`json:"blocks"`
-	PlusMinus     string           	`json:"plusMinus"`
-	DnpReason     string           	`json:"dnp"`
-	Position      string            `json:"pos"`
+	Last          string        		`json:"familyName"`
+	Points        int           	`json:"points"`
+	Minutes       string        		`json:"minutesCalculated"`
+	Fgm        		int           	`json:"fieldGoalsMade"`
+	Fga        		int           	`json:"fieldGoalsAttempted"`
+	Ftm        		int           	`json:"freeThrowsMade"`
+	Fta        		int           	`json:"freeThrowsAttempted"`
+	Fg2m        	int          	`json:"twoPointersMade"`
+	Fg2a        	int          	`json:"twoPointersAttempted"`
+	Fg3m        	int          	`json:"threePointersMade"`
+	Fg3a        	int          	`json:"threePointersAttempted"`
+	Oreb        	int           	`json:"reboundsOffensive"`
+	Dreb        	int           	`json:"reboundsDefensive"`
+	Treb        	int           	`json:"reboundsTotal"`
+	Assists       int           		`json:"assists"`
+	Fouls        	int           	`json:"foulsPersonal"`
+	FoulsOffensive    int           	`json:"foulsOffensive"`
+	FoulsDrawn        int           	`json:"foulsDrawn"`
+	FoulsTechnical    int           	`json:"foulsTechnical"`
+	Steals        int           	`json:"steals"`
+	Turnovers     int           	`json:"turnovers"`
+	Blocks        int           	`json:"blocks"`
+	Blocked       int            `json:"blocksReceived"`
+	PlusMinus     float32           	`json:"plusMinusPoints"`
+	Position      string            `json:"position"`
+	Fastbreak     int               `json:"pointsFastBreak"`
+	Paint     		int               `json:"pointsInThePaint"`
+	SecondChance  int               `json:"pointsSecondChance"`
+
 }
 
 type NbaTeam struct {

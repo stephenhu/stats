@@ -1,7 +1,5 @@
 package stats
 
-import (
-)
 
 type NbaPlayerStatistics struct {
 	Assists       int           		`json:"assists"`
