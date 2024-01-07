@@ -132,13 +132,47 @@ type Cache struct {
 }
 
 
-func TPlayerGame(p NbaPlayer) PlayerInfo {
+func TPlayerInfo(p NbaPlayer) PlayerInfo {
  
   return PlayerInfo{
 		ID:	p.ID,
 		First: p.First,
 		Last: p.Last,
 		Jersey: p.Jersey,
+	}
+
+} // TPlayerInfo
+
+
+func TPlayerGame(p NbaPlayer) PlayerGame {
+ 
+  return PlayerGame{
+		Base: Base{
+			Points: p.Statistics.Points,
+			Oreb: p.Statistics.Oreb,
+			Dreb: p.Statistics.Dreb,
+			Treb: p.Statistics.Treb,
+			Assists: p.Statistics.Assists,
+			Steals: p.Statistics.Steals,
+			Blocks: p.Statistics.Blocks,
+			Blocked: p.Statistics.Blocked,
+			Turnovers: p.Statistics.Turnovers,
+			Fouls: p.Statistics.Fouls,
+			Fouled: p.Statistics.FoulsDrawn,
+			FoulsOffensive: p.Statistics.FoulsOff,
+			Technicals: p.Statistics.Technicals,
+			Fta: p.Statistics.Fta,
+			Ftm: p.Statistics.Ftm,
+			Fgta: p.Statistics.Fga,
+		  Fgtm: p.Statistics.Fgm,
+			Fg2a: p.Statistics.Fg2a,
+			Fg2m: p.Statistics.Fg2m,
+			Fg3a: p.Statistics.Fg3a,
+		  Fg3m: p.Statistics.Fg3m,
+			Paint: p.Statistics.PointsPaint,
+			Fastbreak: p.Statistics.PointsFast,
+			SecondChance: p.Statistics.PointsSecond,
+		},
 	}
 
 } // TPlayerGame
