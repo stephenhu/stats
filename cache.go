@@ -58,7 +58,7 @@ type PlayerInfo struct {
 
 
 type SeasonPlayer struct {
-	Games				map[int]map[string]PlayerGame		`json:"games"`
+	Games				map[string]PlayerGame		`json:"games"`
   Info        PlayerInfo 				`json:"info"`
 }
 
