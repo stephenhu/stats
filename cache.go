@@ -1,5 +1,9 @@
 package stats
 
+import (
+	//"log"
+)
+
 
 type Base struct {
 	Points								int           `json:"points"`
@@ -126,3 +130,15 @@ type Season struct {
 type Cache struct {
   Seasons								map[string]Season			`json:"seasons"`	
 }
+
+
+func TPlayerGame(p NbaPlayer) PlayerInfo {
+ 
+  return PlayerInfo{
+		ID:	p.ID,
+		First: p.First,
+		Last: p.Last,
+		Jersey: p.Jersey,
+	}
+
+} // TPlayerGame
