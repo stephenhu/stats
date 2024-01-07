@@ -1,5 +1,6 @@
 package stats
 
+/*
 import (
 	"fmt"
 	"log"
@@ -159,3 +160,5 @@ func TeamAverages(games []Team) AdvStats {
 	return as
 
 } // TeamAverages
+
+*/

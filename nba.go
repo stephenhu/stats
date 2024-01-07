@@ -1,5 +1,6 @@
 package stats
 
+/*
 type RankStat struct {
 	Val						float32					`json:"val"`
 	Rank					int							`json:"rank"`
@@ -274,3 +275,5 @@ type Standings struct {
 	PubDate         string        						`json:"pubDate"`
 	Records					map[string]TeamRecord			`json:"records"`
 }
+
+*/
