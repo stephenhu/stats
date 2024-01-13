@@ -43,7 +43,7 @@ type PlayerGame struct {
 	AwayCode              string				`json:"awayCode"`
 	GameDate              string        `json:"gameDate"`
 	Starter								string        `json:"starter"`
-	Minutes								float64       `json:"minutes"`
+	Minutes								int       		`json:"minutes"`
 	PlusMinus							float64       `json:"plusMinus"`
 	Base				`json:"stats"`
 }
@@ -147,6 +147,9 @@ func TPlayerInfo(p NbaPlayer) PlayerInfo {
 func TPlayerGame(p NbaPlayer) PlayerGame {
  
   return PlayerGame{
+		Minutes: PtmToMin(p.Statistics.Minutes),
+		PlusMinus: p.Statistics.PlusMinus,
+		Starter: p.Starter,
 		Base: Base{
 			Points: p.Statistics.Points,
 			Oreb: p.Statistics.Oreb,
