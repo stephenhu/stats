@@ -263,10 +263,14 @@ func PtmToMin(s string) int {
 
 	minutes := 0
 
-	_, err := fmt.Sscanf(s, "PT&dM", &minutes)
-	
-	if err != nil {
-		log.Println(err)
+	if len(s) != 0 {
+		
+		_, err := fmt.Sscanf(s, "PT%dM", &minutes)
+		
+		if err != nil {
+			log.Println(err)
+
+		}
 
 	}
 

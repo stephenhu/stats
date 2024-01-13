@@ -100,3 +100,9 @@ func TestS(t *testing.T) {
 	
 } // TestS
 
+
+func TestPtm0(t *testing.T) {
+
+	t.Log(PtmToMin("PT00M"))
+
+} // TestPtm0
