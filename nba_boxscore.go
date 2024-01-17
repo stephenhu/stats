@@ -92,7 +92,7 @@ type NbaTeamData struct {
 	Fg3p        	float64         `json:"threePointersPercentage"`
 	Leading       string          `json:"timeLeading"`
 	Ties     			int           	`json:"timesTied"`
-	TrueA       	int         		`json:"trueShootingAttempts"`
+	TrueA       	float64         		`json:"trueShootingAttempts"`
 	TrueP        	float64         `json:"trueShootingPercentage"`
 	Turnovers     int           	`json:"turnovers"`
 	Fg2a        	int           	`json:"twoPointersAttempted"`
