@@ -5,9 +5,9 @@ type NbaPlayerStatistics struct {
 	Assists       int           		`json:"assists"`
 	Blocks        int           		`json:"blocks"`
 	Blocked       int           		`json:"blocksReceived"`
-	Fga        		int           		`json:"fga"`
-	Fgm        		int           		`json:"fgm"`
-	Fgp        		float64           `json:"fta"`
+	Fga        		int           		`json:"fieldGoalsAttempted"`
+	Fgm        		int           		`json:"fieldGoalsMade"`
+	Fgp        		float64           `json:"fieldGoalsPercentage"`
 	FoulsOff      int           		`json:"foulsOffensive"`
 	FoulsDrawn    int        				`json:"foulsDrawn"`
 	Fouls        	int        				`json:"foulsPersonal"`
