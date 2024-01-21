@@ -39,6 +39,9 @@ type Base struct {
 
 type PlayerGame struct {
 	GameID                string				`json:"gameId"`
+	TeamID                int           `json:"teamId"`
+	HomeTeamID            int        		`json:"homeTeamId"`
+	AwayTeamID            int        		`json:"awayTeamId"`
 	HomeCode              string				`json:"homeCode"`
 	AwayCode              string				`json:"awayCode"`
 	GameDate              string        `json:"gameDate"`
