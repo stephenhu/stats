@@ -46,6 +46,14 @@ const (
 	NBA_API_TEAM_RANKS            = "/%s/team_stats_rankings.json"
 )
 
+
+const (
+	PRESEASON             = 0
+  REGULAR								= 1
+	PLAYOFFS              = 2
+)
+
+
 const (
 	HTML_ANCHOR                 = "a"
 	HTML_ARTICLE								= "article"
