@@ -76,6 +76,7 @@ type Leaders struct {
 	Games									int           `json:"games"`
 	PlusMinus             float64       `json:"plusMinus"`
 	Base 				`json:"base"`
+	Advanced    `json:"advanced"`
 }
 
 
