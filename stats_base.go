@@ -31,7 +31,7 @@ type Base struct {
 	Turnovers							int           `json:"turnovers"`
 	Fouls									int           `json:"fouls"`
 	Fouled								int           `json:"fouled"`
-	FoulsOffensive				int           `json:"foulsOffensive"`
+	FoulsO								int           `json:"foulsOffensive"`
 	Technicals						int           `json:"technicals"`
 	Paint									int           `json:"paint"`
 	Fastbreak							int           `json:"fastbreak"`

@@ -35,7 +35,7 @@ func TPlayerGame(p NbaPlayer) PlayerGame {
 			Turnovers: p.Statistics.Turnovers,
 			Fouls: p.Statistics.Fouls,
 			Fouled: p.Statistics.FoulsDrawn,
-			FoulsOffensive: p.Statistics.FoulsOff,
+			FoulsO: p.Statistics.FoulsOff,
 			Technicals: p.Statistics.Technicals,
 			Fta: p.Statistics.Fta,
 			Ftm: p.Statistics.Ftm,
