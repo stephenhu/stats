@@ -3,6 +3,11 @@ package stats
 // Basic data structs normalized for better in memory usage
 
 type Base struct {
+	ID										int						`json:"id"`
+	First									string 				`json:"first"`
+	Last									string        `json:"last"`
+	Full          				string        `json:"full"`
+	Abv     							string        `json:"abv"`
 	Points								int           `json:"points"`
 	Oreb									int           `json:"oreb"`
 	Dreb									int           `json:"dreb"`
@@ -31,6 +36,9 @@ type Base struct {
 	Paint									int           `json:"paint"`
 	Fastbreak							int           `json:"fastbreak"`
 	SecondChance					int           `json:"secondChance"`
+	Minutes								int           `json:"minutes"`
+	Games									int           `json:"games"`
+	PlusMinus             float64       `json:"plusMinus"`
 }
 
 
