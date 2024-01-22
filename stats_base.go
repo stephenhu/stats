@@ -114,7 +114,7 @@ type PlayerGame struct {
 	GameDate              string        `json:"gameDate"`
 	Starter								string        `json:"starter"`
 	Minutes								int       		`json:"minutes"`
-	PlusMinus							float64       `json:"plusMinus"`
+	PlusMinus							float32       `json:"plusMinus"`
 	GameType              int           `json:"gameType"`
 	Base				`json:"stats"`
 }

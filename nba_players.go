@@ -7,17 +7,17 @@ type NbaPlayerStatistics struct {
 	Blocked       int           		`json:"blocksReceived"`
 	Fga        		int           		`json:"fieldGoalsAttempted"`
 	Fgm        		int           		`json:"fieldGoalsMade"`
-	Fgp        		float64           `json:"fieldGoalsPercentage"`
+	Fgp        		float32           `json:"fieldGoalsPercentage"`
 	FoulsOff      int           		`json:"foulsOffensive"`
 	FoulsDrawn    int        				`json:"foulsDrawn"`
 	Fouls        	int        				`json:"foulsPersonal"`
 	Technicals    int  	         		`json:"foulsTechnical"`
 	Fta        		int           		`json:"freeThrowsAttempted"`
 	Ftm        		int           		`json:"freeThrowsMade"`
-	Ftp           float64           `json:"freeThrowsPercentage"`
+	Ftp           float32           `json:"freeThrowsPercentage"`
 	Minutes       string        		`json:"minutesCalculated"`
-	Plus          float64           `json:"plus"`
-	PlusMinus     float64           `json:"plusMinusPoints"`
+	Plus          float32           `json:"plus"`
+	PlusMinus     float32           `json:"plusMinusPoints"`
 	Points        int   	        	`json:"points"`
   PointsFast    int               `json:"pointsFastBreak"`
 	PointsPaint   int               `json:"pointsInThePaint"`
@@ -28,11 +28,11 @@ type NbaPlayerStatistics struct {
 	Steals        int           		`json:"steals"`
 	Fg3a        	int          			`json:"threePointersAttempted"`
 	Fg3m        	int          			`json:"threePointersMade"`
-  Fg3p          float64           `json:"threePointersPercentage"`
+  Fg3p          float32           `json:"threePointersPercentage"`
 	Turnovers     int           		`json:"turnovers"`
 	Fg2a          int           		`json:"twoPointersAttempted"`
 	Fg2m          int           		`json:"twoPointersMade"`
-	Fg2p          float64       		`json:"twoPointersPercentage"`
+	Fg2p          float32       		`json:"twoPointersPercentage"`
 }
 
 
