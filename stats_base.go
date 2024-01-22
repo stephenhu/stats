@@ -3,11 +3,6 @@ package stats
 // Basic data structs normalized for better in memory usage
 
 type Base struct {
-	ID										int						`json:"id"`
-	First									string 				`json:"first"`
-	Last									string        `json:"last"`
-	Full          				string        `json:"full"`
-	Abv     							string        `json:"abv"`
 	Points								int           `json:"points"`
 	Oreb									int           `json:"oreb"`
 	Dreb									int           `json:"dreb"`
@@ -36,9 +31,73 @@ type Base struct {
 	Paint									int           `json:"paint"`
 	Fastbreak							int           `json:"fastbreak"`
 	SecondChance					int           `json:"secondChance"`
+}
+
+
+type Advanced struct {
+	Points								float32       `json:"points"`
+	Oreb									float32       `json:"oreb"`
+	Dreb									float32       `json:"dreb"`
+	Treb									float32       `json:"treb"`
+	Fta										float32       `json:"fta"`
+	Ftm										float32       `json:"ftm"`
+	Ftp										float64       `json:"ftp"`
+	Fg2a									float32       `json:"fg2a"`
+	Fg2m									float32       `json:"fg2m"`
+	Fg2p                  float64				`json:"fg2p"`
+	Fg3a									float32       `json:"fg3a"`
+	Fg3m									float32       `json:"fg3m"`
+	Fg3p									float64       `json:"fg3p"`
+	Fgta                  float32				`json:"fgta"`
+	Fgtm                  float32				`json:"fgtm"`
+	Fgtp                  float64				`json:"fgtp"`
+	Steals								float32       `json:"steals"`
+	Assists								float32       `json:"assists"`
+	Blocks								float32       `json:"blocks"`
+	Blocked								float32       `json:"blocked"`
+	Turnovers							float32       `json:"turnovers"`
+	Fouls									float32       `json:"fouls"`
+	Fouled								float32       `json:"fouled"`
+	FoulsO								float32       `json:"foulsOffensive"`
+	Technicals					  float32       `json:"technicals"`
+	Paint									float32       `json:"paint"`
+	Fastbreak							float32       `json:"fastbreak"`
+	SecondChance					float32       `json:"secondChance"`
+}
+
+
+type Leaders struct {
+	ID										int						`json:"id"`
+	First									string 				`json:"first"`
+	Last									string        `json:"last"`
+	Full          				string        `json:"full"`
+	Abv     							string        `json:"abv"`
 	Minutes								int           `json:"minutes"`
 	Games									int           `json:"games"`
 	PlusMinus             float64       `json:"plusMinus"`
+	Base 				`json:"base"`
+}
+
+
+type Standings struct {
+  Wins  								int						`json:"wins"`
+	Losses  							int						`json:"losses"`
+	GB  									float32				`json:"gamesBack"`
+	WinPct  							float32				`json:"winPct"`
+	HomeW  								int						`json:"homeWins"`
+	HomeL  								int						`json:"homeLosses"`
+	AwayW  								int						`json:"awayWins"`
+	AwayL  								int						`json:"awayLosses"`
+	DivW  								int						`json:"divWins"`
+	DivL  								int						`json:"divLosses"`
+	ConfW  								int						`json:"confWins"`
+	ConfL  								int						`json:"confLosses"`
+	Ppg  									float32				`json:"pointsPerGame"`
+	Oppg  								float32				`json:"oppPointsPerGame"`
+	Streak  							int						`json:"streak"`
+	IsW                   bool          `json:"isW"`
+	Last10W  							int						`json:"last10W"`
+	Last10L  							int						`json:"last10L"`
 }
 
 
