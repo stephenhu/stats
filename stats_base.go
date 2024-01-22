@@ -63,6 +63,8 @@ type Advanced struct {
 	Paint									float32       `json:"paint"`
 	Fastbreak							float32       `json:"fastbreak"`
 	SecondChance					float32       `json:"secondChance"`
+	Minutes								int           `json:"minutes"`
+	PlusMinus             float64       `json:"plusMinus"`
 }
 
 
