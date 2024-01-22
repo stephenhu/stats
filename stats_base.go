@@ -9,16 +9,16 @@ type Base struct {
 	Treb									int           `json:"treb"`
 	Fta										int           `json:"fta"`
 	Ftm										int           `json:"ftm"`
-	Ftp										float64       `json:"ftp"`
+	Ftp										float32       `json:"ftp"`
 	Fg2a									int           `json:"fg2a"`
 	Fg2m									int           `json:"fg2m"`
-	Fg2p                  float64				`json:"fg2p"`
+	Fg2p                  float32				`json:"fg2p"`
 	Fg3a									int           `json:"fg3a"`
 	Fg3m									int           `json:"fg3m"`
-	Fg3p									float64       `json:"fg3p"`
+	Fg3p									float32       `json:"fg3p"`
 	Fgta                  int						`json:"fgta"`
 	Fgtm                  int						`json:"fgtm"`
-	Fgtp                  float64				`json:"fgtp"`
+	Fgtp                  float32				`json:"fgtp"`
 	Steals								int           `json:"steals"`
 	Assists								int           `json:"assists"`
 	Blocks								int           `json:"blocks"`
@@ -64,7 +64,7 @@ type Advanced struct {
 	Fastbreak							float32       `json:"fastbreak"`
 	SecondChance					float32       `json:"secondChance"`
 	Minutes								int           `json:"minutes"`
-	PlusMinus             float64       `json:"plusMinus"`
+	PlusMinus             float32       `json:"plusMinus"`
 }
 
 
