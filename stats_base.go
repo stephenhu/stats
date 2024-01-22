@@ -41,16 +41,16 @@ type Advanced struct {
 	Treb									float32       `json:"treb"`
 	Fta										float32       `json:"fta"`
 	Ftm										float32       `json:"ftm"`
-	Ftp										float64       `json:"ftp"`
+	Ftp										float32       `json:"ftp"`
 	Fg2a									float32       `json:"fg2a"`
 	Fg2m									float32       `json:"fg2m"`
-	Fg2p                  float64				`json:"fg2p"`
+	Fg2p                  float32				`json:"fg2p"`
 	Fg3a									float32       `json:"fg3a"`
 	Fg3m									float32       `json:"fg3m"`
-	Fg3p									float64       `json:"fg3p"`
+	Fg3p									float32       `json:"fg3p"`
 	Fgta                  float32				`json:"fgta"`
 	Fgtm                  float32				`json:"fgtm"`
-	Fgtp                  float64				`json:"fgtp"`
+	Fgtp                  float32				`json:"fgtp"`
 	Steals								float32       `json:"steals"`
 	Assists								float32       `json:"assists"`
 	Blocks								float32       `json:"blocks"`
@@ -76,7 +76,7 @@ type Leaders struct {
 	Abv     							string        `json:"abv"`
 	Minutes								int           `json:"minutes"`
 	Games									int           `json:"games"`
-	PlusMinus             float64       `json:"plusMinus"`
+	PlusMinus             float32       `json:"plusMinus"`
 	Base 				`json:"base"`
 	Advanced    `json:"advanced"`
 }
