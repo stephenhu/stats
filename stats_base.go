@@ -76,7 +76,7 @@ type Leaders struct {
 	Abv     							string        `json:"abv"`
 	Minutes								int           `json:"minutes"`
 	Games									int           `json:"games"`
-	PlusMinus             int32       	`json:"plusMinus"`
+	PlusMinus             int       		`json:"plusMinus"`
 	Base 				`json:"base"`
 	Advanced    `json:"advanced"`
 }
