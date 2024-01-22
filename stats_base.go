@@ -35,36 +35,36 @@ type Base struct {
 
 
 type Advanced struct {
-	Points								float32       `json:"points"`
-	Oreb									float32       `json:"oreb"`
-	Dreb									float32       `json:"dreb"`
-	Treb									float32       `json:"treb"`
-	Fta										float32       `json:"fta"`
-	Ftm										float32       `json:"ftm"`
-	Ftp										float32       `json:"ftp"`
-	Fg2a									float32       `json:"fg2a"`
-	Fg2m									float32       `json:"fg2m"`
-	Fg2p                  float32				`json:"fg2p"`
-	Fg3a									float32       `json:"fg3a"`
-	Fg3m									float32       `json:"fg3m"`
-	Fg3p									float32       `json:"fg3p"`
-	Fgta                  float32				`json:"fgta"`
-	Fgtm                  float32				`json:"fgtm"`
-	Fgtp                  float32				`json:"fgtp"`
-	Steals								float32       `json:"steals"`
-	Assists								float32       `json:"assists"`
-	Blocks								float32       `json:"blocks"`
-	Blocked								float32       `json:"blocked"`
-	Turnovers							float32       `json:"turnovers"`
-	Fouls									float32       `json:"fouls"`
-	Fouled								float32       `json:"fouled"`
-	FoulsO								float32       `json:"foulsOffensive"`
-	Technicals					  float32       `json:"technicals"`
-	Paint									float32       `json:"paint"`
-	Fastbreak							float32       `json:"fastbreak"`
-	SecondChance					float32       `json:"secondChance"`
-	Minutes								int           `json:"minutes"`
-	PlusMinus             float32       `json:"plusMinus"`
+	PointsPg							float32       `json:"points"`
+	OrebPg								float32       `json:"oreb"`
+	DrebPg								float32       `json:"dreb"`
+	TrebPg								float32       `json:"treb"`
+	FtaPg									float32       `json:"fta"`
+	FtmPg									float32       `json:"ftm"`
+	FtpPg									float32       `json:"ftp"`
+	Fg2aPg								float32       `json:"fg2a"`
+	Fg2mPg								float32       `json:"fg2m"`
+	Fg2pPg                float32				`json:"fg2p"`
+	Fg3aPg								float32       `json:"fg3a"`
+	Fg3mPg								float32       `json:"fg3m"`
+	Fg3pPg								float32       `json:"fg3p"`
+	FgtaPg                float32				`json:"fgta"`
+	FgtmPg                float32				`json:"fgtm"`
+	FgtpPg                float32				`json:"fgtp"`
+	StealsPg							float32       `json:"steals"`
+	AssistsPg							float32       `json:"assists"`
+	BlocksPg							float32       `json:"blocks"`
+	BlockedPg							float32       `json:"blocked"`
+	TurnoversPg						float32       `json:"turnovers"`
+	FoulsPg								float32       `json:"fouls"`
+	FouledPg							float32       `json:"fouled"`
+	FoulsOPg							float32       `json:"foulsOffensive"`
+	TechnicalsPg					float32       `json:"technicals"`
+	PaintPg								float32       `json:"paint"`
+	FastbreakPg						float32       `json:"fastbreak"`
+	SecondChancePg				float32       `json:"secondChance"`
+	MinutesPg							float32       `json:"minutes"`
+	PlusMinusPg           float32       `json:"plusMinus"`
 }
 
 
