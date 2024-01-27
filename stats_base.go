@@ -149,11 +149,26 @@ type TeamGame struct {
 type TeamInfo struct {
 	ID                		int           `json:"id"`
 	Name									string				`json:"name"`
-	Code									string				`json:"last"`
+	Code									string				`json:"abv"`
 	City									string				`json:"full"`
-	Mascot								string				`json:"abv"`
-	Conf									string				`json:"position"`
-	Div										string				`json:"active"`
+	Abv										string				`json:"abv"`
+}
+
+
+type Division struct {
+  Name									string				`json:"name"`
+	Teams           			[]TeamInfo    `json:"teams"`
+}
+
+
+type Conference struct {
+	Name									string				`json:"name"`
+	Divisions             []Division    `json:"divisions"`
+}
+
+
+type League struct {
+	Conferences						[]Conference		`json:"conferences"`
 }
 
 
