@@ -45,7 +45,7 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 		s[game.Home.ID].Wins++
 		s[game.Home.ID].HomeW++
 		s[game.Away.ID].Losses++
-		s[game.Away.ID].HomeL++
+		s[game.Away.ID].AwayL++
 		
 		if tm[game.Home.ID].Conference == tm[game.Away.ID].Conference {
 			s[game.Home.ID].ConfW++
@@ -60,7 +60,7 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 	} else {
 
 		s[game.Away.ID].Wins++
-		s[game.Away.ID].HomeW++
+		s[game.Away.ID].AwayW++
 		s[game.Home.ID].Losses++
 		s[game.Home.ID].HomeL++
 
