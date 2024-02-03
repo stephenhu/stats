@@ -43,13 +43,13 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 	home, ok := s[game.Home.ID]
 
 	if !ok {
-		s[game.Home.ID] = &Standing{}
+		home = &Standing{}
 	}
 
 	away, ok2 := s[game.Away.ID]
 
 	if !ok2 {
-		s[game.Away.ID] = &Standing{}
+		away = &Standing{}
 	}
 
 	if game.Home.Score > game.Away.Score {
