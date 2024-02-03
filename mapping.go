@@ -35,7 +35,7 @@ var Tm = map[int]*TeamMap{
 		Division: "Atlantic",
 		Conference: "Eastern",
 	},
-	610612755: &TeamMap{
+	1610612755: &TeamMap{
 		Name: "Philadelphia 76ers",
 		City: "Philadelphia",
 		Code: "PHI",
