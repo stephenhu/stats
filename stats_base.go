@@ -101,7 +101,7 @@ type Leaders struct {
 }
 
 
-type Standings struct {
+type Standing struct {
 	TeamID                int           `json:"teamId"`
 	Name                  string        `json:"name"`
 	City                  string        `json:"city"`
