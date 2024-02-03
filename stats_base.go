@@ -103,6 +103,8 @@ type Leaders struct {
 
 type Standings struct {
 	TeamID                int           `json:"teamId"`
+	Name                  string        `json:"name"`
+	City                  string        `json:"city"`
 	Code                	string       	`json:"code"`
   Wins  								int						`json:"wins"`
 	Losses  							int						`json:"losses"`
