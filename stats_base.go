@@ -31,6 +31,7 @@ type Base struct {
 	Paint									int           `json:"paint"`
 	Fastbreak							int           `json:"fastbreak"`
 	SecondChance					int           `json:"secondChance"`
+	At                 		float32       `json:"assistToTurnoverRatio"`
 }
 
 
@@ -68,6 +69,24 @@ type Advanced struct {
 }
 
 
+type TeamAdvanced struct {
+	BiggestLead           int           `json:"biggestLead"`
+	BiggestRun           	int           `json:"biggestRun"`
+	Bench                 int           `json:"bench"`
+	Pft          					int           `json:"pointsFromTurnovers"`
+	At                 		float32       `json:"assistToTurnoverRatio"`
+	Efgp                 	float32       `json:"effectiveFieldGoalPercentage"`
+	TimeLeading           string        `json:"timeLeading"`
+	Pf                 		int           `json:"pointsFor"`
+	Pa                 		int           `json:"pointsAgainst"`
+	P1										int						`json:"p1"`
+	P2										int						`json:"p2"`
+	P3										int						`json:"p3"`
+	P4										int						`json:"p4"`
+	Pot										int						`json:"pot"`
+}
+
+
 type Leaders struct {
 	ID										int						`json:"id"`
 	First									string 				`json:"first"`
@@ -85,7 +104,7 @@ type Leaders struct {
 type Standings struct {
   Wins  								int						`json:"wins"`
 	Losses  							int						`json:"losses"`
-	GB  									float32				`json:"gamesBack"`
+	Gb  									float32				`json:"gamesBack"`
 	WinPct  							float32				`json:"winPct"`
 	HomeW  								int						`json:"homeWins"`
 	HomeL  								int						`json:"homeLosses"`
@@ -101,6 +120,8 @@ type Standings struct {
 	IsW                   bool          `json:"isW"`
 	Last10W  							int						`json:"last10W"`
 	Last10L  							int						`json:"last10L"`
+	Base                  `json:"base"`
+	TeamAdvanced          `json:"advanced"`
 }
 
 
