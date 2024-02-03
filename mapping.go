@@ -10,7 +10,7 @@ type TeamMap struct {
 }
 
 
-var Tm = map[int]*TeamMap{
+var AllTeams = map[int]*TeamMap{
 	1610612738: &TeamMap{
 		Name: "Boston Celtics",
 		City: "Boston",

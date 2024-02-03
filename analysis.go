@@ -1,7 +1,7 @@
 package stats
 
 import (
-	"log"
+	//"log"
 )
 
 
@@ -40,40 +40,50 @@ func GamePlayed(mins int) int {
 
 func ParseWl(s map[int]*Standing, game *NbaGame) {
 
-	if game.Home.Statistics.Points > game.Away.Statistics.Points {
+	home, ok := s[game.Home.ID]
 
-		s[game.Home.ID].Wins++
-		s[game.Home.ID].HomeW++
-		s[game.Away.ID].Losses++
-		s[game.Away.ID].AwayL++
+	if !ok {
+		s[game.Home.ID] = &Standing{}
+	}
 
-		log.Println(game.Home.ID)
-		log.Println(game.Away.ID)
-		if Tm[game.Home.ID].Conference == Tm[game.Away.ID].Conference {
-			s[game.Home.ID].ConfW++
-			s[game.Away.ID].ConfL++
+	away, ok2 := s[game.Away.ID]
+
+	if !ok2 {
+		s[game.Away.ID] = &Standing{}
+	}
+
+	if game.Home.Score > game.Away.Score {
+
+		home.Wins++
+		home.HomeW++
+		away.Losses++
+		away.AwayL++
+
+		if AllTeams[game.Home.ID].Conference == AllTeams[game.Away.ID].Conference {
+			home.ConfW++
+			away.ConfL++			
 		}
 
-		if Tm[game.Home.ID].Division == Tm[game.Away.ID].Division {
-			s[game.Home.ID].DivW++
-			s[game.Away.ID].DivL++
+		if AllTeams[game.Home.ID].Division == AllTeams[game.Away.ID].Division {
+			home.DivW++
+			away.DivL++
 		}
 
 	} else {
 
-		s[game.Away.ID].Wins++
-		s[game.Away.ID].AwayW++
-		s[game.Home.ID].Losses++
-		s[game.Home.ID].HomeL++
-
-		if Tm[game.Home.ID].Conference == Tm[game.Away.ID].Conference {
-			s[game.Away.ID].ConfW++
-			s[game.Home.ID].ConfL++
+		home.Losses++
+		home.HomeL++
+		away.Wins++
+		away.AwayW++
+	
+		if AllTeams[game.Home.ID].Conference == AllTeams[game.Away.ID].Conference {
+			home.ConfL++
+			away.ConfW++			
 		}
 
-		if Tm[game.Home.ID].Division == Tm[game.Away.ID].Division {
-			s[game.Away.ID].DivW++
-			s[game.Home.ID].DivL++
+		if AllTeams[game.Home.ID].Division == AllTeams[game.Away.ID].Division {
+			home.DivL++
+			away.DivW++
 		}
 
 	}
