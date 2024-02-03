@@ -1,7 +1,7 @@
 package stats
 
 import (
-	//"log"
+	"log"
 )
 
 
@@ -46,7 +46,9 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 		s[game.Home.ID].HomeW++
 		s[game.Away.ID].Losses++
 		s[game.Away.ID].AwayL++
-		
+
+		log.Println(game.Home.ID)
+		log.Println(game.Away.ID)
 		if Tm[game.Home.ID].Conference == Tm[game.Away.ID].Conference {
 			s[game.Home.ID].ConfW++
 			s[game.Away.ID].ConfL++
