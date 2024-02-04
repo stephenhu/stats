@@ -40,50 +40,50 @@ func GamePlayed(mins int) int {
 
 func ParseWl(s map[int]*Standing, game *NbaGame) {
 
-	home, ok := s[game.Home.ID]
+	_, ok := s[game.Home.ID]
 
 	if !ok {
 		s[game.Home.ID] = &Standing{}
 	}
 
-	away, ok2 := s[game.Away.ID]
+	_, ok2 := s[game.Away.ID]
 
 	if !ok2 {
-	  s[game.Away.ID] = &Standing{}
+		s[game.Away.ID] = &Standing{}
 	}
 
 	if game.Home.Score > game.Away.Score {
 
-		home.Wins++
-		home.HomeW++
-		away.Losses++
-		away.AwayL++
+		s[game.Home.ID].Wins++
+		s[game.Home.ID].HomeW++
+		s[game.Away.ID].Losses++
+		s[game.Away.ID].AwayL++
 
 		if AllTeams[game.Home.ID].Conference == AllTeams[game.Away.ID].Conference {
-			home.ConfW++
-			away.ConfL++			
+			s[game.Home.ID].ConfW++
+			s[game.Away.ID].ConfL++			
 		}
 
 		if AllTeams[game.Home.ID].Division == AllTeams[game.Away.ID].Division {
-			home.DivW++
-			away.DivL++
+			s[game.Home.ID].DivW++
+			s[game.Away.ID].DivL++
 		}
 
 	} else {
 
-		home.Losses++
-		home.HomeL++
-		away.Wins++
-		away.AwayW++
+		s[game.Home.ID].Losses++
+		s[game.Home.ID].HomeL++
+		s[game.Away.ID].Wins++
+		s[game.Away.ID].AwayW++
 	
 		if AllTeams[game.Home.ID].Conference == AllTeams[game.Away.ID].Conference {
-			home.ConfL++
-			away.ConfW++			
+			s[game.Home.ID].ConfL++
+			s[game.Away.ID].ConfW++			
 		}
 
 		if AllTeams[game.Home.ID].Division == AllTeams[game.Away.ID].Division {
-			home.DivL++
-			away.DivW++
+			s[game.Home.ID].DivL++
+			s[game.Away.ID].DivW++
 		}
 
 	}
