@@ -127,6 +127,18 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 } // ParseWl
 
 
+func UpdateStreak(s map[int]*Standing) {
+
+	for _, t := range s {
+
+		s[t.TeamID].Streak 	= StreakM[t.TeamID].Streak
+		s[t.TeamID].IsW 		= StreakM[t.TeamID].IsWinStreak
+
+	}
+
+} // UpdateStreak
+
+
 func Streak(scores []NbaBoxscore) {
 
 	StreakM = make(map[int]*StreakData)
@@ -182,6 +194,18 @@ func Streak(scores []NbaBoxscore) {
 	}
 
 } // Streak
+
+
+func UpdateLast10(s map[int]*Standing) {
+
+	for _, t := range s {
+
+		s[t.TeamID].Last10W	= LastM[t.TeamID].L10W
+		s[t.TeamID].Last10L = LastM[t.TeamID].L10L
+		
+	}
+
+} // UpdateLast10
 
 
 // assumes boxscores in order by date
