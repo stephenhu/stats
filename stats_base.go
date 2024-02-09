@@ -125,7 +125,7 @@ type Standing struct {
 	Last10W  							int						`json:"last10W"`
 	Last10L  							int						`json:"last10L"`
 	Base                  `json:"base"`
-	TeamAdvanced          `json:"advanced"`
+	TeamAdvanced       		`json:"advanced"`
 }
 
 
