@@ -457,7 +457,6 @@ func CalcTeamStats(s map[int]*Standing, scores []NbaBoxscore) {
 
 		}
 
-		s[score.Game.Away.ID].Points += score.Game.Away.Score
 		s[score.Game.Away.ID].Points 	+= score.Game.Away.Score
 		s[score.Game.Away.ID].Oreb 		+= score.Game.Away.Statistics.Oreb
 		s[score.Game.Away.ID].Dreb 		+= score.Game.Away.Statistics.Dreb

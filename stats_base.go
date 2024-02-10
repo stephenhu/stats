@@ -84,6 +84,11 @@ type TeamAdvanced struct {
 	P3										int						`json:"p3"`
 	P4										int						`json:"p4"`
 	Pot										int						`json:"pot"`
+	Pa1										int						`json:"pa1"`
+	Pa2										int						`json:"pa2"`
+	Pa3										int						`json:"pa3"`
+	Pa4										int						`json:"pa4"`
+	Paot									int						`json:"paot"`
 }
 
 
