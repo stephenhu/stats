@@ -154,11 +154,16 @@ type PlayerInfo struct {
 	ID						int						`json:"personId"`
 	First					string 				`json:"firstName"`
 	Last					string        `json:"familyName"`
-	Name          string        `json:"name"`
-	NameShort     string        `json:"nameI"`
+	Full          string        `json:"full"`
+	Abv     			string        `json:"abv"`
 	Jersey				string				`json:"jerseyNum"`
 	Position			string 				`json:"position"`
-	//Order         int						`json:"order"` this is used in the game stats
+	Nicknames     []string      `json:"nicknames"`
+}
+
+
+type PlayerMap struct {
+	Players				map[int]*PlayerInfo		`json:"players"`
 }
 
 
