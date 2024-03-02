@@ -83,6 +83,10 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 		return
 	}
 
+	if !CheckNbaTeam(game.Home.ID, game.Away.ID) {
+		return
+	}
+
 	_, ok := s[game.Home.ID]
 
 	if !ok {
@@ -119,6 +123,7 @@ func ParseWl(s map[int]*Standing, game *NbaGame) {
 		s[game.Away.ID].Wins++
 		s[game.Away.ID].AwayW++
 	
+
 		if AllTeams[game.Home.ID].Conference == AllTeams[game.Away.ID].Conference {
 			s[game.Home.ID].ConfL++
 			s[game.Away.ID].ConfW++			
@@ -138,6 +143,10 @@ func UpdateStreak(s map[int]*Standing) {
 
 	for _, t := range s {
 
+		if t.TeamID == 0 {
+			continue
+		}
+		
 		s[t.TeamID].Streak 	= StreakM[t.TeamID].Streak
 		s[t.TeamID].IsW 		= StreakM[t.TeamID].IsWinStreak
 
@@ -206,6 +215,10 @@ func Streak(scores []NbaBoxscore) {
 func UpdateLast10(s map[int]*Standing) {
 
 	for _, t := range s {
+
+		if t.TeamID == 0 {
+			continue
+		}
 
 		s[t.TeamID].Last10W	= LastM[t.TeamID].L10W
 		s[t.TeamID].Last10L = LastM[t.TeamID].L10L

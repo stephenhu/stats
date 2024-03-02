@@ -277,3 +277,22 @@ func PtmToMin(s string) int {
 	return minutes
 
 } // PtmToMin
+
+
+func CheckNbaTeam(hid int, aid int) bool {
+
+	_, ok := AllTeams[hid]
+
+	if !ok {
+		return false
+	}
+
+	_, ok2 := AllTeams[aid]
+
+	if !ok2 {
+		return false
+	}
+
+	return true
+
+} // CheckNbaTeam
