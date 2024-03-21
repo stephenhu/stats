@@ -52,8 +52,6 @@ func apiInvoke(u string, data interface{}) {
 
 func apiInvokeJson(u string) []byte {
 
-	//ret := []byte{}
-
 	res, err := client.Get(u)
 
 	if err != nil {
@@ -78,10 +76,11 @@ func apiInvokeJson(u string) []byte {
 			} else {
 				return buf
 			}
-	
+
 		} else {
 
 			log.Printf("GET HTTP %s returned status: %d", u, res.StatusCode)
+
 			return nil
 
 		}
