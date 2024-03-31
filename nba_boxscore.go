@@ -182,6 +182,7 @@ type NbaGame struct {
 	GameCode      string      	`json:"gameCode"`
 	WeekNumber    int      			`json:"weekNumber"`
 	GameTime      string        `json:"gameTimeUTC"`		// UTC
+	Status        string        `json:"gameStatusText"`
 	Away          NbaTeamScore  `json:"awayTeam"`
 	Home          NbaTeamScore  `json:"homeTeam"`
 }
