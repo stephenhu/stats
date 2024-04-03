@@ -179,16 +179,11 @@ func GetCurrentSeason() string {
 } // GetCurrentSeason
 
 
-func IsFutureGame(d string, fmt string) bool {
-
-	if fmt != NBA_DATETIME_FORMAT || fmt != DATE_FORMAT ||
-	  fmt != time.RFC3339 {
-		return true
-	}
+func IsFutureGame(d string) bool {
 
 	now := time.Now()
 
-	t, err := time.Parse(fmt, d)
+	t, err := time.Parse(NBA_DATETIME_FORMAT, d)
 
 	if err != nil {
 		log.Println(err)
