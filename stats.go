@@ -48,6 +48,11 @@ const (
 
 
 const (
+	NBA_LEGACY_BASE_URL           = "https://data.nba.com/data/10s/v2015/json/mobile_teams/nba"
+	NBA_LEGACY_API_SCHEDULE       = "/%s/league/00_full_schedule.json"
+)
+
+const (
 	PRESEASON             = 0
   REGULAR								= 1
 	PLAYOFFS              = 2
