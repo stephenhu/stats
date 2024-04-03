@@ -181,7 +181,8 @@ func GetCurrentSeason() string {
 
 func IsFutureGame(d string, fmt string) bool {
 
-	if fmt != NBA_DATETIME_FORMAT || fmt != DATE_FORMAT {
+	if fmt != NBA_DATETIME_FORMAT || fmt != DATE_FORMAT ||
+	  fmt != time.RFC3339 {
 		return true
 	}
 
