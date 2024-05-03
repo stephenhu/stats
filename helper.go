@@ -258,6 +258,21 @@ func IsAfterDate(d1 string, d2 string) bool {
 } // IsAfterDate
 
 
+func IsAfterNow(d string) bool {
+
+	now := time.Now()
+
+	d2 := now.Format(DATE_FORMAT)
+
+	if d > d2 {
+		return true
+	} else {
+		return false
+	}
+
+} // IsAfterNow
+
+
 func PtmToMin(s string) int {
 
 	minutes := 0

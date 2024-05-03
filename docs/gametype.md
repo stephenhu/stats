@@ -19,7 +19,8 @@ playoffs.
 
 1. timestamp.players.parquet # contains all game type data
 1. timestamp.games.parquet # contains all game type data
-1. timestamp.leaders.parquet # contains all game type data
+1. timestamp.regular.leaders.parquet # contains regular season leader stats
+1. timestamp.playoff.leaders.parquet # contains playoff leader stats, not counting play in
 
 ## preseason
 
@@ -112,4 +113,18 @@ playoffs.
 "gameLabel": "East - First Round",
 "gameSubLabel": "Game 1",
 "seriesText": "Series tied 0-0",
+```
+
+## games played globally
+
+~these should count as regular season games, note the gameLabel~
+
+```
+"weekNumber": 12,
+"weekName": "Week 12",
+"ifNecessary": false,
+"seriesGameNumber": "",
+"gameLabel": "NBA Paris Game",
+"gameSubLabel": "",
+"seriesText": "",
 ```
