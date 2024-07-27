@@ -28,3 +28,15 @@ func TestNbaGetSchedule(t *testing.T) {
 
 } // TestNbaGetSchedule
 
+
+func TestNbaGetScheduleJson(t *testing.T) {
+
+	j := NbaGetScheduleJson()
+
+	t.Log(string(j))
+
+	if j == nil {
+		t.Error()
+	}
+
+} // TestNbaGetScheduleJson

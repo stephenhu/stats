@@ -22,6 +22,13 @@ playoffs.
 1. timestamp.regular.leaders.parquet # contains regular season leader stats
 1. timestamp.playoff.leaders.parquet # contains playoff leader stats, not counting play in
 
+## errata
+
+game 0022301104 has a boxscore gameStatusText as "pregame", every other game
+has "Final".  use schedule's gameStatusText instead which is more accurate,
+but the schedule file needs to be downloaded daily.
+
+
 ## preseason
 
 ```
